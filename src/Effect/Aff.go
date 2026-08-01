@@ -2,7 +2,6 @@ import (
 	"context"
 	"fmt"
 	"time"
-	"gopurs/output/gopurs_runtime"
 )
 
 type AffFn = func(context.Context) (any, error)
@@ -85,41 +84,42 @@ func _LiftEffect(eff func(any) any) any {
 	}
 }
 
-func MakeAff(build func(func(any) any) func(any) any) any {
+func _MakeAffImpl(build func(func(error) func(any) any) func(func(any) func(any) any) func(any) func(any) AffFn) any {
 	return func(ctx context.Context) (any, error) {
 		resultChan := make(chan struct {
 			val any
 			err error
 		}, 1)
 
-		callback := func(either any) any {
+		onError := func(err error) func(any) any {
 			return func(_ any) any {
-				if val, ok := either.(gopurs_runtime.Value); ok {
-					if val.IntVal == 3711209382 { // Left
-						errVal := (*struct{Rc uint32; Value0 gopurs_runtime.Value})(val.UnsafePtr).Value0
-						resultChan <- struct{val any; err error}{nil, fmt.Errorf("Aff Error: %+v", errVal)}
-					} else { // Right
-						rval := (*struct{Rc uint32; Value0 gopurs_runtime.Value})(val.UnsafePtr).Value0
-						resultChan <- struct{val any; err error}{rval, nil}
-					}
+				select {
+				case resultChan <- struct{val any; err error}{nil, err}:
+				default:
 				}
 				return nil
 			}
 		}
 
-		cancelerEffect := build(callback)
+		onSuccess := func(val any) func(any) any {
+			return func(_ any) any {
+				select {
+				case resultChan <- struct{val any; err error}{val, nil}:
+				default:
+				}
+				return nil
+			}
+		}
+
+		cancelerEffect := build(onError)(onSuccess)
 		canceler := cancelerEffect(nil)
 
 		select {
 		case res := <-resultChan:
 			return res.val, res.err
 		case <-ctx.Done():
-			if cancelFn, ok := canceler.(func(any) any); ok {
-				cancelFnEffect := cancelFn(fmt.Errorf("context canceled"))
-				if effectFn, ok := cancelFnEffect.(func(any) any); ok {
-					effectFn(nil)
-				}
-			}
+			cancelFnAff := canceler(fmt.Errorf("context canceled"))
+			go runAffSync(cancelFnAff, context.Background())
 			return nil, ctx.Err()
 		}
 	}
@@ -180,19 +180,9 @@ func _Fork(isSuspended any, aff AffFn) any {
     }
 }
 
-func _ThrowError(err any) any {
+func _ThrowError(err error) any {
 	return func(ctx context.Context) (any, error) {
-		if val, ok := err.(gopurs_runtime.Value); ok {
-			if val.Type == 13 {
-				if e, ok := (*(*any)(val.UnsafePtr)).(error); ok {
-					return nil, e
-				}
-			}
-		}
-		if e, ok := err.(error); ok {
-			return nil, e
-		}
-		return nil, fmt.Errorf("%v", err)
+		return nil, err
 	}
 }
 
