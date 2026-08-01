@@ -5,20 +5,14 @@ import (
 	"gopurs/output/gopurs_runtime"
 )
 
-func unboxAff(aff any) func(context.Context) (any, error) {
-	if fn, ok := aff.(func(context.Context) (any, error)); ok {
-		return fn
-	}
-	val := aff.(gopurs_runtime.Value)
-	return (*(*any)(val.UnsafePtr)).(func(context.Context) (any, error))
-}
+type AffFn = func(context.Context) (any, error)
 
 type BindNode struct {
 	Aff any
 	K   func(any) any
 }
 
-func runAffSync(aff func(context.Context) (any, error), ctx context.Context) (any, error) {
+func runAffSync(aff AffFn, ctx context.Context) (any, error) {
 	var current = aff
 	var stack []func(any) any
 
@@ -30,12 +24,17 @@ func runAffSync(aff func(context.Context) (any, error), ctx context.Context) (an
 
 		if node, ok := val.(BindNode); ok {
 			stack = append(stack, node.K)
-			current = unboxAff(node.Aff)
+			current = node.Aff.(AffFn)
 		} else {
 			if len(stack) > 0 {
 				k := stack[len(stack)-1]
 				stack = stack[:len(stack)-1]
-				current = unboxAff(k(val))
+				retVal := k(val)
+				if valWrapper, isVal := retVal.(gopurs_runtime.Value); isVal {
+					current = (*(*any)(valWrapper.UnsafePtr)).(AffFn)
+				} else {
+					current = retVal.(AffFn)
+				}
 			} else {
 				return val, nil
 			}
@@ -54,7 +53,7 @@ func _Pure(val any) any {
 	}
 }
 
-func _Bind(aff any, k func(any) any) any {
+func _Bind(aff AffFn, k func(any) any) any {
 	return func(ctx context.Context) (any, error) {
 		return BindNode{Aff: aff, K: k}, nil
 	}
@@ -126,7 +125,7 @@ func MakeAff(build func(func(any) any) func(any) any) any {
 	}
 }
 
-func _MakeFiber(ffiUtil any, aff any, _ any) any {
+func _MakeFiber(ffiUtil any, aff AffFn, _ any) any {
 	ctx, cancel := context.WithCancel(context.Background())
 	resultChan := make(chan struct {
 		val any
@@ -134,7 +133,7 @@ func _MakeFiber(ffiUtil any, aff any, _ any) any {
 	}, 1)
 
 	go func() {
-		val, err := runAffSync(unboxAff(aff), ctx)
+		val, err := runAffSync(aff, ctx)
 		resultChan <- struct {
 			val any
 			err error
@@ -174,7 +173,7 @@ func _MakeFiber(ffiUtil any, aff any, _ any) any {
 	return fiber
 }
 
-func _Fork(isSuspended any, aff any) any {
+func _Fork(isSuspended any, aff AffFn) any {
     return func(ctx context.Context) (any, error) {
         fiber := _MakeFiber(nil, aff, nil)
         return fiber, nil
@@ -197,19 +196,26 @@ func _ThrowError(err any) any {
 	}
 }
 
-func _CatchError(aff any, handler func(any) any) any {
+func _CatchError(aff AffFn, handler func(any) any) any {
 	return func(ctx context.Context) (any, error) {
-		val, err := runAffSync(unboxAff(aff), ctx)
+		val, err := runAffSync(aff, ctx)
 		if err != nil {
-			return runAffSync(unboxAff(handler(err)), ctx)
+			retVal := handler(err)
+			var nextAff AffFn
+			if valWrapper, isVal := retVal.(gopurs_runtime.Value); isVal {
+				nextAff = (*(*any)(valWrapper.UnsafePtr)).(AffFn)
+			} else {
+				nextAff = retVal.(AffFn)
+			}
+			return runAffSync(nextAff, ctx)
 		}
 		return val, nil
 	}
 }
 
-func _Map(f func(any) any, aff any) any {
+func _Map(f func(any) any, aff AffFn) any {
 	return func(ctx context.Context) (any, error) {
-		val, err := runAffSync(unboxAff(aff), ctx)
+		val, err := runAffSync(aff, ctx)
 		if err != nil {
 			return nil, err
 		}
@@ -219,10 +225,10 @@ func _Map(f func(any) any, aff any) any {
 
 func _ParAffMap(_ any, _ any) any { panic("Not implemented") }
 func _ParAffApply(_ any, _ any) any { panic("Not implemented") }
-func _ParAffAlt(aff1 any, aff2 any) any {
+func _ParAffAlt(aff1 AffFn, aff2 AffFn) any {
 	return func(ctx context.Context) (any, error) {
-		fn1 := unboxAff(aff1)
-		fn2 := unboxAff(aff2)
+		fn1 := aff1
+		fn2 := aff2
 
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
@@ -263,5 +269,5 @@ func _ParAffAlt(aff1 any, aff2 any) any {
 }
 func _MakeSupervisedFiber(_ any, _ any) any { panic("Not implemented") }
 func _KillAll(_ any, _ any, _ any) any { panic("Not implemented") }
-func _Sequential(aff any) any { return aff }
+func _Sequential(aff AffFn) any { return aff }
 func GeneralBracket(_ any, _ any, _ any) any { panic("Not implemented") }
