@@ -2,6 +2,7 @@ import (
 	"context"
 	"fmt"
 	"time"
+	"gopurs/output/gopurs_runtime"
 )
 
 type AffFn = func(context.Context) (any, error)
@@ -120,7 +121,7 @@ func _MakeAffImpl(build func(func(error) func(any) any) func(func(any) func(any)
 	}
 }
 
-func _MakeFiber(ffiUtil any, aff AffFn, _ any) any {
+func makeFiberNative(aff AffFn) map[string]any {
 	ctx, cancel := context.WithCancel(context.Background())
 	resultChan := make(chan struct {
 		val any
@@ -137,22 +138,36 @@ func _MakeFiber(ffiUtil any, aff AffFn, _ any) any {
 
 	fiber := map[string]any{
 		"run": func(_ any) any { return nil },
-		"kill": func(err any) any {
-			return func(k any) any {
-				return func(_ any) any {
-					cancel()
+		"kill": func(errAny any) any {
+			return func(onErrorAny any) any {
+				return func(onSuccessAny any) any {
 					return func(_ any) any {
-						res := <-resultChan
-						return k.(func(any) any)(res.val).(func(any) any)(nil)
+						cancel()
+						return func(_ any) any {
+							res := <-resultChan
+							if res.err != nil {
+								eff := gopurs_runtime.Apply(onErrorAny.(gopurs_runtime.Value), gopurs_runtime.Box(res.err))
+								return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
+							}
+							eff := gopurs_runtime.Apply(onSuccessAny.(gopurs_runtime.Value), gopurs_runtime.Value{})
+							return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
+						}
 					}
 				}
 			}
 		},
-		"join": func(k any) any {
-			return func(_ any) any {
+		"join": func(onErrorAny any) any {
+			return func(onSuccessAny any) any {
 				return func(_ any) any {
-					res := <-resultChan
-					return k.(func(any) any)(res.val).(func(any) any)(nil)
+					return func(_ any) any {
+						res := <-resultChan
+						if res.err != nil {
+							eff := gopurs_runtime.Apply(onErrorAny.(gopurs_runtime.Value), gopurs_runtime.Box(res.err))
+							return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
+						}
+						eff := gopurs_runtime.Apply(onSuccessAny.(gopurs_runtime.Value), gopurs_runtime.Box(res.val))
+						return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
+					}
 				}
 			}
 		},
@@ -168,9 +183,15 @@ func _MakeFiber(ffiUtil any, aff AffFn, _ any) any {
 	return fiber
 }
 
+func _MakeFiber(aff AffFn) any {
+	return func(_ any) any {
+		return makeFiberNative(aff)
+	}
+}
+
 func _Fork(isSuspended any, aff AffFn) any {
     return func(ctx context.Context) (any, error) {
-        fiber := _MakeFiber(nil, aff, nil)
+        fiber := makeFiberNative(aff)
         return fiber, nil
     }
 }
@@ -245,7 +266,11 @@ func _ParAffAlt(aff1 AffFn, aff2 AffFn) any {
 		return nil, firstErr
 	}
 }
-func _MakeSupervisedFiber(_ any, _ any) any { panic("Not implemented") }
+func _MakeSupervisedFiber(aff AffFn) any {
+	return func(_ any) any {
+		panic("Not implemented")
+	}
+}
 func _KillAll(_ any, _ any, _ any) any { panic("Not implemented") }
 func _Sequential(aff AffFn) any { return aff }
 func GeneralBracket(_ any, _ any, _ any) any { panic("Not implemented") }

@@ -56,7 +56,6 @@ import Effect.Class (class MonadEffect, liftEffect)
 import Effect.Exception (Error, error)
 import Effect.Exception (Error, error, message) as Exports
 import Effect.Unsafe (unsafePerformEffect)
-import Partial.Unsafe (unsafeCrashWith)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | An `Aff a` is an asynchronous computation with effects. The
@@ -166,8 +165,8 @@ type OnComplete a =
 -- | memoized, so their results are only computed once.
 newtype Fiber a = Fiber
   { run :: Effect Unit
-  , kill :: Error -> (Either Error Unit -> Effect Unit) -> Effect (Effect Unit)
-  , join :: (Either Error a -> Effect Unit) -> Effect (Effect Unit)
+  , kill :: Error -> (Error -> Effect Unit) -> (Unit -> Effect Unit) -> Effect (Effect Unit)
+  , join :: (Error -> Effect Unit) -> (a -> Effect Unit) -> Effect (Effect Unit)
   , onComplete :: OnComplete a -> Effect (Effect Unit)
   , isSuspended :: Effect Boolean
   }
@@ -187,14 +186,14 @@ killFiber :: forall a. Error -> Fiber a -> Aff Unit
 killFiber e (Fiber t) = do
   suspended <- liftEffect t.isSuspended
   if suspended then
-    liftEffect $ void $ t.kill e (const (pure unit))
+    liftEffect $ void $ t.kill e (const (pure unit)) (const (pure unit))
   else
-    makeAff \k -> effectCanceler <$> t.kill e k
+    makeAff \k -> effectCanceler <$> t.kill e (\err -> k (Left err)) (\_ -> k (Right unit))
 
 -- | Blocks until the fiber completes, yielding the result. If the fiber
 -- | throws an exception, it is rethrown in the current fiber.
 joinFiber :: Fiber ~> Aff
-joinFiber (Fiber t) = makeAff \k -> effectCanceler <$> t.join k
+joinFiber (Fiber t) = makeAff \k -> effectCanceler <$> t.join (\err -> k (Left err)) (\a -> k (Right a))
 
 -- | A cancellation effect for actions run via `makeAff`. If a `Fiber` is
 -- | killed, and an async action is pending, the canceler will be called to
@@ -340,7 +339,7 @@ supervise aff =
 
   acquire :: Effect (Supervised a)
   acquire = do
-    sup <- Fn.runFn2 _makeSupervisedFiber ffiUtil aff
+    sup <- _makeSupervisedFiber aff
     case sup.fiber of Fiber f -> f.run
     pure sup
 
@@ -356,8 +355,8 @@ foreign import _liftEffect :: forall a. Effect a -> Aff a
 foreign import _parAffMap :: forall a b. (a -> b) -> ParAff a -> ParAff b
 foreign import _parAffApply :: forall a b. ParAff (a -> b) -> ParAff a -> ParAff b
 foreign import _parAffAlt :: forall a. ParAff a -> ParAff a -> ParAff a
-foreign import _makeFiber :: forall a. Fn.Fn2 FFIUtil (Aff a) (Effect (Fiber a))
-foreign import _makeSupervisedFiber :: forall a. Fn.Fn2 FFIUtil (Aff a) (Effect (Supervised a))
+foreign import _makeFiber :: forall a. Aff a -> Effect (Fiber a)
+foreign import _makeSupervisedFiber :: forall a. Aff a -> Effect (Supervised a)
 foreign import _killAll :: Fn.Fn3 Error Supervisor (Effect Unit) (Effect Canceler)
 foreign import _sequential :: ParAff ~> Aff
 
@@ -384,36 +383,4 @@ makeAff build = _makeAffImpl \onError onSuccess -> build \either -> case either 
   Right val -> onSuccess val
 
 makeFiber :: forall a. Aff a -> Effect (Fiber a)
-makeFiber aff = Fn.runFn2 _makeFiber ffiUtil aff
-
-newtype FFIUtil = FFIUtil
-  { isLeft :: forall a b. Either a b -> Boolean
-  , fromLeft :: forall a b. Either a b -> a
-  , fromRight :: forall a b. Either a b -> b
-  , left :: forall a b. a -> Either a b
-  , right :: forall a b. b -> Either a b
-  }
-
-ffiUtil :: FFIUtil
-ffiUtil = FFIUtil
-  { isLeft
-  , fromLeft: unsafeFromLeft
-  , fromRight: unsafeFromRight
-  , left: Left
-  , right: Right
-  }
-  where
-  isLeft :: forall a b. Either a b -> Boolean
-  isLeft = case _ of
-    Left _ -> true
-    Right _ -> false
-
-  unsafeFromLeft :: forall a b. Either a b -> a
-  unsafeFromLeft = case _ of
-    Left a -> a
-    Right _ -> unsafeCrashWith "unsafeFromLeft: Right"
-
-  unsafeFromRight :: forall a b. Either a b -> b
-  unsafeFromRight = case _ of
-    Right a -> a
-    Left _ -> unsafeCrashWith "unsafeFromRight: Left"
+makeFiber aff = _makeFiber aff
