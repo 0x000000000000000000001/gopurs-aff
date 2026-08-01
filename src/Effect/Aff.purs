@@ -166,7 +166,7 @@ type OnComplete a =
 -- | memoized, so their results are only computed once.
 newtype Fiber a = Fiber
   { run :: Effect Unit
-  , kill :: Fn.Fn2 Error (Either Error Unit -> Effect Unit) (Effect (Effect Unit))
+  , kill :: Error -> (Either Error Unit -> Effect Unit) -> Effect (Effect Unit)
   , join :: (Either Error a -> Effect Unit) -> Effect (Effect Unit)
   , onComplete :: OnComplete a -> Effect (Effect Unit)
   , isSuspended :: Effect Boolean
@@ -187,9 +187,9 @@ killFiber :: forall a. Error -> Fiber a -> Aff Unit
 killFiber e (Fiber t) = do
   suspended <- liftEffect t.isSuspended
   if suspended then
-    liftEffect $ void $ Fn.runFn2 t.kill e (const (pure unit))
+    liftEffect $ void $ t.kill e (const (pure unit))
   else
-    makeAff \k -> effectCanceler <$> Fn.runFn2 t.kill e k
+    makeAff \k -> effectCanceler <$> t.kill e k
 
 -- | Blocks until the fiber completes, yielding the result. If the fiber
 -- | throws an exception, it is rethrown in the current fiber.
@@ -236,7 +236,7 @@ launchAff_ = void <<< launchAff
 
 -- | Suspends an `Aff` from an `Effect` context, returning the `Fiber`.
 launchSuspendedAff :: forall a. Aff a -> Effect (Fiber a)
-launchSuspendedAff = makeFiber
+launchSuspendedAff aff = makeFiber aff
 
 -- | Forks an `Aff` from an `Effect` context and also takes a callback to run when
 -- | it completes. Returns the pending `Fiber`.

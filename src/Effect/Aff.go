@@ -1,67 +1,272 @@
-func _Pure(_ interface{}) interface{} {
-	panic("Not implemented: _pure")
+import (
+	"context"
+	"fmt"
+	"time"
+)
+
+func unboxAff(aff interface{}) func(context.Context) (interface{}, error) {
+	if fn, ok := aff.(func(context.Context) (interface{}, error)); ok {
+		return fn
+	}
+	val := aff.(gopurs_runtime.Value)
+	return (*(*interface{})(val.UnsafePtr)).(func(context.Context) (interface{}, error))
 }
 
-func _ThrowError(_ interface{}) interface{} {
-	panic("Not implemented: _throwError")
+type BindNode struct {
+	Aff interface{}
+	K   func(interface{}) interface{}
 }
 
-func _CatchError(_ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _catchError")
+func runAffSync(aff func(context.Context) (interface{}, error), ctx context.Context) (interface{}, error) {
+	var current = aff
+	var stack []func(interface{}) interface{}
+
+	for {
+		val, err := current(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		if node, ok := val.(BindNode); ok {
+			stack = append(stack, node.K)
+			current = unboxAff(node.Aff)
+		} else {
+			if len(stack) > 0 {
+				k := stack[len(stack)-1]
+				stack = stack[:len(stack)-1]
+				current = unboxAff(k(val))
+			} else {
+				return val, nil
+			}
+		}
+	}
 }
 
-func _Fork(_ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _fork")
+type Aff func(ctx context.Context) (interface{}, error)
+
+func _Pure(val interface{}) interface{} {
+	return func(ctx context.Context) (interface{}, error) {
+		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		default:
+			return val, nil
+		}
+	}
 }
 
-func _Map(_ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _map")
+func _Bind(aff interface{}, k func(interface{}) interface{}) interface{} {
+	return func(ctx context.Context) (interface{}, error) {
+		return BindNode{Aff: aff, K: k}, nil
+	}
 }
 
-func _Bind(_ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _bind")
+func _Delay(right interface{}, ms float64) interface{} {
+	return func(ctx context.Context) (interface{}, error) {
+		duration := time.Duration(ms) * time.Millisecond
+		timer := time.NewTimer(duration)
+		defer timer.Stop()
+
+		select {
+		case <-timer.C:
+			return nil, nil // PureScript Unit is usually represented as nil
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		}
+	}
 }
 
-func _Delay(_ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _delay")
+func _LiftEffect(eff func(interface{}) interface{}) interface{} {
+	return func(ctx context.Context) (interface{}, error) {
+		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		default:
+			return eff(nil), nil
+		}
+	}
 }
 
-func _LiftEffect(_ interface{}) interface{} {
-	panic("Not implemented: _liftEffect")
+func MakeAff(build interface{}) interface{} {
+	return func(ctx context.Context) (interface{}, error) {
+		resultChan := make(chan struct {
+			val interface{}
+			err error
+		}, 1)
+
+		callback := gopurs_runtime.Func(func(either gopurs_runtime.Value) gopurs_runtime.Value {
+			return gopurs_runtime.Func(func(_ gopurs_runtime.Value) gopurs_runtime.Value {
+				if either.IntVal == 3711209382 { // Left
+					errVal := (*struct{Rc uint32; Value0 gopurs_runtime.Value})(either.UnsafePtr).Value0
+					resultChan <- struct{val interface{}; err error}{nil, fmt.Errorf("Aff Error: %+v", errVal)}
+				} else { // Right
+					val := (*struct{Rc uint32; Value0 gopurs_runtime.Value})(either.UnsafePtr).Value0
+					resultChan <- struct{val interface{}; err error}{val, nil}
+				}
+				return gopurs_runtime.Value{}
+			})
+		})
+
+		buildVal := build.(gopurs_runtime.Value)
+		cancelerEffectVal := gopurs_runtime.Apply(buildVal, callback)
+		cancelerVal := gopurs_runtime.Apply(cancelerEffectVal, gopurs_runtime.Value{})
+
+		select {
+		case res := <-resultChan:
+			return res.val, res.err
+		case <-ctx.Done():
+			cancelFn := gopurs_runtime.Apply(cancelerVal, gopurs_runtime.Box(fmt.Errorf("context canceled")))
+			gopurs_runtime.Apply(cancelFn, gopurs_runtime.Value{})
+			return nil, ctx.Err()
+		}
+	}
 }
 
-func _ParAffMap(_ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _parAffMap")
+func _MakeFiber(ffiUtil interface{}, aff interface{}, _ interface{}) interface{} {
+	ctx, cancel := context.WithCancel(context.Background())
+	resultChan := make(chan struct {
+		val interface{}
+		err error
+	}, 1)
+
+	go func() {
+		val, err := runAffSync(unboxAff(aff), ctx)
+		resultChan <- struct {
+			val interface{}
+			err error
+		}{val, err}
+	}()
+
+	// Return the Fiber record as expected by PureScript
+	fiber := map[string]interface{}{
+		"run": func(_ interface{}) interface{} {
+			return nil
+		},
+		"kill": func(err interface{}) interface{} {
+			return func(k interface{}) interface{} {
+				return func(_ interface{}) interface{} {
+					cancel()
+					return func(_ interface{}) interface{} {
+						res := <-resultChan
+						return k.(func(interface{}) interface{})(res.val).(func(interface{}) interface{})(nil)
+					}
+				}
+			}
+		},
+		"join": func(k interface{}) interface{} {
+			return func(_ interface{}) interface{} {
+				return func(_ interface{}) interface{} {
+					res := <-resultChan
+					return k.(func(interface{}) interface{})(res.val).(func(interface{}) interface{})(nil)
+				}
+			}
+		},
+		"onComplete": func(onComplete interface{}) interface{} {
+			return func(_ interface{}) interface{} {
+				return func(_ interface{}) interface{} {
+					return nil
+				}
+			}
+		},
+		"isSuspended": func(_ interface{}) interface{} {
+			return false
+		},
+	}
+	return fiber
 }
 
-func _ParAffApply(_ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _parAffApply")
+func _Fork(isSuspended interface{}, aff interface{}) interface{} {
+    // forkAff :: forall a. Aff a -> Aff (Fiber a)
+    // _fork uses _MakeFiber internally in purescript, but the FFI signature for _fork is:
+    // foreign import _fork :: forall a. Boolean -> Aff a -> Aff (Fiber a)
+    return func(ctx context.Context) (interface{}, error) {
+        // Just call _MakeFiber with nil ffiUtil
+        fiber := _MakeFiber(nil, aff, nil)
+        return fiber, nil
+    }
 }
 
-func _ParAffAlt(_ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _parAffAlt")
+func _ThrowError(err interface{}) interface{} {
+	return func(ctx context.Context) (interface{}, error) {
+		if val, ok := err.(gopurs_runtime.Value); ok {
+			if val.Type == 13 {
+				if e, ok := (*(*interface{})(val.UnsafePtr)).(error); ok {
+					return nil, e
+				}
+			}
+		}
+		if e, ok := err.(error); ok {
+			return nil, e
+		}
+		return nil, fmt.Errorf("%v", err)
+	}
 }
 
-func _MakeFiber(_ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _makeFiber")
+func _CatchError(aff interface{}, handler func(interface{}) interface{}) interface{} {
+	return func(ctx context.Context) (interface{}, error) {
+		val, err := runAffSync(unboxAff(aff), ctx)
+		if err != nil {
+			return runAffSync(unboxAff(handler(err)), ctx)
+		}
+		return val, nil
+	}
 }
 
-func _MakeSupervisedFiber(_ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _makeSupervisedFiber")
+func _Map(f func(interface{}) interface{}, aff interface{}) interface{} {
+	return func(ctx context.Context) (interface{}, error) {
+		val, err := runAffSync(unboxAff(aff), ctx)
+		if err != nil {
+			return nil, err
+		}
+		return f(val), nil
+	}
 }
 
-func _KillAll(_ interface{}, _ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: _killAll")
-}
+func _ParAffMap(_ interface{}, _ interface{}) interface{} { panic("Not implemented: _parAffMap") }
+func _ParAffApply(_ interface{}, _ interface{}) interface{} { panic("Not implemented: _parAffApply") }
+func _ParAffAlt(aff1 interface{}, aff2 interface{}) interface{} {
+	return func(ctx context.Context) (interface{}, error) {
+		fn1 := unboxAff(aff1)
+		fn2 := unboxAff(aff2)
 
-func _Sequential(_ interface{}) interface{} {
-	panic("Not implemented: _sequential")
-}
+		ctx, cancel := context.WithCancel(ctx)
+		defer cancel()
 
-func GeneralBracket(_ interface{}, _ interface{}, _ interface{}) interface{} {
-	panic("Not implemented: generalBracket")
-}
+		type Result struct {
+			val interface{}
+			err error
+		}
+		resCh := make(chan Result, 2)
 
-func MakeAff(_ interface{}) interface{} {
-	panic("Not implemented: makeAff")
+		go func() {
+			val, err := runAffSync(fn1, ctx)
+			resCh <- Result{val, err}
+		}()
+		go func() {
+			val, err := runAffSync(fn2, ctx)
+			resCh <- Result{val, err}
+		}()
+
+		var firstErr error
+		for i := 0; i < 2; i++ {
+			select {
+			case res := <-resCh:
+				if res.err == nil {
+					return res.val, nil
+				}
+				if firstErr == nil {
+					firstErr = res.err
+				} else {
+					return nil, firstErr
+				}
+			case <-ctx.Done():
+				return nil, ctx.Err()
+			}
+		}
+		return nil, firstErr
+	}
 }
+func _MakeSupervisedFiber(_ interface{}, _ interface{}) interface{} { panic("Not implemented: _makeSupervisedFiber") }
+func _KillAll(_ interface{}, _ interface{}, _ interface{}) interface{} { panic("Not implemented: _killAll") }
+func _Sequential(aff interface{}) interface{} { return aff }
+func GeneralBracket(_ interface{}, _ interface{}, _ interface{}) interface{} { panic("Not implemented: generalBracket") }
