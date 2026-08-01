@@ -2,7 +2,6 @@ import (
 	"context"
 	"fmt"
 	"time"
-	"gopurs/output/gopurs_runtime"
 )
 
 type AffFn = func(context.Context) (any, error)
@@ -138,47 +137,37 @@ func makeFiberNative(aff AffFn) map[string]any {
 
 	fiber := map[string]any{
 		"run": func(_ any) any { return nil },
-		"kill": func(errAny any) any {
-			return func(onErrorAny any) any {
-				return func(onSuccessAny any) any {
-					return func(_ any) any {
-						cancel()
-						return func(_ any) any {
-							res := <-resultChan
-							if res.err != nil {
-								eff := gopurs_runtime.Apply(onErrorAny.(gopurs_runtime.Value), gopurs_runtime.Box(res.err))
-								return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
-							}
-							eff := gopurs_runtime.Apply(onSuccessAny.(gopurs_runtime.Value), gopurs_runtime.Value{})
-							return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
-						}
-					}
-				}
-			}
-		},
-		"join": func(onErrorAny any) any {
-			return func(onSuccessAny any) any {
+		"kill": func(errAny any, onError func(any) any, onSuccess func(any) any) any {
+			return func(_ any) any {
+				cancel()
 				return func(_ any) any {
-					return func(_ any) any {
-						res := <-resultChan
-						if res.err != nil {
-							eff := gopurs_runtime.Apply(onErrorAny.(gopurs_runtime.Value), gopurs_runtime.Box(res.err))
-							return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
-						}
-						eff := gopurs_runtime.Apply(onSuccessAny.(gopurs_runtime.Value), gopurs_runtime.Box(res.val))
-						return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
+					res := <-resultChan
+					if res.err != nil {
+						return onError(res.err)
 					}
+					return onSuccess(res.val)
 				}
 			}
 		},
-		"onComplete": func(onComplete any) any {
+		"join": func(onError func(any) any, onSuccess func(any) any) any {
+			return func(_ any) any {
+				return func(_ any) any {
+					res := <-resultChan
+					if res.err != nil {
+						return onError(res.err)
+					}
+					return onSuccess(res.val)
+				}
+			}
+		},
+		"onComplete": func(onComplete func(any) any) any {
 			return func(_ any) any {
 				return func(_ any) any {
 					return nil
 				}
 			}
 		},
-		"isSuspended": func(_ any) any { return false },
+		"isSuspended": func(_ any) bool { return false },
 	}
 	return fiber
 }
