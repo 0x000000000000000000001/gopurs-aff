@@ -8,12 +8,12 @@ type AffFn = func(context.Context) (any, error)
 
 type BindNode struct {
 	Aff any
-	K   func(any) any
+	K   func(any) AffFn
 }
 
 func runAffSync(aff AffFn, ctx context.Context) (any, error) {
 	var current = aff
-	var stack []func(any) any
+	var stack []func(any) AffFn
 
 	for {
 		val, err := current(ctx)
@@ -28,12 +28,7 @@ func runAffSync(aff AffFn, ctx context.Context) (any, error) {
 			if len(stack) > 0 {
 				k := stack[len(stack)-1]
 				stack = stack[:len(stack)-1]
-				retVal := k(val)
-				if valWrapper, isVal := retVal.(gopurs_runtime.Value); isVal {
-					current = (*(*any)(valWrapper.UnsafePtr)).(AffFn)
-				} else {
-					current = retVal.(AffFn)
-				}
+				current = k(val)
 			} else {
 				return val, nil
 			}
@@ -52,7 +47,7 @@ func _Pure(val any) any {
 	}
 }
 
-func _Bind(aff AffFn, k func(any) any) any {
+func _Bind(aff AffFn, k func(any) AffFn) any {
 	return func(ctx context.Context) (any, error) {
 		return BindNode{Aff: aff, K: k}, nil
 	}
@@ -186,18 +181,11 @@ func _ThrowError(err error) any {
 	}
 }
 
-func _CatchError(aff AffFn, handler func(any) any) any {
+func _CatchError(aff AffFn, handler func(any) AffFn) any {
 	return func(ctx context.Context) (any, error) {
 		val, err := runAffSync(aff, ctx)
 		if err != nil {
-			retVal := handler(err)
-			var nextAff AffFn
-			if valWrapper, isVal := retVal.(gopurs_runtime.Value); isVal {
-				nextAff = (*(*any)(valWrapper.UnsafePtr)).(AffFn)
-			} else {
-				nextAff = retVal.(AffFn)
-			}
-			return runAffSync(nextAff, ctx)
+			return runAffSync(handler(err), ctx)
 		}
 		return val, nil
 	}
