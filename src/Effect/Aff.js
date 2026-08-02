@@ -1152,3 +1152,10 @@ export const _delay = function () {
 }();
 
 export const _sequential = Aff.Seq;
+
+// Dummy implementations to satisfy the compiler
+export const _isSuspendedFiber = function() { throw new Error("Not implemented in JS"); };
+export const _joinFiber = function() { throw new Error("Not implemented in JS"); };
+export const _killFiber = function() { throw new Error("Not implemented in JS"); };
+export const _makeFiberNative = function() { throw new Error("Not implemented in JS"); };
+export const _onCompleteFiber = function() { throw new Error("Not implemented in JS"); };
