@@ -2,7 +2,6 @@ import (
 	"context"
 	"fmt"
 	"time"
-
 	"gopurs/output/gopurs_runtime"
 )
 
@@ -122,81 +121,98 @@ func _MakeAffImpl(build func(func(error) func(any) any) func(func(any) func(any)
 	}
 }
 
-func makeFiberNative(aff AffFn) map[string]any {
-	ctx, cancel := context.WithCancel(context.Background())
-	resultChan := make(chan struct {
+type NativeFiber struct {
+	ResultChan chan struct {
 		val any
 		err error
-	}, 1)
+	}
+	Cancel context.CancelFunc
+	Id     int64
+}
 
-	go func() {
-		val, err := runAffSync(aff, ctx)
-		resultChan <- struct {
+func _MakeFiberNative(aff AffFn) any {
+	return func(_ any) any {
+		ctx, cancel := context.WithCancel(context.Background())
+		resultChan := make(chan struct {
 			val any
 			err error
-		}{val, err}
-	}()
+		}, 1)
+		
+		fiberId := time.Now().UnixNano()
 
-	fiber := map[string]any{
-		"run": func(_ any) any { return nil },
-		"kill": func(errAny any) any {
-			return func(onErrorAny any) any {
-				return func(onSuccessAny any) any {
-					return func(_ any) any {
-						cancel()
-						return func(_ any) any {
-							res := <-resultChan
-							onError := onErrorAny.(gopurs_runtime.Value)
-							onSuccess := onSuccessAny.(gopurs_runtime.Value)
-							if res.err != nil {
-								eff := gopurs_runtime.Apply(onError, gopurs_runtime.Box(res.err))
-								return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
-							}
-							eff := gopurs_runtime.Apply(onSuccess, gopurs_runtime.Box(res.val))
-							return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
-						}
-					}
-				}
+		gopurs_runtime.Retain()
+		go func() {
+			defer gopurs_runtime.Release()
+			val, err := runAffSync(aff, ctx)
+			if err != nil {
+				resultChan <- struct {
+					val any
+					err error
+				}{nil, err}
+			} else {
+				resultChan <- struct {
+					val any
+					err error
+				}{val, nil}
 			}
-		},
-		"join": func(onErrorAny any) any {
-			return func(onSuccessAny any) any {
-				return func(_ any) any {
-					res := <-resultChan
-					onError := onErrorAny.(gopurs_runtime.Value)
-					onSuccess := onSuccessAny.(gopurs_runtime.Value)
-					if res.err != nil {
-						eff := gopurs_runtime.Apply(onError, gopurs_runtime.Box(res.err))
-						return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
-					}
-					eff := gopurs_runtime.Apply(onSuccess, gopurs_runtime.Box(res.val))
-					return gopurs_runtime.Apply(eff, gopurs_runtime.Value{})
-				}
-			}
-		},
-		"onComplete": func(onCompleteAny any) any {
-			return func(_ any) any {
-				return func(_ any) any {
-					return nil
-				}
-			}
-		},
-		"isSuspended": func(_ any) bool { return false },
+		}()
+
+		return &NativeFiber{
+			ResultChan: resultChan,
+			Cancel:     cancel,
+			Id:         fiberId,
+		}
 	}
-	return fiber
 }
 
-func _MakeFiber(aff AffFn) any {
+func _KillFiber(nf *NativeFiber, errAny error, onError func(any) func(any) any, onSuccess func(any) func(any) any) any {
 	return func(_ any) any {
-		return makeFiberNative(aff)
+		nf.Cancel()
+		go func() {
+			res := <-nf.ResultChan
+			nf.ResultChan <- res
+			
+			if res.err != nil {
+				onError(res.err)(nil)
+			} else {
+				onSuccess(res.val)(nil)
+			}
+		}()
+		return func(_ any) any {
+			return nil
+		}
 	}
 }
 
-func _Fork(isSuspended any, aff AffFn) any {
-    return func(ctx context.Context) (any, error) {
-        fiber := makeFiberNative(aff)
-        return fiber, nil
-    }
+func _JoinFiber(nf *NativeFiber, onError func(any) func(any) any, onSuccess func(any) func(any) any) any {
+	return func(_ any) any {
+		go func() {
+			res := <-nf.ResultChan
+			nf.ResultChan <- res
+			
+			if res.err != nil {
+				onError(res.err)(nil)
+			} else {
+				onSuccess(res.val)(nil)
+			}
+		}()
+		return func(_ any) any {
+			return nil
+		}
+	}
+}
+
+
+func _OnCompleteFiber(nf *NativeFiber, onCompleteAny any) any {
+	return func(_ any) any {
+		return func(_ any) any {
+			return nil
+		}
+	}
+}
+
+func _IsSuspendedFiber(nf *NativeFiber) bool {
+	return false
 }
 
 func _ThrowError(err error) any {
