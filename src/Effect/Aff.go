@@ -1,6 +1,7 @@
 import (
 	"context"
 	"fmt"
+	"sync"
 	"time"
 	"gopurs/output/gopurs_runtime"
 )
@@ -241,8 +242,58 @@ func _Map(f func(any) any, aff AffFn) any {
 	}
 }
 
-func _ParAffMap(_ any, _ any) any { panic("Not implemented") }
-func _ParAffApply(_ any, _ any) any { panic("Not implemented") }
+func _ParAffMap(f func(any) any, aff AffFn) any {
+	return _Map(f, aff)
+}
+
+func _ParAffApply(aff1 AffFn, aff2 AffFn) any {
+	return func(ctx context.Context) (any, error) {
+		ctx, cancel := context.WithCancel(ctx)
+		defer cancel()
+
+		var wg sync.WaitGroup
+		wg.Add(2)
+
+		var res1 any
+		var err1 error
+		var res2 any
+		var err2 error
+
+		go func() {
+			defer wg.Done()
+			res1, err1 = runAffSync(aff1, ctx)
+			if err1 != nil {
+				cancel()
+			}
+		}()
+
+		go func() {
+			defer wg.Done()
+			res2, err2 = runAffSync(aff2, ctx)
+			if err2 != nil {
+				cancel()
+			}
+		}()
+
+		wg.Wait()
+
+		if err1 != nil {
+			return nil, err1
+		}
+		if err2 != nil {
+			return nil, err2
+		}
+
+		if val, ok := res1.(gopurs_runtime.Value); ok {
+			return gopurs_runtime.Apply(val, gopurs_runtime.Box(res2)), nil
+		}
+		if res1 == nil {
+			return nil, nil
+		}
+		f := res1.(func(any) any)
+		return f(res2), nil
+	}
+}
 func _ParAffAlt(aff1 AffFn, aff2 AffFn) any {
 	return func(ctx context.Context) (any, error) {
 		fn1 := aff1
@@ -292,4 +343,37 @@ func _MakeSupervisedFiber(aff AffFn) any {
 }
 func _KillAll(_ any, _ any, _ any) any { panic("Not implemented") }
 func _Sequential(aff AffFn) any { return aff }
-func GeneralBracket(_ any, _ any, _ any) any { panic("Not implemented") }
+func GeneralBracket(acquireBox any, optionsBox any, useBox any) any {
+	return func(ctx context.Context) (any, error) {
+		acquireVal := acquireBox.(gopurs_runtime.Value)
+		acquireFn := gopurs_runtime.Unbox[AffFn](acquireVal)
+		
+		resource, err := runAffSync(acquireFn, ctx)
+		if err != nil {
+			return nil, err
+		}
+		
+		useVal := useBox.(gopurs_runtime.Value)
+		useResultBox := gopurs_runtime.Apply(useVal, gopurs_runtime.Box(resource))
+		useFn := gopurs_runtime.Unbox[AffFn](useResultBox)
+		
+		val, err := runAffSync(useFn, ctx)
+		
+		optionsVal := optionsBox.(gopurs_runtime.Value)
+		
+		if err != nil {
+			failedBox := gopurs_runtime.RecordGet(optionsVal, "failed")
+			errBox := gopurs_runtime.Box(err)
+			cleanupBox := gopurs_runtime.Apply2(failedBox, errBox, gopurs_runtime.Box(resource))
+			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupBox)
+			_, _ = runAffSync(cleanupFn, ctx)
+			return nil, err
+		} else {
+			completedBox := gopurs_runtime.RecordGet(optionsVal, "completed")
+			cleanupBox := gopurs_runtime.Apply2(completedBox, gopurs_runtime.Box(val), gopurs_runtime.Box(resource))
+			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupBox)
+			_, _ = runAffSync(cleanupFn, ctx)
+			return val, nil
+		}
+	}
+}
