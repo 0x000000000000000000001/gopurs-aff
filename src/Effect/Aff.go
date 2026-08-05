@@ -123,10 +123,9 @@ func _MakeAffImpl(build func(func(error) func(any) any) func(func(any) func(any)
 }
 
 type NativeFiber struct {
-	ResultChan chan struct {
-		val any
-		err error
-	}
+	Done   chan struct{}
+	Val    any
+	Err    error
 	Cancel context.CancelFunc
 	Id     int64
 }
@@ -134,35 +133,28 @@ type NativeFiber struct {
 func _MakeFiberNative(aff AffFn) any {
 	return func(_ any) any {
 		ctx, cancel := context.WithCancel(context.Background())
-		resultChan := make(chan struct {
-			val any
-			err error
-		}, 1)
+		done := make(chan struct{})
 		
 		fiberId := time.Now().UnixNano()
+		nf := &NativeFiber{
+			Done:   done,
+			Cancel: cancel,
+			Id:     fiberId,
+		}
 
 		gopurs_runtime.Retain()
 		go func() {
 			defer gopurs_runtime.Release()
 			val, err := runAffSync(aff, ctx)
 			if err != nil {
-				resultChan <- struct {
-					val any
-					err error
-				}{nil, err}
-			} else {
-				resultChan <- struct {
-					val any
-					err error
-				}{val, nil}
+				fmt.Println("[FATAL] Unhandled Fiber Error:", err)
 			}
+			nf.Val = val
+			nf.Err = err
+			close(nf.Done)
 		}()
 
-		return &NativeFiber{
-			ResultChan: resultChan,
-			Cancel:     cancel,
-			Id:         fiberId,
-		}
+		return nf
 	}
 }
 
@@ -170,13 +162,12 @@ func _KillFiber(nf *NativeFiber, errAny error, onError func(any) func(any) any, 
 	return func(_ any) any {
 		nf.Cancel()
 		go func() {
-			res := <-nf.ResultChan
-			nf.ResultChan <- res
+			<-nf.Done
 			
-			if res.err != nil {
-				onError(res.err)(nil)
+			if nf.Err != nil {
+				onError(nf.Err)(nil)
 			} else {
-				onSuccess(res.val)(nil)
+				onSuccess(nf.Val)(nil)
 			}
 		}()
 		return func(_ any) any {
@@ -188,13 +179,12 @@ func _KillFiber(nf *NativeFiber, errAny error, onError func(any) func(any) any, 
 func _JoinFiber(nf *NativeFiber, onError func(any) func(any) any, onSuccess func(any) func(any) any) any {
 	return func(_ any) any {
 		go func() {
-			res := <-nf.ResultChan
-			nf.ResultChan <- res
+			<-nf.Done
 			
-			if res.err != nil {
-				onError(res.err)(nil)
+			if nf.Err != nil {
+				onError(nf.Err)(nil)
 			} else {
-				onSuccess(res.val)(nil)
+				onSuccess(nf.Val)(nil)
 			}
 		}()
 		return func(_ any) any {
