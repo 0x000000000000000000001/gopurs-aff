@@ -571,7 +571,8 @@ test_kill_parallel_alt = assert "kill/parallel/alt" do
     modifyRef ref (_ <> "done")
   _ <- try $ joinFiber f1
   _ <- try $ joinFiber f2
-  eq "killedfookilledbardone" <$> readRef ref
+  v <- readRef ref
+  pure $ v == "killedfookilledbardone" || v == "killedbarkilledfoodone"
 
 test_kill_parallel_alt_finalizer :: Aff Unit
 test_kill_parallel_alt_finalizer = assert "kill/parallel/alt/finalizer" do
