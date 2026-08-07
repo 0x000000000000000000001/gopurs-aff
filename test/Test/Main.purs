@@ -513,17 +513,19 @@ test_parallel_alt_throw = assert "parallel/alt/throw" do
 
 test_parallel_alt_sync :: Aff Unit
 test_parallel_alt_sync = assert "parallel/alt/sync" do
-  ref <- newRef ""
+  ref <- newRef []
   let
     action s = do
       bracket
         (pure unit)
-        (\_ -> void $ modifyRef ref (_ <> "killed" <> s))
-        (\_ -> modifyRef ref (_ <> s) $> s)
+        (\_ -> void $ modifyRef ref (_ <> ["killed" <> s]))
+        (\_ -> modifyRef ref (_ <> [s]) $> s)
   r1 <- sequential $
     parallel (action "foo")
       <|> parallel (action "bar")
       <|> parallel (action "baz")
+  r2 <- readRef ref
+  let has x = Array.length (Array.filter (_ == x) r2) > 0
   -- Note: This used to check strict string concatenation (e.g. `r1 == "foo" && r2 == "fookilledfoo"`).
   -- In a true parallel environment (Go), execution happens genuinely concurrently across CPU cores 
   -- rather than having their starting point artificially serialized by the JS Event Loop 
@@ -531,7 +533,7 @@ test_parallel_alt_sync = assert "parallel/alt/sync" do
   -- Checking the exact string `r2` is therefore no longer relevant here: 
   -- mutations can happen in any order, causing an explosion of possible logging combinations to assert, 
   -- which is of no interest.
-  pure (r1 == "foo" || r1 == "bar" || r1 == "baz")
+  pure ((r1 == "foo" || r1 == "bar" || r1 == "baz") && has r1 && has "killedfoo" && has "killedbar" && has "killedbaz")
 
 test_parallel_mixed :: Aff Unit
 test_parallel_mixed = assert "parallel/mixed" do
