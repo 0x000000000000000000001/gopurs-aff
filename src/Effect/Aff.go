@@ -272,12 +272,7 @@ func _KillFiber(nf *NativeFiber, errAny error, onError func(any) func(any) any, 
 	}
 		go func() {
 			<-nf.Done
-			
-			if nf.Err != nil && nf.Err != errAny && nf.Err.Error() != errAny.Error() {
-				onError(nf.Err)(nil)
-			} else {
-				onSuccess(nil)(nil)
-			}
+			onSuccess(nil)(nil)
 		}()
 		return func(_ any) any {
 			return nil
@@ -360,33 +355,43 @@ func _ParAffApply(aff1 AffFn, aff2 AffFn) any {
 		wg.Add(2)
 
 		var res1 any
-		var err1 error
 		var res2 any
-		var err2 error
+
+		var firstErr error
+		var mu sync.Mutex
 
 		go func() {
 			defer wg.Done()
+			var err1 error
 			res1, err1 = runAffSync(aff1, ctx)
 			if err1 != nil {
+				mu.Lock()
+				if firstErr == nil {
+					firstErr = err1
+				}
+				mu.Unlock()
 				cancel()
 			}
 		}()
 
 		go func() {
 			defer wg.Done()
+			var err2 error
 			res2, err2 = runAffSync(aff2, ctx)
 			if err2 != nil {
+				mu.Lock()
+				if firstErr == nil {
+					firstErr = err2
+				}
+				mu.Unlock()
 				cancel()
 			}
 		}()
 
 		wg.Wait()
 
-		if err1 != nil {
-			return nil, err1
-		}
-		if err2 != nil {
-			return nil, err2
+		if firstErr != nil {
+			return nil, firstErr
 		}
 
 		if val, ok := res1.(gopurs_runtime.Value); ok {
@@ -424,18 +429,16 @@ func _ParAffAlt(aff1 AffFn, aff2 AffFn) any {
 
 		var firstErr error
 		for i := 0; i < 2; i++ {
-			select {
-			case res := <-resCh:
-				if res.err == nil {
-					return res.val, nil
+			res := <-resCh
+			if res.err == nil {
+				cancel()
+				if i == 0 {
+					<-resCh
 				}
-				if firstErr == nil {
-					firstErr = res.err
-				} else {
-					return nil, firstErr
-				}
-			case <-ctx.Done():
-				return nil, context.Cause(ctx)
+				return res.val, nil
+			}
+			if firstErr == nil {
+				firstErr = res.err
 			}
 		}
 		return nil, firstErr
