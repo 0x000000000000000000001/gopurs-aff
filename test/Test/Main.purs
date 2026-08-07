@@ -529,7 +529,7 @@ test_parallel_alt_sync = assert "parallel/alt/sync" do
   -- rather than having their starting point artificially serialized by the JS Event Loop 
   -- (no initially "sync" behaviour before reaching the first blocking handler, no round-robin).
   -- Checking the exact string `r2` is therefore no longer relevant here: 
-  -- mutations can happen in any order, causing an explosion of possible combinations to assert, 
+  -- mutations can happen in any order, causing an explosion of possible logging combinations to assert, 
   -- which is of no interest.
   pure (r1 == "foo" || r1 == "bar" || r1 == "baz")
 
