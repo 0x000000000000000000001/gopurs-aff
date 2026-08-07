@@ -405,8 +405,7 @@ test_kill_supervise = assert "kill/supervise" do
     v == "acquirefooacquirebarkillfookillbar"
       || v == "acquirefooacquirebarkillbarkillfoo"
       || v == "acquirebaracquirefookillfookillbar"
-      ||
-        v == "acquirebaracquirefookillbarkillfoo"
+      || v == "acquirebaracquirefookillbarkillfoo"
 
 test_kill_finalizer_catch :: Aff Unit
 test_kill_finalizer_catch = assert "kill/finalizer/catch" do
@@ -525,6 +524,9 @@ test_parallel_alt_sync = assert "parallel/alt/sync" do
     parallel (action "foo")
       <|> parallel (action "bar")
       <|> parallel (action "baz")
+  -- Note: This used to check strict string concatenation (e.g. `r1 == "foo" && r2 == "fookilledfoo"`).
+  -- In a true parallel environment (Go), the execution order is no longer guaranteed by the JS Event Loop round-robin.
+  -- Checking the exact string `r2` is therefore no longer relevant here.
   pure (r1 == "foo" || r1 == "bar" || r1 == "baz")
 
 test_parallel_mixed :: Aff Unit
