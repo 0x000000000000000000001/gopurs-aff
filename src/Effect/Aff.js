@@ -1064,11 +1064,6 @@ export function _bind(aff) {
   };
 }
 
-export function _fork(immediate) {
-  return function (aff) {
-    return Aff.Fork(immediate, aff);
-  };
-}
 
 export const _liftEffect = Aff.Sync;
 
@@ -1100,11 +1095,6 @@ export function generalBracket(acquire) {
   };
 }
 
-export function _makeFiber(util, aff) {
-  return function () {
-    return Aff.Fiber(util, null, aff);
-  };
-}
 
 export function _makeSupervisedFiber(util, aff) {
   return function () {
