@@ -525,7 +525,9 @@ test_parallel_alt_sync = assert "parallel/alt/sync" do
       <|> parallel (action "bar")
       <|> parallel (action "baz")
   -- Note: This used to check strict string concatenation (e.g. `r1 == "foo" && r2 == "fookilledfoo"`).
-  -- In a true parallel environment (Go), the execution order is no longer guaranteed by the JS Event Loop round-robin.
+  -- In a true parallel environment (Go), execution happens genuinely concurrently across CPU cores 
+  -- rather than having their starting point artificially serialized by the JS Event Loop 
+  -- (no initially sync behaviour, no round-robin).
   -- Checking the exact string `r2` is therefore no longer relevant here.
   pure (r1 == "foo" || r1 == "bar" || r1 == "baz")
 
