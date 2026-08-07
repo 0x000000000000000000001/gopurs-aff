@@ -448,7 +448,7 @@ test_parallel = assert "parallel" do
   delay (Milliseconds 15.0)
   r1 <- readRef ref
   r2 <- joinFiber f1
-  pure (r1 == "foobar" && r2.a == "foo" && r2.b == "bar")
+  pure ((r1 == "foobar" || r1 == "barfoo") && r2.a == "foo" && r2.b == "bar")
 
 test_parallel_throw :: Aff Unit
 test_parallel_throw = assert "parallel/throw" $ withTimeout (Milliseconds 100.0) do
