@@ -1,0 +1,22 @@
+16:func runAffSync(aff AffFn, ctx context.Context) (any, error) {
+41:func _Pure(val any) any {
+52:func _Bind(aff AffFn, k func(any) AffFn) any {
+58:func _Delay(right any, ms float64) any {
+73:func _LiftEffect(eff func(any) any) any {
+84:func _MakeAffImpl(build func(func(error) func(any) any) func(func(any) func(any) any) func(any) func(any) AffFn) any {
+142:func _MakeFiberNative(aff AffFn) any {
+179:func _RunFiber(nf *NativeFiber, _ interface{}) any {
+190:func _KillFiber(nf *NativeFiber, errAny error, onError func(any) func(any) any, onSuccess func(any) func(any) any) any {
+213:func _JoinFiber(nf *NativeFiber, onError func(any) func(any) any, onSuccess func(any) func(any) any) any {
+231:func _OnCompleteFiber(nf *NativeFiber, onCompleteAny any) any {
+241:func _IsSuspendedFiber(nf *NativeFiber) bool {
+245:func _ThrowError(err error) any {
+251:func _CatchError(aff AffFn, handler func(any) AffFn) any {
+264:func _Map(f func(any) any, aff AffFn) any {
+274:func _ParAffMap(f func(any) any, aff AffFn) any {
+278:func _ParAffApply(aff1 AffFn, aff2 AffFn) any {
+326:func _ParAffAlt(aff1 AffFn, aff2 AffFn) any {
+368:func _MakeSupervisedFiber(aff AffFn) any {
+373:func _KillAll(_ any, _ any, _ any) any { panic("Not implemented") }
+374:func _Sequential(aff AffFn) any { return aff }
+375:func GeneralBracket(acquireBox any, optionsBox any, useBox any) any {

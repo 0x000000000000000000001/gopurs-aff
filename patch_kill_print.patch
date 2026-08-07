@@ -1,0 +1,8 @@
+--- test/Test/Main.purs
++++ test/Test/Main.purs
+@@ -326,4 +326,5 @@
+     delay (Milliseconds 5.0)
++    liftEffect $ Console.log "Before killFiber"
+     killFiber (error "cancel") f
++  liftEffect $ Console.log "After killFiber"
+   delay (Milliseconds 10.0)

@@ -1,0 +1,7 @@
+--- test/Test/Main.purs
++++ test/Test/Main.purs
+@@ -329,3 +329,4 @@
+   delay (Milliseconds 10.0)
+   res <- readRef ref
++  liftEffect $ Console.log ("kill/bracket/nested res: " <> show res)
+   pure (r == unit && res == ["acquire", "acquire-nested", "release-nested", "release"])

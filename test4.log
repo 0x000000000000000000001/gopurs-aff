@@ -1,0 +1,665 @@
+=== Building project with spago ===
+Reading Spago workspace configuration...
+
+✓ Selecting package to build: aff
+
+Downloading dependencies...
+Building...
+[  2 of 236] Compiling Type.Equality
+[  1 of 236] Compiling Spago.Generated.BuildInfo
+[  3 of 236] Compiling Record.Unsafe
+[  4 of 236] Compiling Partial
+[  5 of 236] Compiling Data.Void
+[  6 of 236] Compiling Data.Unit
+[  7 of 236] Compiling Data.Traversable.Accum
+[  8 of 236] Compiling Unsafe.Coerce
+[  9 of 236] Compiling Type.Proxy
+[ 10 of 236] Compiling Data.NaturalTransformation
+[ 11 of 236] Compiling Data.Int.Bits
+[ 12 of 236] Compiling Data.Boolean
+[ 13 of 236] Compiling Control.Semigroupoid
+[ 14 of 236] Compiling Control.Lazy
+[ 16 of 236] Compiling Data.Symbol
+[ 15 of 236] Compiling Data.Function.Uncurried
+[ 17 of 236] Compiling Partial.Unsafe
+[ 18 of 236] Compiling Data.Exists
+[ 19 of 236] Compiling Control.Category
+[ 20 of 236] Compiling Safe.Coerce
+[ 21 of 236] Compiling Data.HeytingAlgebra
+[ 23 of 236] Compiling Data.Semigroup
+[ 22 of 236] Compiling Data.Semiring
+[ 24 of 236] Compiling Data.Show
+[ 25 of 236] Compiling Data.Ring
+[ 26 of 236] Compiling Data.Generic.Rep
+[ 27 of 236] Compiling Data.BooleanAlgebra
+[ 28 of 236] Compiling Data.Eq
+[ 29 of 236] Compiling Data.CommutativeRing
+[ 31 of 236] Compiling Data.Ordering
+[ 30 of 236] Compiling Data.EuclideanRing
+[ 32 of 236] Compiling Data.Ord
+[ 33 of 236] Compiling Data.DivisionRing
+[ 34 of 236] Compiling Data.Field
+[ 35 of 236] Compiling Data.Bounded
+[ 36 of 236] Compiling Data.Reflectable
+[ 38 of 236] Compiling Data.Function
+[ 37 of 236] Compiling Data.Monoid
+[ 39 of 236] Compiling Data.Functor
+[ 40 of 236] Compiling Control.Alt
+[ 41 of 236] Compiling Control.Extend
+[ 42 of 236] Compiling Control.Apply
+[ 43 of 236] Compiling Data.Monoid.Generic
+[ 44 of 236] Compiling Data.Bounded.Generic
+[ 45 of 236] Compiling Control.Plus
+[ 46 of 236] Compiling Control.Comonad
+[ 47 of 236] Compiling Control.Applicative
+[ 49 of 236] Compiling Control.Alternative
+[ 48 of 236] Compiling Control.Bind
+[ 50 of 236] Compiling Control.Monad
+[ 51 of 236] Compiling Prelude
+[ 52 of 236] Compiling Control.MonadPlus
+[ 53 of 236] Compiling Control.Monad.Trans.Class
+[ 54 of 236] Compiling Data.Monoid.Conj
+[ 55 of 236] Compiling Data.Semigroup.Last
+[ 56 of 236] Compiling Data.Semiring.Generic
+[ 57 of 236] Compiling Data.Monoid.Endo
+[ 58 of 236] Compiling Data.Monoid.Disj
+[ 59 of 236] Compiling Effect
+[ 60 of 236] Compiling Data.Ring.Generic
+[ 61 of 236] Compiling Data.Semigroup.Generic
+[ 63 of 236] Compiling Control.Monad.Gen.Class
+[ 62 of 236] Compiling Data.Eq.Generic
+[ 64 of 236] Compiling Data.Monoid.Dual
+[ 65 of 236] Compiling Data.HeytingAlgebra.Generic
+[ 66 of 236] Compiling Control.Monad.Cont.Class
+[ 67 of 236] Compiling Control.Monad.Reader.Class
+[ 68 of 236] Compiling Data.Monoid.Multiplicative
+[ 69 of 236] Compiling Data.Ord.Generic
+[ 70 of 236] Compiling Data.Show.Generic
+[ 71 of 236] Compiling Data.Monoid.Additive
+[ 73 of 236] Compiling Data.Number.Format
+[ 74 of 236] Compiling Data.Semigroup.First
+[ 72 of 236] Compiling Data.Traversable.Accum.Internal
+[ 76 of 236] Compiling Effect.Class
+[ 75 of 236] Compiling Effect.Ref
+[ 77 of 236] Compiling Effect.Console
+[ 78 of 236] Compiling Effect.Uncurried
+[ 79 of 236] Compiling Effect.Unsafe
+[ 80 of 236] Compiling Data.Newtype
+[ 82 of 236] Compiling Test.Assert
+[ 81 of 236] Compiling Effect.Class.Console
+[ 83 of 236] Compiling Data.Ord.Max
+[ 84 of 236] Compiling Data.Ord.Min
+[ 85 of 236] Compiling Data.Functor.App
+[ 86 of 236] Compiling Data.Time.Duration
+[ 87 of 236] Compiling Data.Ord.Down
+[ 88 of 236] Compiling Data.Monoid.Alternate
+[ 89 of 236] Compiling Data.Profunctor
+[ 90 of 236] Compiling Data.Profunctor.Closed
+[ 91 of 236] Compiling Data.Functor.Invariant
+[ 92 of 236] Compiling Data.Functor.Compose
+[ 93 of 236] Compiling Data.Identity
+[ 94 of 236] Compiling Data.Const
+[ 96 of 236] Compiling Data.Profunctor.Join
+[ 95 of 236] Compiling Data.Tuple
+[ 97 of 236] Compiling Data.Profunctor.Split
+[ 98 of 236] Compiling Data.Maybe
+[ 99 of 236] Compiling Data.Functor.Contravariant
+[100 of 236] Compiling Data.Comparison
+[101 of 236] Compiling Data.Op
+[102 of 236] Compiling Data.Predicate
+[103 of 236] Compiling Data.Equivalence
+[104 of 236] Compiling Data.Maybe.First
+[105 of 236] Compiling Data.Number
+[106 of 236] Compiling Data.Maybe.Last
+[107 of 236] Compiling Data.Either
+[109 of 236] Compiling Data.Number.Approximate
+[108 of 236] Compiling Data.Int
+[110 of 236] Compiling Data.Divide
+[111 of 236] Compiling Control.Monad.State.Class
+[113 of 236] Compiling Data.Profunctor.Strong
+[114 of 236] Compiling Control.Monad.Writer.Class
+[115 of 236] Compiling Data.Distributive
+[112 of 236] Compiling Data.Tuple.Nested
+[116 of 236] Compiling Data.Profunctor.Costrong
+[117 of 236] Compiling Performance.Minibench
+[118 of 236] Compiling Data.Divisible
+[119 of 236] Compiling Data.Decide
+[120 of 236] Compiling Data.Bifunctor
+[122 of 236] Compiling Effect.Exception
+[123 of 236] Compiling Data.Either.Inject
+[124 of 236] Compiling Data.Profunctor.Cochoice
+[121 of 236] Compiling Data.Either.Nested
+[125 of 236] Compiling Data.Profunctor.Choice
+[127 of 236] Compiling Effect.Exception.Unsafe
+[126 of 236] Compiling Control.Monad.Error.Class
+[128 of 236] Compiling Data.Functor.Product
+[129 of 236] Compiling Data.Profunctor.Star
+[130 of 236] Compiling Data.Functor.Costar
+[131 of 236] Compiling Control.Biapply
+[132 of 236] Compiling Data.Functor.Coproduct
+[133 of 236] Compiling Control.Monad.Rec.Class
+[134 of 236] Compiling Data.Decidable
+[135 of 236] Compiling Control.Biapplicative
+[136 of 236] Compiling Data.Functor.Joker
+[137 of 236] Compiling Data.Functor.Flip
+[138 of 236] Compiling Data.Bifunctor.Join
+[139 of 236] Compiling Data.Functor.Product2
+[140 of 236] Compiling Data.Functor.Clown
+[141 of 236] Compiling Data.Functor.Product.Nested
+[143 of 236] Compiling Data.Functor.Coproduct.Inject
+[142 of 236] Compiling Data.FunctorWithIndex
+[144 of 236] Compiling Data.Foldable
+[145 of 236] Compiling Data.Functor.Coproduct.Nested
+[146 of 236] Compiling Control.Monad.ST.Internal
+[148 of 236] Compiling Control.Monad.ST
+[147 of 236] Compiling Control.Monad.ST.Ref
+[149 of 236] Compiling Control.Monad.ST.Uncurried
+[150 of 236] Compiling Control.Monad.ST.Global
+[151 of 236] Compiling Control.Monad.ST.Class
+[152 of 236] Compiling Control.Monad.Maybe.Trans
+[153 of 236] Compiling Control.Monad.Writer.Trans
+[154 of 236] Compiling Control.Monad.Cont.Trans
+[155 of 236] Compiling Control.Monad.RWS.Trans
+[157 of 236] Compiling Control.Monad.State.Trans
+[158 of 236] Compiling Control.Monad.Reader.Trans
+[156 of 236] Compiling Control.Monad.Except.Trans
+[159 of 236] Compiling Data.Array.ST
+[160 of 236] Compiling Data.Array.ST.Partial
+[161 of 236] Compiling Data.Array.ST.Iterator
+[162 of 236] Compiling Control.Monad.Cont
+[163 of 236] Compiling Control.Monad.Reader
+[165 of 236] Compiling Control.Monad.Except
+[164 of 236] Compiling Control.Monad.State
+[167 of 236] Compiling Control.Parallel.Class
+[166 of 236] Compiling Control.Monad.Writer
+[168 of 236] Compiling Control.Monad.RWS
+[169 of 236] Compiling Data.FoldableWithIndex
+[170 of 236] Compiling Data.Bifoldable
+[172 of 236] Compiling Data.Traversable
+[171 of 236] Compiling Data.Semigroup.Foldable
+[173 of 236] Compiling Data.Bitraversable
+[174 of 236] Compiling Data.Semigroup.Traversable
+[176 of 236] Compiling Control.Monad.Identity.Trans
+[175 of 236] Compiling Control.Parallel
+[177 of 236] Compiling Effect.Aff
+[178 of 236] Compiling Data.Unfoldable1
+[179 of 236] Compiling Data.TraversableWithIndex
+[180 of 236] Compiling Control.Comonad.Trans.Class
+[181 of 236] Compiling Control.Comonad.Store.Trans
+[182 of 236] Compiling Control.Comonad.Traced.Trans
+[183 of 236] Compiling Data.Unfoldable
+[184 of 236] Compiling Control.Monad.Gen
+[185 of 236] Compiling Data.Enum
+[186 of 236] Compiling Data.Time.Duration.Gen
+[187 of 236] Compiling Data.NonEmpty
+[188 of 236] Compiling Data.Array.NonEmpty.Internal
+[189 of 236] Compiling Data.Lazy
+[190 of 236] Compiling Control.Comonad.Env.Trans
+[191 of 236] Compiling Effect.Aff.Compat
+[192 of 236] Compiling Test.Bench
+[193 of 236] Compiling Test.Hello
+[194 of 236] Compiling Data.Array
+[195 of 236] Compiling Data.Date.Component
+[197 of 236] Compiling Data.Time.Component
+[196 of 236] Compiling Data.Enum.Generic
+[198 of 236] Compiling Control.Comonad.Store.Class
+[199 of 236] Compiling Control.Monad.List.Trans
+[200 of 236] Compiling Data.List.Types
+[201 of 236] Compiling Data.List.Lazy.Types
+[202 of 236] Compiling Control.Monad.Gen.Common
+[203 of 236] Compiling Data.Enum.Gen
+[204 of 236] Compiling Control.Comonad.Store
+[205 of 236] Compiling Control.Comonad.Env.Class
+[207 of 236] Compiling Data.Time.Component.Gen
+[206 of 236] Compiling Data.Time
+[208 of 236] Compiling Control.Comonad.Env
+[209 of 236] Compiling Control.Comonad.Traced.Class
+[211 of 236] Compiling Data.Date.Component.Gen
+[210 of 236] Compiling Data.Date
+[212 of 236] Compiling Control.Comonad.Traced
+[213 of 236] Compiling Data.Time.Gen
+[214 of 236] Compiling Data.Array.NonEmpty
+[216 of 236] Compiling Data.Array.Partial
+[215 of 236] Compiling Test.Main
+[218 of 236] Compiling Data.Date.Gen
+[217 of 236] Compiling Data.DateTime
+[219 of 236] Compiling Data.List.Internal
+[220 of 236] Compiling Effect.Aff.Class
+[221 of 236] Compiling Data.DateTime.Gen
+[222 of 236] Compiling Data.DateTime.Instant
+[223 of 236] Compiling Data.List.Lazy
+[224 of 236] Compiling Data.List
+[225 of 236] Compiling Data.List.ZipList
+[226 of 236] Compiling Data.List.Lazy.NonEmpty
+[227 of 236] Compiling Data.List.Partial
+[228 of 236] Compiling Data.List.NonEmpty
+[229 of 236] Compiling Data.Map.Internal
+[230 of 236] Compiling Data.Set
+[232 of 236] Compiling Data.Map
+[231 of 236] Compiling Data.Set.NonEmpty
+[233 of 236] Compiling Data.Interval.Duration
+[234 of 236] Compiling Data.Map.Gen
+[235 of 236] Compiling Data.Interval
+[236 of 236] Compiling Data.Interval.Duration.Iso
+[WARNING 1/1 UnusedName] test/Test/Hello.purs:12:8
+
+  12    Left err -> do
+             ^^^
+
+  Name err was introduced but not used.
+  in value declaration assertEffEq
+
+           Src   Lib   All
+Warnings     1     0     1
+Errors       0     0     0
+
+✓ Build succeeded.
+
+=== Generating Go code with gopurs ===
+=== Compiling and running Go test binary ===
+_LiftEffect called! eff is nil? false
+Delay called! ms: 1000, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+[OK] try/throw
+Fiber 1786044570177447000 finished with err: <nil>, closing Done
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] liftEffect
+Fiber 1786044570177478000 finished with err: <nil>, closing Done
+_LiftEffect called! eff is nil? false
+[OK] bind
+Fiber 1786044570177428000 finished with err: <nil>, closing Done
+_LiftEffect called! eff is nil? false
+[OK] pure
+_LiftEffect called! eff is nil? false
+[OK] try
+Fiber 1786044570177434000 finished with err: <nil>, closing Done
+Fiber 1786044570177370000 finished with err: <nil>, closing Done
+_LiftEffect called! eff is nil? false
+[OK] delay
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 20, ctx.Err: <nil>
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Fiber 1786044571179233000 finished with err: <nil>, closing Done
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] fork
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Fiber 1786044571200421000 finished with err: <nil>, closing Done
+_MakeAffImpl unblocking from resultChan! res: {{7 0 0x7e2d0bacaaf0} <nil>}
+_LiftEffect called! eff is nil? false
+[OK] join
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+Fiber 1786044571211557000 finished with err: Nope., closing Done
+_MakeAffImpl unblocking from resultChan! res: {<nil> 0x7e2d0bd00020}
+_LiftEffect called! eff is nil? false
+[OK] join/throw
+_LiftEffect called! eff is nil? false
+Fiber 1786044571222312000 finished with err: Nope., closing Done
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from resultChan! res: {<nil> 0x7e2d0bacb040}
+_LiftEffect called! eff is nil? false
+[OK] join/throw/sync
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 20, ctx.Err: <nil>
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Fiber 1786044571222481000 finished with err: <nil>, closing Done
+_MakeAffImpl unblocking from resultChan! res: {{6 10 <nil>} <nil>}
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from resultChan! res: {{6 10 <nil>} <nil>}
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from resultChan! res: {{6 10 <nil>} <nil>}
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Fiber 1786044571222499000 finished with err: <nil>, closing Done
+_MakeAffImpl unblocking from resultChan! res: {{6 20 <nil>} <nil>}
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] join/multi
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 20, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Fiber 1786044571242737000 finished with err: <nil>, closing Done
+_MakeAffImpl unblocking from resultChan! res: {{7 0 0x7e2d0bacb6d0} <nil>}
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] suspend
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 5, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from resultChan! res: {{6 42 <nil>} <nil>}
+_LiftEffect called! eff is nil? false
+Fiber 1786044571274979000 finished with err: <nil>, closing Done
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from resultChan! res: {{6 42 <nil>} <nil>}
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] makeAff
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+GeneralBracket started!
+Delay called! ms: 10, ctx.Err: <nil>
+Delay called! ms: 40, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Completed branch cleanupErr: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Fiber 1786044571280837000 finished with err: <nil>, closing Done
+_MakeAffImpl unblocking from resultChan! res: {{12 0 0x7e2d0bc90ff0} <nil>}
+_LiftEffect called! eff is nil? false
+[OK] bracket
+_LiftEffect called! eff is nil? false
+GeneralBracket started!
+GeneralBracket started!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Completed branch cleanupErr: <nil>
+GeneralBracket executing useFn!
+GeneralBracket started!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Completed branch cleanupErr: <nil>
+GeneralBracket started!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Completed branch cleanupErr: <nil>
+Completed branch cleanupErr: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] bracket/nested
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 5, ctx.Err: <nil>
+GeneralBracket started!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Running KILLED branch!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+cleanupErr: <nil>
+Fiber 1786044571424244000 finished with err: z, closing Done
+_KillFiber calling onSuccess!
+_MakeAffImpl unblocking from resultChan! res: {{13 0 0x7e2d0bc16040} <nil>}
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from resultChan! res: {<nil> 0x7e2d0bc96ed0}
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+GeneralBracket started!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+GeneralBracket executing useFn!
+GeneralBracket err: b, ctx.Err: <nil>
+Running FAILED branch!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Fiber 1786044571446006000 finished with err: b, closing Done
+_MakeAffImpl unblocking from resultChan! res: {<nil> 0x7e2d0bb62820}
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+GeneralBracket started!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Completed branch cleanupErr: <nil>
+Fiber 1786044571468163000 finished with err: <nil>, closing Done
+_MakeAffImpl unblocking from resultChan! res: {{7 0 0x7e2d0bd00cf0} <nil>}
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] bracket/general
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+GeneralBracket started!
+GeneralBracket executing useFn!
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 5, ctx.Err: <nil>
+Delay called! ms: 11, ctx.Err: <nil>
+GeneralBracket started!
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Fiber 1786044571501427000 finished with err: <nil>, closing Done
+_MakeAffImpl unblocking from resultChan! res: {{7 0 0x7e2d0bb62cf0} <nil>}
+GeneralBracket err: context canceled, ctx.Err: context canceled
+Running KILLED branch! killErr: [Aff] Child fiber outlived parent
+_LiftEffect called! eff is nil? false
+KILLED branch cleanupErr: <nil>
+Fiber 1786044571501466000 finished with err: [Aff] Child fiber outlived parent, closing Done
+Fiber 1786044571501475000 finished with err: context canceled, closing Done
+_KillFiber calling onSuccess!
+_MakeAffImpl unblocking from resultChan! res: {{13 0 0x7e2d0bc16040} <nil>}
+Completed branch cleanupErr: <nil>
+Delay called! ms: 20, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] supervise
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from ctx.Done!
+_MakeAffImpl evaluating canceler with killErr: Nope, canceler is nil? false
+_MakeAffImpl cancelFnAff is nil? false
+Fiber 1786044571527919000 finished with err: Nope, closing Done
+_KillFiber calling onSuccess!
+_MakeAffImpl unblocking from resultChan! res: {{13 0 0x7e2d0bc16040} <nil>}
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from resultChan! res: {<nil> 0x7e2d0bc97c20}
+_LiftEffect called! eff is nil? false
+[OK] kill
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from ctx.Done!
+_MakeAffImpl evaluating canceler with killErr: Nope, canceler is nil? false
+_MakeAffImpl cancelFnAff is nil? false
+Delay called! ms: 20, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Fiber 1786044571528050000 finished with err: Nope, closing Done
+_KillFiber calling onSuccess!
+_MakeAffImpl unblocking from resultChan! res: {{13 0 0x7e2d0bc16040} <nil>}
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from resultChan! res: {<nil> 0x7e2d0bd01020}
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] kill/canceler
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 5, ctx.Err: <nil>
+GeneralBracket started!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Running KILLED branch!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+cleanupErr: <nil>
+Fiber 1786044571560300000 finished with err: Nope, closing Done
+_KillFiber calling onSuccess!
+_MakeAffImpl unblocking from resultChan! res: {{13 0 0x7e2d0bc16040} <nil>}
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from resultChan! res: {<nil> 0x7e2d0bd01570}
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] kill/bracket
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+GeneralBracket started!
+GeneralBracket started!
+Delay called! ms: 5, ctx.Err: <nil>
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Completed branch cleanupErr: <nil>
+Running KILLED branch!
+GeneralBracket started!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+Completed branch cleanupErr: <nil>
+cleanupErr: <nil>
+Fiber 1786044571582065000 finished with err: Nope, closing Done
+_KillFiber calling onSuccess!
+_MakeAffImpl unblocking from resultChan! res: {{13 0 0x7e2d0bc16040} <nil>}
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from resultChan! res: {<nil> 0x7e2d0bd016f0}
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+[OK] kill/bracket/nested
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 5, ctx.Err: <nil>
+GeneralBracket started!
+_LiftEffect called! eff is nil? false
+GeneralBracket started!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Completed branch cleanupErr: <nil>
+Running KILLED branch!
+_LiftEffect called! eff is nil? false
+cleanupErr: <nil>
+Fiber 1786044571647927000 finished with err: nope, closing Done
+_KillFiber calling onSuccess!
+_MakeAffImpl unblocking from resultChan! res: {{13 0 0x7e2d0bc16040} <nil>}
+Delay called! ms: 15, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+kill_general_bracket_nested res: ["outer/acquire","inner/acquire","inner/run","inner/completed","outer/killed"]
+_LiftEffect called! eff is nil? false
+kill_general_bracket_nested eq: true
+_LiftEffect called! eff is nil? false
+[OK] kill/bracket/general/nested
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Delay called! ms: 1, ctx.Err: <nil>
+GeneralBracket started!
+GeneralBracket executing useFn!
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+GeneralBracket started!
+_LiftEffect called! eff is nil? false
+Delay called! ms: 5, ctx.Err: <nil>
+GeneralBracket started!
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+GeneralBracket executing useFn!
+Delay called! ms: 10, ctx.Err: <nil>
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+_MakeAffImpl unblocking from ctx.Done!
+_MakeAffImpl evaluating canceler with killErr: nope, canceler is nil? false
+_MakeAffImpl cancelFnAff is nil? false
+GeneralBracket err: nope, ctx.Err: context canceled
+Running KILLED branch! killErr: nope
+_LiftEffect called! eff is nil? false
+_LiftEffect called! eff is nil? false
+Fiber 1786044571685831000 finished with err: context canceled, closing Done
+GeneralBracket err: context canceled, ctx.Err: context canceled
+Running KILLED branch! killErr: nope
+_LiftEffect called! eff is nil? false
+KILLED branch cleanupErr: <nil>
+Fiber 1786044571685865000 finished with err: nope, closing Done
+GeneralBracket err: context canceled, ctx.Err: context canceled
+Running KILLED branch! killErr: nope
+_LiftEffect called! eff is nil? false
+KILLED branch cleanupErr: <nil>
+Fiber 1786044571685855000 finished with err: nope, closing Done
+_KillFiber calling onSuccess!
+_MakeAffImpl unblocking from resultChan! res: {<nil> 0x102a62300}
+_MakeAffImpl unblocking from ctx.Done!
+_MakeAffImpl evaluating canceler with killErr: nope, canceler is nil? false
+_KillFiber calling onSuccess!
+KILLED branch cleanupErr: context canceled
+Fiber 1786044571685800000 finished with err: nope, closing Done
+panic: interface conversion: interface {} is nil, not func(context.Context) (interface {}, error)
+
+goroutine 37 [running]:
+gopurs/output/gopurs_runtime.Unbox[...]({0x102a450e0?, 0x7e2d0bb707c8?})
+	/Users/0x1/Documents/htdocs/gopurs-aff/output/gopurs_runtime/runtime.go:681 +0x7c0
+gopurs/output/Effect%2eAff.init.func10.1.2.2.1({0x102a2c420?, 0x7e2d0bb9c620?})
+	/Users/0x1/Documents/htdocs/gopurs-aff/output/Effect.Aff/Effect_Aff_ffi.go:670 +0x9c
+gopurs/output/Effect%2eAff.init.func10._MakeAffImpl.2({0x102a53050, 0x7e2d0bbac1e0})
+	/Users/0x1/Documents/htdocs/gopurs-aff/output/Effect.Aff/Effect_Aff_ffi.go:132 +0x230
+gopurs/output/Effect%2eAff.runAffSync(0x0?, {0x102a53050, 0x7e2d0bbac1e0})
+	/Users/0x1/Documents/htdocs/gopurs-aff/output/Effect.Aff/Effect_Aff_ffi.go:27 +0x78
+gopurs/output/Effect%2eAff.init.func17._ParAffMap._Map.2({0x102a53050?, 0x7e2d0bbac1e0?})
+	/Users/0x1/Documents/htdocs/gopurs-aff/output/Effect.Aff/Effect_Aff_ffi.go:271 +0x38
+gopurs/output/Effect%2eAff.runAffSync(0x0?, {0x102a53050, 0x7e2d0bbac1e0})
+	/Users/0x1/Documents/htdocs/gopurs-aff/output/Effect.Aff/Effect_Aff_ffi.go:27 +0x78
+gopurs/output/Effect%2eAff.init.func16._ParAffApply.1.1()
+	/Users/0x1/Documents/htdocs/gopurs-aff/output/Effect.Aff/Effect_Aff_ffi.go:298 +0x5c
+created by gopurs/output/Effect%2eAff.init.func16._ParAffApply.1 in goroutine 36
+	/Users/0x1/Documents/htdocs/gopurs-aff/output/Effect.Aff/Effect_Aff_ffi.go:296 +0x134

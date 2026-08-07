@@ -1,0 +1,10 @@
+--- test/Test/Main.purs
++++ test/Test/Main.purs
+@@ -348,3 +348,3 @@
+   _ <- try (joinFiber fiber)
+-  res <- readRef ref
+-  liftEffect $ Console.log ("kill/bracket/nested res: " <> show res)
+-  pure $ eq res
+-    [ "foo/bar"
++  res <- readRef ref
++  throwError (error $ "DEBUG res: " <> show res)

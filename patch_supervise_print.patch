@@ -1,0 +1,7 @@
+--- test/Test/Main.purs
++++ test/Test/Main.purs
+@@ -275,3 +275,4 @@
+   delay (Milliseconds 20.0)
+   r2 <- readRef ref
++  liftEffect $ Console.log ("r1: " <> r1 <> ", r2: " <> r2)
+   pure (r1 == "done" && r2 == "acquiredonerelease")

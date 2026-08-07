@@ -1,0 +1,9 @@
+--- output/Effect.Aff/Effect_Aff_ffi.go
++++ output/Effect.Aff/Effect_Aff_ffi.go
+@@ -250,6 +250,7 @@
+ 
+ func _RunFiber(nf *NativeFiber, _ interface{}) any {
++	import_fmt.Println("_RunFiber called!")
+ 	select {
+ 	case <-nf.Start:
+ 	default:

@@ -1159,3 +1159,6 @@ export const _joinFiber = function() { throw new Error("Not implemented in JS");
 export const _killFiber = function() { throw new Error("Not implemented in JS"); };
 export const _makeFiberNative = function() { throw new Error("Not implemented in JS"); };
 export const _onCompleteFiber = function() { throw new Error("Not implemented in JS"); };
+
+export const _forkAffNative = function() { throw new Error("Not implemented in JS"); };
+export const _runFiber = function() { throw new Error("Not implemented in JS"); };

@@ -1,0 +1,18 @@
+--- output/gopurs_runtime/runtime.go
++++ output/gopurs_runtime/runtime.go
+@@ -3,6 +3,7 @@
+ import (
+ 	"fmt"
+ 	"math"
++	import_debug "runtime/debug"
+ 	"unsafe"
+ )
+ 
+@@ -476,7 +477,6 @@
+ 		fn := *(*func(Value, Value, Value, Value, Value, Value, Value, Value, Value, Value, Value) Value)(unsafe.Pointer(&f.UnsafePtr))
+ 		return Func10(func(a, b, c, d, e, f, g, h, i, j Value) Value { return fn(arg, a, b, c, d, e, f, g, h, i, j) })
+ 	default:
+-		import_debug "runtime/debug"
+ 		if f.Type == TypeBool {
+ 			fmt.Printf("[DEBUG] TypeBool passed to Apply! f=%+v\n", f)
+ 			fmt.Printf("%s\n", import_debug.Stack())

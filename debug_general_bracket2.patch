@@ -1,0 +1,11 @@
+--- src/Effect/Aff.go
++++ src/Effect/Aff.go
+@@ -399,7 +399,7 @@
+ 		
+ 		useVal := useBox.(gopurs_runtime.Value)
+ 		if useVal.Type != gopurs_runtime.TypeFunc && useVal.Type != gopurs_runtime.TypeFunc2 && useVal.Type != gopurs_runtime.TypeFunc3 {
+-			fmt.Printf("DEBUG: useVal is NOT a function! Type: %d, useBox: %#v\n", useVal.Type, useBox)
++			fmt.Printf("DEBUG: useVal is NOT a function! Type: %d, useBox: %#v, inside PtrVal: %T (%#v)\n", useVal.Type, useBox, useVal.PtrVal(), useVal.PtrVal())
+ 		}
+ 		useFnAff := gopurs_runtime.Unbox[AffFn](gopurs_runtime.Apply(useVal, gopurs_runtime.Box(resourceBox)))
+ 		

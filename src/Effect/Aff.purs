@@ -253,8 +253,20 @@ runSuspendedAff :: forall a. (Either Error a -> Effect Unit) -> Aff a -> Effect 
 runSuspendedAff k aff = launchSuspendedAff $ liftEffect <<< k =<< try aff
 
 -- | Forks an `Aff` from within a parent `Aff` context, returning the `Fiber`.
+foreign import _forkAffNative :: forall a. Aff a -> Aff (NativeFiber a)
+
 forkAff :: forall a. Aff a -> Aff (Fiber a)
-forkAff aff = liftEffect (makeFiber aff)
+forkAff aff = do
+  nf <- _forkAffNative aff
+  let fiber = Fiber
+        { run: _runFiber nf
+        , kill: _killFiber nf
+        , join: _joinFiber nf
+        , onComplete: _onCompleteFiber nf
+        , isSuspended: _isSuspendedFiber nf
+        }
+  liftEffect (_runFiber nf)
+  pure fiber
 
 -- | Suspends an `Aff` from within a parent `Aff` context, returning the `Fiber`.
 -- | A suspended `Aff` is not executed until a consumer observes the result
@@ -340,8 +352,15 @@ supervise aff =
   acquire :: Effect (Supervised a)
   acquire = do
     sup <- _makeSupervisedFiber aff
-    case sup.fiber of Fiber f -> f.run
-    pure sup
+    let fiber = Fiber
+          { run: _runFiber sup.fiber
+          , kill: _killFiber sup.fiber
+          , join: _joinFiber sup.fiber
+          , onComplete: _onCompleteFiber sup.fiber
+          , isSuspended: _isSuspendedFiber sup.fiber
+          }
+    case fiber of Fiber f -> f.run
+    pure { supervisor: sup.supervisor, fiber }
 
 foreign import data Supervisor :: Type
 foreign import _pure :: forall a. a -> Aff a
@@ -362,8 +381,9 @@ foreign import _killFiber :: forall a. NativeFiber a -> Error -> (Error -> Effec
 foreign import _joinFiber :: forall a. NativeFiber a -> (Error -> Effect Unit) -> (a -> Effect Unit) -> Effect (Effect Unit)
 foreign import _onCompleteFiber :: forall a. NativeFiber a -> OnComplete a -> Effect (Effect Unit)
 foreign import _isSuspendedFiber :: forall a. NativeFiber a -> Effect Boolean
+foreign import _runFiber :: forall a. NativeFiber a -> Effect Unit
 
-foreign import _makeSupervisedFiber :: forall a. Aff a -> Effect (Supervised a)
+foreign import _makeSupervisedFiber :: forall a. Aff a -> Effect { supervisor :: Supervisor, fiber :: NativeFiber a }
 foreign import _killAll :: Fn.Fn3 Error Supervisor (Effect Unit) (Effect Canceler)
 foreign import _sequential :: ParAff ~> Aff
 
@@ -393,7 +413,7 @@ makeFiber :: forall a. Aff a -> Effect (Fiber a)
 makeFiber aff = do
   nf <- _makeFiberNative aff
   pure $ Fiber
-    { run: pure unit
+    { run: _runFiber nf
     , kill: _killFiber nf
     , join: _joinFiber nf
     , onComplete: _onCompleteFiber nf

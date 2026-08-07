@@ -1,0 +1,11 @@
+--- test/Test/Main.purs
++++ test/Test/Main.purs
+@@ -193,7 +193,8 @@
+   
+   r3 <- try $ joinFiber f3
+   
+-  r4 <- readRef ref
++  r4 <- liftEffect $ readRef ref
+   Console.log ("r4 is: " <> r4)
+   pure (isLeft r1 && isLeft r2 && isRight r3 && r4 == "foofoo/kill/zbarbar/throw/bbazcbaz/release/c")
+   

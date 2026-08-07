@@ -1,0 +1,262 @@
+=== Building project with spago ===
+Reading Spago workspace configuration...
+
+✓ Selecting package to build: aff
+
+Downloading dependencies...
+Building...
+[  2 of 236] Compiling Unsafe.Coerce
+[  1 of 236] Compiling Spago.Generated.BuildInfo
+[  3 of 236] Compiling Partial
+[  4 of 236] Compiling Type.Equality
+[  5 of 236] Compiling Type.Proxy
+[  6 of 236] Compiling Data.Unit
+[  7 of 236] Compiling Record.Unsafe
+[  8 of 236] Compiling Data.Void
+[  9 of 236] Compiling Data.Traversable.Accum
+[ 10 of 236] Compiling Data.Int.Bits
+[ 11 of 236] Compiling Data.NaturalTransformation
+[ 12 of 236] Compiling Data.Boolean
+[ 13 of 236] Compiling Control.Semigroupoid
+[ 14 of 236] Compiling Data.Function.Uncurried
+[ 15 of 236] Compiling Control.Lazy
+[ 16 of 236] Compiling Partial.Unsafe
+[ 17 of 236] Compiling Data.Symbol
+[ 18 of 236] Compiling Data.Exists
+[ 19 of 236] Compiling Safe.Coerce
+[ 20 of 236] Compiling Control.Category
+[ 21 of 236] Compiling Data.Semiring
+[ 22 of 236] Compiling Data.Semigroup
+[ 23 of 236] Compiling Data.HeytingAlgebra
+[ 24 of 236] Compiling Data.Show
+[ 25 of 236] Compiling Data.Ring
+[ 26 of 236] Compiling Data.Generic.Rep
+[ 28 of 236] Compiling Data.BooleanAlgebra
+[ 27 of 236] Compiling Data.Eq
+[ 29 of 236] Compiling Data.CommutativeRing
+[ 30 of 236] Compiling Data.Ordering
+[ 31 of 236] Compiling Data.EuclideanRing
+[ 32 of 236] Compiling Data.Ord
+[ 33 of 236] Compiling Data.DivisionRing
+[ 34 of 236] Compiling Data.Field
+[ 36 of 236] Compiling Data.Bounded
+[ 35 of 236] Compiling Data.Function
+[ 38 of 236] Compiling Data.Reflectable
+[ 37 of 236] Compiling Data.Monoid
+[ 39 of 236] Compiling Data.Functor
+[ 42 of 236] Compiling Control.Alt
+[ 40 of 236] Compiling Control.Extend
+[ 41 of 236] Compiling Control.Apply
+[ 43 of 236] Compiling Data.Monoid.Generic
+[ 44 of 236] Compiling Control.Plus
+[ 45 of 236] Compiling Data.Bounded.Generic
+[ 46 of 236] Compiling Control.Comonad
+[ 47 of 236] Compiling Control.Applicative
+[ 48 of 236] Compiling Control.Alternative
+[ 49 of 236] Compiling Control.Bind
+[ 50 of 236] Compiling Control.Monad
+[ 52 of 236] Compiling Control.MonadPlus
+[ 51 of 236] Compiling Prelude
+[ 53 of 236] Compiling Data.Semigroup.First
+[ 54 of 236] Compiling Control.Monad.Cont.Class
+[ 55 of 236] Compiling Control.Monad.Trans.Class
+[ 56 of 236] Compiling Data.Monoid.Additive
+[ 57 of 236] Compiling Data.Ring.Generic
+[ 58 of 236] Compiling Data.Monoid.Endo
+[ 59 of 236] Compiling Data.Ord.Generic
+[ 60 of 236] Compiling Control.Monad.Gen.Class
+[ 61 of 236] Compiling Data.Monoid.Disj
+[ 62 of 236] Compiling Data.Eq.Generic
+[ 63 of 236] Compiling Data.Semiring.Generic
+[ 64 of 236] Compiling Data.Show.Generic
+[ 65 of 236] Compiling Data.Monoid.Conj
+[ 66 of 236] Compiling Control.Monad.Reader.Class
+[ 68 of 236] Compiling Effect
+[ 67 of 236] Compiling Data.Number.Format
+[ 69 of 236] Compiling Data.Semigroup.Last
+[ 70 of 236] Compiling Data.HeytingAlgebra.Generic
+[ 71 of 236] Compiling Data.Semigroup.Generic
+[ 74 of 236] Compiling Data.Traversable.Accum.Internal
+[ 73 of 236] Compiling Data.Monoid.Multiplicative
+[ 72 of 236] Compiling Data.Monoid.Dual
+[ 75 of 236] Compiling Effect.Unsafe
+[ 76 of 236] Compiling Effect.Ref
+[ 77 of 236] Compiling Effect.Console
+[ 78 of 236] Compiling Effect.Uncurried
+[ 79 of 236] Compiling Effect.Class
+[ 81 of 236] Compiling Effect.Class.Console
+[ 80 of 236] Compiling Test.Assert
+[ 82 of 236] Compiling Data.Newtype
+[ 83 of 236] Compiling Data.Ord.Down
+[ 84 of 236] Compiling Data.Ord.Min
+[ 85 of 236] Compiling Data.Time.Duration
+[ 86 of 236] Compiling Data.Monoid.Alternate
+[ 87 of 236] Compiling Data.Functor.App
+[ 88 of 236] Compiling Data.Profunctor
+[ 89 of 236] Compiling Data.Ord.Max
+[ 90 of 236] Compiling Data.Profunctor.Closed
+[ 91 of 236] Compiling Data.Functor.Invariant
+[ 92 of 236] Compiling Data.Functor.Compose
+[ 93 of 236] Compiling Data.Tuple
+[ 94 of 236] Compiling Data.Maybe
+[ 95 of 236] Compiling Data.Const
+[ 96 of 236] Compiling Data.Identity
+[ 97 of 236] Compiling Data.Profunctor.Join
+[ 98 of 236] Compiling Data.Profunctor.Split
+[ 99 of 236] Compiling Data.Functor.Contravariant
+[100 of 236] Compiling Data.Op
+[101 of 236] Compiling Data.Predicate
+[102 of 236] Compiling Data.Comparison
+[103 of 236] Compiling Data.Equivalence
+[105 of 236] Compiling Data.Maybe.First
+[104 of 236] Compiling Data.Either
+[107 of 236] Compiling Data.Maybe.Last
+[106 of 236] Compiling Data.Number
+[109 of 236] Compiling Data.Number.Approximate
+[108 of 236] Compiling Data.Int
+[110 of 236] Compiling Data.Divide
+[111 of 236] Compiling Control.Monad.Writer.Class
+[114 of 236] Compiling Data.Profunctor.Costrong
+[113 of 236] Compiling Data.Distributive
+[112 of 236] Compiling Data.Tuple.Nested
+[115 of 236] Compiling Data.Profunctor.Strong
+[116 of 236] Compiling Control.Monad.State.Class
+[117 of 236] Compiling Performance.Minibench
+[118 of 236] Compiling Data.Divisible
+[119 of 236] Compiling Data.Decide
+[121 of 236] Compiling Data.Either.Inject
+[122 of 236] Compiling Effect.Exception
+[124 of 236] Compiling Data.Bifunctor
+[123 of 236] Compiling Data.Profunctor.Choice
+[120 of 236] Compiling Data.Either.Nested
+[125 of 236] Compiling Data.Profunctor.Cochoice
+[126 of 236] Compiling Effect.Exception.Unsafe
+[127 of 236] Compiling Control.Monad.Error.Class
+[128 of 236] Compiling Control.Monad.Rec.Class
+[129 of 236] Compiling Data.Functor.Product
+[130 of 236] Compiling Control.Biapply
+[131 of 236] Compiling Data.Functor.Coproduct
+[132 of 236] Compiling Data.Functor.Costar
+[133 of 236] Compiling Data.Profunctor.Star
+[134 of 236] Compiling Data.Decidable
+[135 of 236] Compiling Control.Biapplicative
+[136 of 236] Compiling Data.Functor.Product2
+[137 of 236] Compiling Data.Functor.Clown
+[138 of 236] Compiling Data.Functor.Joker
+[139 of 236] Compiling Data.Bifunctor.Join
+[140 of 236] Compiling Data.Functor.Flip
+[141 of 236] Compiling Data.Functor.Product.Nested
+[142 of 236] Compiling Data.FunctorWithIndex
+[143 of 236] Compiling Data.Functor.Coproduct.Inject
+[144 of 236] Compiling Data.Functor.Coproduct.Nested
+[145 of 236] Compiling Data.Foldable
+[146 of 236] Compiling Control.Monad.ST.Internal
+[147 of 236] Compiling Control.Monad.ST
+[148 of 236] Compiling Control.Monad.ST.Ref
+[149 of 236] Compiling Control.Monad.ST.Uncurried
+[150 of 236] Compiling Control.Monad.ST.Global
+[151 of 236] Compiling Control.Monad.ST.Class
+[152 of 236] Compiling Control.Monad.Except.Trans
+[153 of 236] Compiling Control.Monad.State.Trans
+[155 of 236] Compiling Control.Monad.Writer.Trans
+[154 of 236] Compiling Control.Monad.RWS.Trans
+[156 of 236] Compiling Control.Monad.Cont.Trans
+[157 of 236] Compiling Control.Monad.Reader.Trans
+[158 of 236] Compiling Control.Monad.Maybe.Trans
+[159 of 236] Compiling Data.Array.ST
+[160 of 236] Compiling Data.Array.ST.Partial
+[161 of 236] Compiling Data.Array.ST.Iterator
+[162 of 236] Compiling Control.Monad.Cont
+[163 of 236] Compiling Control.Monad.Reader
+[164 of 236] Compiling Control.Monad.State
+[165 of 236] Compiling Control.Monad.Except
+[166 of 236] Compiling Control.Parallel.Class
+[167 of 236] Compiling Control.Monad.Writer
+[168 of 236] Compiling Control.Monad.RWS
+[169 of 236] Compiling Data.Bifoldable
+[171 of 236] Compiling Data.Traversable
+[170 of 236] Compiling Data.FoldableWithIndex
+[172 of 236] Compiling Data.Semigroup.Foldable
+[173 of 236] Compiling Data.Bitraversable
+[174 of 236] Compiling Control.Parallel
+[176 of 236] Compiling Data.Semigroup.Traversable
+[175 of 236] Compiling Control.Monad.Identity.Trans
+[177 of 236] Compiling Effect.Aff
+[178 of 236] Compiling Data.Unfoldable1
+[179 of 236] Compiling Data.TraversableWithIndex
+[180 of 236] Compiling Control.Comonad.Trans.Class
+[181 of 236] Compiling Control.Comonad.Store.Trans
+[182 of 236] Compiling Control.Comonad.Traced.Trans
+[183 of 236] Compiling Data.Unfoldable
+[184 of 236] Compiling Control.Monad.Gen
+[185 of 236] Compiling Data.Enum
+[186 of 236] Compiling Data.Time.Duration.Gen
+[187 of 236] Compiling Data.NonEmpty
+[188 of 236] Compiling Data.Lazy
+[189 of 236] Compiling Control.Comonad.Env.Trans
+[190 of 236] Compiling Data.Array.NonEmpty.Internal
+[191 of 236] Compiling Effect.Aff.Compat
+[193 of 236] Compiling Test.Hello
+[192 of 236] Compiling Test.Bench
+[194 of 236] Compiling Data.Array
+[195 of 236] Compiling Data.Enum.Generic
+[197 of 236] Compiling Data.Time.Component
+[196 of 236] Compiling Data.Date.Component
+[198 of 236] Compiling Control.Comonad.Store.Class
+[199 of 236] Compiling Control.Monad.List.Trans
+[200 of 236] Compiling Control.Comonad.Store
+[201 of 236] Compiling Data.List.Lazy.Types
+[202 of 236] Compiling Data.List.Types
+[204 of 236] Compiling Data.Enum.Gen
+[203 of 236] Compiling Control.Monad.Gen.Common
+[205 of 236] Compiling Control.Comonad.Env.Class
+[206 of 236] Compiling Data.Time.Component.Gen
+[207 of 236] Compiling Data.Time
+[208 of 236] Compiling Control.Comonad.Env
+[209 of 236] Compiling Control.Comonad.Traced.Class
+[210 of 236] Compiling Data.Date.Component.Gen
+[211 of 236] Compiling Data.Date
+[212 of 236] Compiling Control.Comonad.Traced
+[213 of 236] Compiling Data.Time.Gen
+[214 of 236] Compiling Data.Array.NonEmpty
+[216 of 236] Compiling Data.Array.Partial
+[215 of 236] Compiling Test.Main
+[217 of 236] Compiling Data.Date.Gen
+[218 of 236] Compiling Data.DateTime
+[219 of 236] Compiling Data.List.Internal
+[220 of 236] Compiling Effect.Aff.Class
+[221 of 236] Compiling Data.DateTime.Gen
+[222 of 236] Compiling Data.DateTime.Instant
+[223 of 236] Compiling Data.List
+[224 of 236] Compiling Data.List.Lazy
+[226 of 236] Compiling Data.List.ZipList
+[225 of 236] Compiling Data.List.Lazy.NonEmpty
+[227 of 236] Compiling Data.List.Partial
+[229 of 236] Compiling Data.List.NonEmpty
+[228 of 236] Compiling Data.Map.Internal
+[230 of 236] Compiling Data.Set
+[232 of 236] Compiling Data.Map
+[231 of 236] Compiling Data.Set.NonEmpty
+[234 of 236] Compiling Data.Map.Gen
+[233 of 236] Compiling Data.Interval.Duration
+[235 of 236] Compiling Data.Interval
+[236 of 236] Compiling Data.Interval.Duration.Iso
+[WARNING 1/1 UnusedName] test/Test/Hello.purs:12:8
+
+  12    Left err -> do
+             ^^^
+
+  Name err was introduced but not used.
+  in value declaration assertEffEq
+
+           Src   Lib   All
+Warnings     1     0     1
+Errors       0     0     0
+
+✓ Build succeeded.
+
+=== Generating Go code with gopurs ===
+=== Compiling and running Go test binary ===
+# gopurs/output/Effect.Aff
+Effect.Aff/Effect_Aff_ffi.go:176:3: undefined: debug
+Effect.Aff/Effect_Aff_ffi.go:208:3: undefined: debug

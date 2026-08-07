@@ -1,0 +1,14 @@
+--- src/Effect/Aff.go
++++ src/Effect/Aff.go
+@@ -326,4 +326,7 @@
+ 		if ctx.Err() != nil {
++			fmt.Println("GeneralBracket: ctx.Err() is NOT nil, running killedFn")
+ 			// Context was canceled during acquire.
+ 			killedFn := gopurs_runtime.Unbox[AffFn](gopurs_runtime.Apply2(killedCond, gopurs_runtime.Box(context.Cause(ctx)), gopurs_runtime.Box(resource)))
+ 			cleanupCtx := context.WithoutCancel(ctx)
+ 			_, _ = runAffSync(killedFn, cleanupCtx)
+ 			return nil, context.Cause(ctx)
+ 		}
+ 
++		fmt.Println("GeneralBracket: ctx.Err() is nil, running useFn")
+ 		useCtx, useCancel := context.WithCancelCause(ctx)

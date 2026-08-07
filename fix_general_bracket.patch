@@ -1,0 +1,48 @@
+--- src/Effect/Aff.go
++++ src/Effect/Aff.go
+@@ -395,20 +395,20 @@
+ 			return nil, err
+ 		}
+ 
+-		killedBox := gopurs_runtime.Unbox[func(any) func(any) any](gopurs_runtime.RecordGet(optionsVal, "killed"))
+-		failedBox := gopurs_runtime.Unbox[func(any) func(any) any](gopurs_runtime.RecordGet(optionsVal, "failed"))
+-		completedBox := gopurs_runtime.Unbox[func(any) func(any) any](gopurs_runtime.RecordGet(optionsVal, "completed"))
++		killedVal := gopurs_runtime.RecordGet(optionsVal, "killed")
++		failedVal := gopurs_runtime.RecordGet(optionsVal, "failed")
++		completedVal := gopurs_runtime.RecordGet(optionsVal, "completed")
+ 		
+ 		useVal := useBox.(gopurs_runtime.Value)
+ 		useFnAff := gopurs_runtime.Unbox[AffFn](gopurs_runtime.Apply(useVal, gopurs_runtime.Box(resourceBox)))
+ 		
+ 		resultVal, useErr := runAffSync(useFnAff, ctx)
+ 		if useErr != nil {
+-			cleanupBox := failedBox(gopurs_runtime.Box(useErr))(gopurs_runtime.Box(resourceBox))
++			cleanupVal := gopurs_runtime.Apply2(failedVal, gopurs_runtime.Box(useErr), gopurs_runtime.Box(resourceBox))
+-			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupBox)
++			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupVal)
+ 			cleanupCtx := context.Background()
+ 			_, _ = runAffSync(cleanupFn, cleanupCtx)
+ 			return nil, useErr
+ 		}
+ 		
+ 		if isKilled(ctx) {
+-			cleanupBox := killedBox(gopurs_runtime.Box(ctx.Err()))(gopurs_runtime.Box(resourceBox))
++			cleanupVal := gopurs_runtime.Apply2(killedVal, gopurs_runtime.Box(ctx.Err()), gopurs_runtime.Box(resourceBox))
+-			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupBox)
++			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupVal)
+ 			cleanupCtx := context.Background()
+ 			_, _ = runAffSync(cleanupFn, cleanupCtx)
+ 			return nil, useErr
+ 		} else {
+-			cleanupBox := completedBox(gopurs_runtime.Box(resultVal))(gopurs_runtime.Box(resourceBox))
++			cleanupVal := gopurs_runtime.Apply2(completedVal, gopurs_runtime.Box(resultVal), gopurs_runtime.Box(resourceBox))
+-			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupBox)
++			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupVal)
+ 			_, cleanupErr := runAffSync(cleanupFn, ctx)
+ 			if cleanupErr != nil {
+ 				return nil, cleanupErr
+ 			}
+ 			return resultVal, nil
+ 		}
+ 	}
+ }

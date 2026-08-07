@@ -1,8 +1,9 @@
+package main
 import (
-	import_atomic "sync/atomic"
 	"context"
 	"fmt"
 	"sync"
+	import_atomic "sync/atomic"
 	"time"
 	"gopurs/output/gopurs_runtime"
 )
@@ -43,7 +44,7 @@ func _Pure(val any) any {
 	return func(ctx context.Context) (any, error) {
 		select {
 		case <-ctx.Done():
-			return nil, context.Cause(ctx)
+			return nil, ctx.Err()
 		default:
 			return val, nil
 		}
@@ -66,7 +67,7 @@ func _Delay(right any, ms float64) any {
 		case <-timer.C:
 			return nil, nil
 		case <-ctx.Done():
-			return nil, context.Cause(ctx)
+			return nil, ctx.Err()
 		}
 	}
 }
@@ -75,7 +76,7 @@ func _LiftEffect(eff func(any) any) any {
 	return func(ctx context.Context) (any, error) {
 		select {
 		case <-ctx.Done():
-			return nil, context.Cause(ctx)
+			return nil, ctx.Err()
 		default:
 			return eff(nil), nil
 		}
@@ -116,9 +117,9 @@ func _MakeAffImpl(build func(func(error) func(any) any) func(func(any) func(any)
 		case res := <-resultChan:
 			return res.val, res.err
 		case <-ctx.Done():
-			cancelFnAff := canceler(context.Cause(ctx))
-			_, _ = runAffSync(cancelFnAff, context.Background())
-			return nil, context.Cause(ctx)
+			cancelFnAff := canceler(fmt.Errorf("context canceled"))
+			go runAffSync(cancelFnAff, context.Background())
+			return nil, ctx.Err()
 		}
 	}
 }
@@ -126,21 +127,9 @@ func _MakeAffImpl(build func(func(error) func(any) any) func(func(any) func(any)
 
 
 
-type key int
-const killErrKey key = 0
-const supervisorKey key = 1
-type KillState struct {
-	Err error
-}
 
-type Supervisor struct {
-	Ctx    context.Context
-	Cancel context.CancelCauseFunc
-	Wg     *sync.WaitGroup
-}
 
 type NativeFiber struct {
-	Aff AffFn
 	Ctx        context.Context
 	Done       chan struct{}
 	Start      chan struct{}
@@ -160,7 +149,6 @@ func _MakeFiberNative(aff AffFn) any {
 		
 		fiberId := time.Now().UnixNano()
 		nf := &NativeFiber{
-			Aff:        aff,
 			Ctx:        ctx,
 			Done:       done,
 			Start:      start,
@@ -168,88 +156,12 @@ func _MakeFiberNative(aff AffFn) any {
 			Id:         fiberId,
 			IsComplete: 0,
 		}
-		return nf
-	}
-}
 
-
-func _ForkAffNative(aff_ any) any {
-	aff := gopurs_runtime.Unbox[AffFn](aff_.(gopurs_runtime.Value))
-	return func(ctx context.Context) (any, error) {
-		var childCtx context.Context
-		var cancel context.CancelCauseFunc
-		supAny := ctx.Value(supervisorKey)
-		if supAny != nil {
-			sup := supAny.(*Supervisor)
-			childCtx, cancel = context.WithCancelCause(sup.Ctx)
-		} else {
-			childCtx, cancel = context.WithCancelCause(context.Background())
-		}
-		done := make(chan struct{})
-		start := make(chan struct{})
-		
-		fiberId := time.Now().UnixNano()
-		nf := &NativeFiber{
-			Aff:        aff,
-			Ctx:        childCtx,
-			Done:       done,
-			Start:      start,
-			Cancel:     cancel,
-			Id:         fiberId,
-			IsComplete: 0,
-		}
-		close(start)
-
-		if supAny != nil {
-			sup := supAny.(*Supervisor)
-			sup.Wg.Add(1)
-			
-			gopurs_runtime.Retain()
-			go func() {
-				defer gopurs_runtime.Release()
-				defer sup.Wg.Done()
-				<-nf.Start
-				
-				// Keep the supervisor in the child's context
-				ctxWithSup := context.WithValue(childCtx, supervisorKey, sup)
-				val, err := runAffSync(aff, ctxWithSup)
-				
-				nf.mu.Lock()
-				nf.Val = val
-				nf.Err = err
-				import_atomic.StoreInt32(&nf.IsComplete, 1)
-				nf.mu.Unlock()
-				close(nf.Done)
-			}()
-		} else {
-			gopurs_runtime.Retain()
-			go func() {
-				defer gopurs_runtime.Release()
-				<-nf.Start
-				
-				val, err := runAffSync(aff, childCtx)
-				
-				nf.mu.Lock()
-				nf.Val = val
-				nf.Err = err
-				import_atomic.StoreInt32(&nf.IsComplete, 1)
-				nf.mu.Unlock()
-				close(nf.Done)
-			}()
-		}
-
-		return nf, nil
-	}
-}
-
-func _RunFiber(nf *NativeFiber, _ interface{}) any {
-	select {
-	case <-nf.Start:
-	default:
 		gopurs_runtime.Retain()
 		go func() {
 			defer gopurs_runtime.Release()
-			val, err := runAffSync(nf.Aff, nf.Ctx)
+			<-nf.Start
+			val, err := runAffSync(aff, ctx)
 			nf.mu.Lock()
 			nf.Val = val
 			nf.Err = err
@@ -257,50 +169,70 @@ func _RunFiber(nf *NativeFiber, _ interface{}) any {
 			nf.mu.Unlock()
 			close(nf.Done)
 		}()
-		close(nf.Start)
+
+		return nf
+
+}
+}
+
+func _ForkAffNative(aff AffFn) any {
+	return func(ctx context.Context) (any, error) {
+		eff := _MakeFiberNative(aff).(func(any) any)
+		nf := eff(nil)
+		return nf, nil
 	}
-	return nil
+}
+
+
+func _RunFiber(nf *NativeFiber) any {
+	return func(_ any) any {
+		select {
+		case <-nf.Start:
+		default:
+			close(nf.Start)
+		}
+		return nil
+}
 }
 
 func _KillFiber(nf *NativeFiber, errAny error, onError func(any) func(any) any, onSuccess func(any) func(any) any) any {
-	return func(_ any) any {
-		nf.Cancel(errAny)
+	nf.Cancel(errAny)
 	select {
 	case <-nf.Start:
 	default:
 		close(nf.Start)
 	}
-		go func() {
-			<-nf.Done
-			
-			if nf.Err != nil && nf.Err != errAny && nf.Err.Error() != errAny.Error() {
-				onError(nf.Err)(nil)
-			} else {
-				onSuccess(nil)(nil)
-			}
-		}()
-		return func(_ any) any {
-			return nil
-		}
+	go func() {
+		<-nf.Done
+		
+		onSuccess(nil)(nil)
+	}()
+	return func(_ any) any {
+		return nil
 	}
+
 }
 
 func _JoinFiber(nf *NativeFiber, onError func(any) func(any) any, onSuccess func(any) func(any) any) any {
-	return func(_ any) any {
-		_RunFiber(nf, nil)
-		go func() {
-			<-nf.Done
-			
-			if nf.Err != nil {
-				onError(nf.Err)(nil)
-			} else {
-				onSuccess(nf.Val)(nil)
-			}
-		}()
-		return func(_ any) any {
-			return nil
+	go func() {
+		select {
+		case <-nf.Start:
+		default:
+			close(nf.Start)
 		}
+
+		<-nf.Done
+		
+		if nf.Err != nil {
+			onError(nf.Err)(nil)
+		} else {
+			onSuccess(nf.Val)(nil)
+		}
+	}()
+	return func(_ any) any {
+		return nil
 	}
+
 }
 
 
@@ -309,11 +241,11 @@ func _OnCompleteFiber(nf *NativeFiber, onCompleteAny any) any {
 		return func(_ any) any {
 			return nil
 		}
-	}
+}
 }
 
-func _IsSuspendedFiber(nf *NativeFiber) func(any) any {
-	return func(any) any {
+func _IsSuspendedFiber(nf *NativeFiber) any {
+	return func(_ any) any {
 		return false
 	}
 }
@@ -328,7 +260,7 @@ func _CatchError(aff AffFn, handler func(any) AffFn) any {
 	return func(ctx context.Context) (any, error) {
 		val, err := runAffSync(aff, ctx)
 		if err != nil {
-			if context.Cause(ctx) != nil && context.Cause(ctx) == err {
+			if ctx.Err() != nil && context.Cause(ctx) == err {
 				return nil, err
 			}
 			return runAffSync(handler(err), ctx)
@@ -435,33 +367,17 @@ func _ParAffAlt(aff1 AffFn, aff2 AffFn) any {
 					return nil, firstErr
 				}
 			case <-ctx.Done():
-				return nil, context.Cause(ctx)
+				return nil, ctx.Err()
 			}
 		}
 		return nil, firstErr
 	}
 }
-func _KillAll(err_ any, sup_ any, cb_ any) any {
-	return func(_ any) any {
-		sup := gopurs_runtime.Unbox[*Supervisor](sup_.(gopurs_runtime.Value))
-		cb := gopurs_runtime.Unbox[func(any) any](cb_.(gopurs_runtime.Value))
-		
-		go func() {
-			errGo := fmt.Errorf("Supervised fiber canceled")
-			sup.Cancel(errGo)
-			sup.Wg.Wait()
-			cb(nil)
-		}()
-		
-		// Return empty Canceler: Error -> Aff Unit
-		return gopurs_runtime.Func(func(_ gopurs_runtime.Value) gopurs_runtime.Value {
-			aff := func(ctx context.Context) (any, error) {
-				return nil, nil
-			}
-			return gopurs_runtime.Box(aff)
-		})
-	}
+func _MakeSupervisedFiber(aff AffFn) any {
+	panic("Not implemented")
+
 }
+func _KillAll(_ any, _ any, _ any) any { panic("Not implemented") }
 func _Sequential(aff AffFn) any { return aff }
 func GeneralBracket(acquireBox any, optionsBox any, useBox any) any {
 	return func(ctx context.Context) (any, error) {
@@ -469,83 +385,43 @@ func GeneralBracket(acquireBox any, optionsBox any, useBox any) any {
 		acquireFn := gopurs_runtime.Unbox[AffFn](acquireVal)
 		
 		acquireCtx := context.WithoutCancel(ctx)
-		resource, err := runAffSync(acquireFn, acquireCtx)
+		resourceBox, err := runAffSync(acquireFn, acquireCtx)
 		if err != nil {
 			return nil, err
 		}
 		
 		optionsVal := optionsBox.(gopurs_runtime.Value)
-		
-		if ctx.Err() != nil {
-			err = context.Cause(ctx)
-			if err == nil {
-				err = ctx.Err()
-			}
-			killedBox := gopurs_runtime.RecordGet(optionsVal, "killed")
-			cleanupBox := gopurs_runtime.Apply2(killedBox, gopurs_runtime.Box(err), gopurs_runtime.Box(resource))
-			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupBox)
-			cleanupCtx := context.WithoutCancel(ctx)
-			_, _ = runAffSync(cleanupFn, cleanupCtx)
-			return nil, err
-		}
+		killedVal := gopurs_runtime.RecordGet(optionsVal, "killed")
+		failedVal := gopurs_runtime.RecordGet(optionsVal, "failed")
+		completedVal := gopurs_runtime.RecordGet(optionsVal, "completed")
 		
 		useVal := useBox.(gopurs_runtime.Value)
-		useResultBox := gopurs_runtime.Apply(useVal, gopurs_runtime.Box(resource))
-		useFn := gopurs_runtime.Unbox[AffFn](useResultBox)
+		useFnAff := gopurs_runtime.Unbox[AffFn](gopurs_runtime.Apply(useVal, gopurs_runtime.Box(resourceBox)))
 		
-		val, err := runAffSync(useFn, ctx)
+		resultVal, useErr := runAffSync(useFnAff, ctx)
 		
-		if err != nil {
-			// Check if it was canceled
-			cause := context.Cause(ctx)
-			var cleanupBox any
-			if cause != nil && (err == cause || err.Error() == cause.Error()) {
-				killedBox := gopurs_runtime.RecordGet(optionsVal, "killed")
-				errBox := gopurs_runtime.Box(err)
-				cleanupBox = gopurs_runtime.Apply2(killedBox, errBox, gopurs_runtime.Box(resource))
+		if useErr != nil {
+			var cleanupVal gopurs_runtime.Value
+			if ctx.Err() != nil && context.Cause(ctx) == useErr {
+				errBox := gopurs_runtime.Box(useErr)
+				cleanupVal = gopurs_runtime.Apply2(killedVal, errBox, gopurs_runtime.Box(resourceBox))
 			} else {
-				failedBox := gopurs_runtime.RecordGet(optionsVal, "failed")
-				errBox := gopurs_runtime.Box(err)
-				cleanupBox = gopurs_runtime.Apply2(failedBox, errBox, gopurs_runtime.Box(resource))
+				errBox := gopurs_runtime.Box(useErr)
+				cleanupVal = gopurs_runtime.Apply2(failedVal, errBox, gopurs_runtime.Box(resourceBox))
 			}
-			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupBox)
+			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupVal)
 			cleanupCtx := context.WithoutCancel(ctx)
 			_, _ = runAffSync(cleanupFn, cleanupCtx)
-			return nil, err
+			return nil, useErr
 		} else {
-			completedBox := gopurs_runtime.RecordGet(optionsVal, "completed")
-			cleanupBox := gopurs_runtime.Apply2(completedBox, gopurs_runtime.Box(val), gopurs_runtime.Box(resource))
-			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupBox)
+			cleanupVal := gopurs_runtime.Apply2(completedVal, gopurs_runtime.Box(resultVal), gopurs_runtime.Box(resourceBox))
+			cleanupFn := gopurs_runtime.Unbox[AffFn](cleanupVal)
 			cleanupCtx := context.WithoutCancel(ctx)
-			_, _ = runAffSync(cleanupFn, cleanupCtx)
-			return val, nil
+			_, cleanupErr := runAffSync(cleanupFn, cleanupCtx)
+			if cleanupErr != nil {
+				return nil, cleanupErr
+			}
+			return resultVal, nil
 		}
-	}
-}
-
-func _MakeSupervisedFiber(aff AffFn) any {
-	return func(_ any) any {
-		supCtx, cancel := context.WithCancelCause(context.Background())
-		sup := &Supervisor{
-			Ctx:    supCtx,
-			Cancel: cancel,
-			Wg:     &sync.WaitGroup{},
-		}
-		
-		ctxWithSup := context.WithValue(supCtx, supervisorKey, sup)
-		
-		fiberId := time.Now().UnixNano()
-		nf := &NativeFiber{
-			Aff:        aff,
-			Ctx:        ctxWithSup, // supervised
-			Done:       make(chan struct{}),
-			Start:      make(chan struct{}),
-			Cancel:     cancel,
-			Id:         fiberId,
-		}
-		
-		rec := gopurs_runtime.RecordDict2("fiber", "supervisor", gopurs_runtime.Box(nf), gopurs_runtime.Box(sup))
-		
-		return rec
 	}
 }

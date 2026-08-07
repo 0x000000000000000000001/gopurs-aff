@@ -1,0 +1,16 @@
+--- test/Test/Main.purs
++++ test/Test/Main.purs
+@@ -373,9 +373,11 @@
+   res <- readRef ref
+   liftEffect $ Console.log ("kill_general_bracket_nested res: " <> show res)
+-  readRef ref <#> eq
++  let result = res ==
+     [ "outer/acquire"
+     , "inner/acquire"
+     , "inner/run"
+     , "inner/completed"
+     , "outer/killed"
+     ]
++  liftEffect $ Console.log ("kill_general_bracket_nested eq: " <> show result)
++  pure result
+ 

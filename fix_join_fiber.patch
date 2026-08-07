@@ -1,0 +1,15 @@
+--- src/Effect/Aff.go
++++ src/Effect/Aff.go
+@@ -213,6 +213,12 @@
+ 
+ func _JoinFiber(nf *NativeFiber, onError func(any) func(any) any, onSuccess func(any) func(any) any) any {
+ 	go func() {
++		select {
++		case <-nf.Start:
++		default:
++			close(nf.Start)
++		}
++
+ 		<-nf.Done
+ 		
+ 		if nf.Err != nil {
