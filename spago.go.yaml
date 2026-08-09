@@ -23,6 +23,7 @@ package:
     main: Test.Main
     dependencies:
       - assert
+      - avar
       - console
       - effect
       - exceptions

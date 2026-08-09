@@ -23,6 +23,7 @@ import Effect.Ref (Ref)
 import Effect.Ref as Ref
 import Effect.Unsafe (unsafePerformEffect)
 import Test.Assert (assert')
+import Test.Stress (stressAVar)
 
 newRef :: forall m a. MonadEffect m => a -> m (Ref a)
 newRef = liftEffect <<< Ref.new
@@ -537,11 +538,11 @@ test_parallel_alt_sync = assert "parallel/alt/sync" do
 
 test_parallel_mixed :: Aff Unit
 test_parallel_mixed = assert "parallel/mixed" do
-  ref <- newRef ""
+  ref <- newRef []
   let
     action n s = parallel do
       delay (Milliseconds n)
-      _ <- modifyRef ref (_ <> s)
+      _ <- modifyRef ref (\arr -> arr <> [s])
       pure s
   { r1, r2, r3 } <- sequential $
     { r1: _, r2: _, r3: _ }
@@ -558,7 +559,8 @@ test_parallel_mixed = assert "parallel/mixed" do
         )
   delay (Milliseconds 20.0)
   r4 <- readRef ref
-  pure (r1 == "a" && r2 == "b" && r3 == "de" && r4 == "abde")
+  let has x = Array.length (Array.filter (_ == x) r4) > 0
+  pure (r1 == "a" && r2 == "b" && r3 == "de" && Array.length r4 == 4 && has "a" && has "b" && has "d" && has "e")
 
 test_kill_parallel_alt :: Aff Unit
 test_kill_parallel_alt = assert "kill/parallel/alt" do
@@ -805,3 +807,4 @@ main = do
     test_regression_kill_sync_async
     test_regression_bracket_kill_mask
     test_regression_kill_empty_supervisor
+    stressAVar
