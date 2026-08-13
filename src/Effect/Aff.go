@@ -242,7 +242,11 @@ func _ForkAffNative(aff_ any) any {
 	}
 }
 
-func _RunFiber(nf *NativeFiber, _ interface{}) any {
+func _RunFiber(nf *NativeFiber, x interface{}) any {
+	return internalRunFiber(nf, x)
+}
+
+func internalRunFiber(nf *NativeFiber, _ interface{}) any {
 	select {
 	case <-nf.Start:
 	default:
@@ -282,7 +286,7 @@ func _KillFiber(nf *NativeFiber, errAny error, onError func(any) func(any) any, 
 
 func _JoinFiber(nf *NativeFiber, onError func(any) func(any) any, onSuccess func(any) func(any) any) any {
 	return func(_ any) any {
-		_RunFiber(nf, nil)
+		internalRunFiber(nf, nil)
 		go func() {
 			<-nf.Done
 			
@@ -333,6 +337,10 @@ func _CatchError(aff AffFn, handler func(any) AffFn) any {
 }
 
 func _Map(f func(any) any, aff AffFn) any {
+	return internalMap(f, aff)
+}
+
+func internalMap(f func(any) any, aff AffFn) any {
 	return func(ctx context.Context) (any, error) {
 		val, err := runAffSync(aff, ctx)
 		if err != nil {
@@ -343,7 +351,7 @@ func _Map(f func(any) any, aff AffFn) any {
 }
 
 func _ParAffMap(f func(any) any, aff AffFn) any {
-	return _Map(f, aff)
+	return internalMap(f, aff)
 }
 
 func _ParAffApply(aff1 AffFn, aff2 AffFn) any {
