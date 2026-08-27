@@ -1,0 +1,12 @@
+--- /Users/0x1/Documents/htdocs/purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Monomorphize.purs
++++ /Users/0x1/Documents/htdocs/purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Monomorphize.purs
+@@ -357,6 +357,8 @@
+ applyDicts args body = go args body
+   where
+   go dicts e = case Array.uncons dicts of
+     Nothing -> e
+     Just { head: d, tail: ds' } ->
++      let _ = unsafePerformEffect $ Effect.Class.Console.log $ "applyDicts dict: " <> show (isStatic d)
+       if isStatic d then
+         case e of
+           ExprAbs _ id b ->

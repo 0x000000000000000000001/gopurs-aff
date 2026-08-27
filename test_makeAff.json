@@ -1,0 +1,3144 @@
+{
+  "annotation": {
+    "meta": null,
+    "sourceSpan": {
+      "end": [
+        165,
+        25
+      ],
+      "start": [
+        165,
+        1
+      ]
+    },
+    "type": null
+  },
+  "bindType": "NonRec",
+  "expression": {
+    "abstraction": {
+      "abstraction": {
+        "annotation": {
+          "meta": null,
+          "sourceSpan": {
+            "end": [
+              166,
+              22
+            ],
+            "start": [
+              166,
+              16
+            ]
+          },
+          "type": 307
+        },
+        "type": "Var",
+        "value": {
+          "identifier": "assert",
+          "moduleName": [
+            "Test",
+            "Main"
+          ]
+        }
+      },
+      "annotation": {
+        "meta": null,
+        "sourceSpan": {
+          "end": [
+            166,
+            32
+          ],
+          "start": [
+            166,
+            16
+          ]
+        },
+        "type": 308
+      },
+      "argument": {
+        "annotation": {
+          "meta": null,
+          "sourceSpan": {
+            "end": [
+              166,
+              32
+            ],
+            "start": [
+              166,
+              23
+            ]
+          },
+          "type": 11
+        },
+        "type": "Literal",
+        "value": {
+          "literalType": "StringLiteral",
+          "value": "makeAff"
+        }
+      },
+      "type": "App"
+    },
+    "annotation": {
+      "meta": null,
+      "sourceSpan": {
+        "end": [
+          181,
+          26
+        ],
+        "start": [
+          166,
+          16
+        ]
+      },
+      "type": 8
+    },
+    "argument": {
+      "abstraction": {
+        "abstraction": {
+          "abstraction": {
+            "annotation": {
+              "meta": {
+                "metaType": "IsForeign"
+              },
+              "sourceSpan": {
+                "end": [
+                  167,
+                  25
+                ],
+                "start": [
+                  167,
+                  3
+                ]
+              },
+              "type": 245
+            },
+            "type": "Var",
+            "value": {
+              "identifier": "bind",
+              "moduleName": [
+                "Control",
+                "Bind"
+              ]
+            }
+          },
+          "annotation": {
+            "meta": null,
+            "sourceSpan": {
+              "end": [
+                167,
+                25
+              ],
+              "start": [
+                167,
+                3
+              ]
+            },
+            "type": 631
+          },
+          "argument": {
+            "annotation": {
+              "meta": null,
+              "sourceSpan": {
+                "end": [
+                  0,
+                  0
+                ],
+                "start": [
+                  0,
+                  0
+                ]
+              },
+              "type": 114
+            },
+            "type": "Var",
+            "value": {
+              "identifier": "bindAff",
+              "moduleName": [
+                "Effect",
+                "Aff"
+              ]
+            }
+          },
+          "type": "App"
+        },
+        "annotation": {
+          "meta": null,
+          "sourceSpan": {
+            "end": [
+              167,
+              25
+            ],
+            "start": [
+              167,
+              3
+            ]
+          },
+          "type": 625
+        },
+        "argument": {
+          "abstraction": {
+            "abstraction": {
+              "annotation": {
+                "meta": null,
+                "sourceSpan": {
+                  "end": [
+                    167,
+                    17
+                  ],
+                  "start": [
+                    167,
+                    11
+                  ]
+                },
+                "type": 291
+              },
+              "type": "Var",
+              "value": {
+                "identifier": "newRef",
+                "moduleName": [
+                  "Test",
+                  "Main"
+                ]
+              }
+            },
+            "annotation": {
+              "meta": null,
+              "sourceSpan": {
+                "end": [
+                  167,
+                  25
+                ],
+                "start": [
+                  167,
+                  11
+                ]
+              },
+              "type": 633
+            },
+            "argument": {
+              "annotation": {
+                "meta": null,
+                "sourceSpan": {
+                  "end": [
+                    0,
+                    0
+                  ],
+                  "start": [
+                    0,
+                    0
+                  ]
+                },
+                "type": 292
+              },
+              "type": "Var",
+              "value": {
+                "identifier": "monadEffectAff",
+                "moduleName": [
+                  "Effect",
+                  "Aff"
+                ]
+              }
+            },
+            "type": "App"
+          },
+          "annotation": {
+            "meta": null,
+            "sourceSpan": {
+              "end": [
+                167,
+                25
+              ],
+              "start": [
+                167,
+                11
+              ]
+            },
+            "type": 632
+          },
+          "argument": {
+            "annotation": {
+              "meta": null,
+              "sourceSpan": {
+                "end": [
+                  167,
+                  25
+                ],
+                "start": [
+                  167,
+                  11
+                ]
+              },
+              "type": 628
+            },
+            "expression": {
+              "annotation": {
+                "meta": {
+                  "constructorType": "SumType",
+                  "identifiers": [],
+                  "metaType": "IsConstructor"
+                },
+                "sourceSpan": {
+                  "end": [
+                    167,
+                    25
+                  ],
+                  "start": [
+                    167,
+                    18
+                  ]
+                },
+                "type": 634
+              },
+              "type": "Var",
+              "value": {
+                "identifier": "Nothing",
+                "moduleName": [
+                  "Data",
+                  "Maybe"
+                ]
+              }
+            },
+            "type": "TypeApp",
+            "typeArgument": 17
+          },
+          "type": "App"
+        },
+        "type": "App"
+      },
+      "annotation": {
+        "meta": null,
+        "sourceSpan": {
+          "end": [
+            167,
+            25
+          ],
+          "start": [
+            167,
+            3
+          ]
+        },
+        "type": 35
+      },
+      "argument": {
+        "annotation": {
+          "meta": null,
+          "sourceSpan": {
+            "end": [
+              167,
+              25
+            ],
+            "start": [
+              167,
+              3
+            ]
+          },
+          "type": 626
+        },
+        "argument": "ref1",
+        "body": {
+          "abstraction": {
+            "abstraction": {
+              "abstraction": {
+                "annotation": {
+                  "meta": {
+                    "metaType": "IsForeign"
+                  },
+                  "sourceSpan": {
+                    "end": [
+                      168,
+                      19
+                    ],
+                    "start": [
+                      168,
+                      3
+                    ]
+                  },
+                  "type": 245
+                },
+                "type": "Var",
+                "value": {
+                  "identifier": "bind",
+                  "moduleName": [
+                    "Control",
+                    "Bind"
+                  ]
+                }
+              },
+              "annotation": {
+                "meta": null,
+                "sourceSpan": {
+                  "end": [
+                    168,
+                    19
+                  ],
+                  "start": [
+                    168,
+                    3
+                  ]
+                },
+                "type": 446
+              },
+              "argument": {
+                "annotation": {
+                  "meta": null,
+                  "sourceSpan": {
+                    "end": [
+                      0,
+                      0
+                    ],
+                    "start": [
+                      0,
+                      0
+                    ]
+                  },
+                  "type": 114
+                },
+                "type": "Var",
+                "value": {
+                  "identifier": "bindAff",
+                  "moduleName": [
+                    "Effect",
+                    "Aff"
+                  ]
+                }
+              },
+              "type": "App"
+            },
+            "annotation": {
+              "meta": null,
+              "sourceSpan": {
+                "end": [
+                  168,
+                  19
+                ],
+                "start": [
+                  168,
+                  3
+                ]
+              },
+              "type": 444
+            },
+            "argument": {
+              "abstraction": {
+                "abstraction": {
+                  "annotation": {
+                    "meta": null,
+                    "sourceSpan": {
+                      "end": [
+                        168,
+                        17
+                      ],
+                      "start": [
+                        168,
+                        11
+                      ]
+                    },
+                    "type": 291
+                  },
+                  "type": "Var",
+                  "value": {
+                    "identifier": "newRef",
+                    "moduleName": [
+                      "Test",
+                      "Main"
+                    ]
+                  }
+                },
+                "annotation": {
+                  "meta": null,
+                  "sourceSpan": {
+                    "end": [
+                      168,
+                      19
+                    ],
+                    "start": [
+                      168,
+                      11
+                    ]
+                  },
+                  "type": 290
+                },
+                "argument": {
+                  "annotation": {
+                    "meta": null,
+                    "sourceSpan": {
+                      "end": [
+                        0,
+                        0
+                      ],
+                      "start": [
+                        0,
+                        0
+                      ]
+                    },
+                    "type": 292
+                  },
+                  "type": "Var",
+                  "value": {
+                    "identifier": "monadEffectAff",
+                    "moduleName": [
+                      "Effect",
+                      "Aff"
+                    ]
+                  }
+                },
+                "type": "App"
+              },
+              "annotation": {
+                "meta": null,
+                "sourceSpan": {
+                  "end": [
+                    168,
+                    19
+                  ],
+                  "start": [
+                    168,
+                    11
+                  ]
+                },
+                "type": 289
+              },
+              "argument": {
+                "annotation": {
+                  "meta": null,
+                  "sourceSpan": {
+                    "end": [
+                      168,
+                      19
+                    ],
+                    "start": [
+                      168,
+                      18
+                    ]
+                  },
+                  "type": 52
+                },
+                "type": "Literal",
+                "value": {
+                  "literalType": "IntLiteral",
+                  "value": 0
+                }
+              },
+              "type": "App"
+            },
+            "type": "App"
+          },
+          "annotation": {
+            "meta": null,
+            "sourceSpan": {
+              "end": [
+                168,
+                19
+              ],
+              "start": [
+                168,
+                3
+              ]
+            },
+            "type": 35
+          },
+          "argument": {
+            "annotation": {
+              "meta": null,
+              "sourceSpan": {
+                "end": [
+                  168,
+                  19
+                ],
+                "start": [
+                  168,
+                  3
+                ]
+              },
+              "type": 445
+            },
+            "argument": "ref2",
+            "body": {
+              "abstraction": {
+                "abstraction": {
+                  "abstraction": {
+                    "annotation": {
+                      "meta": {
+                        "metaType": "IsForeign"
+                      },
+                      "sourceSpan": {
+                        "end": [
+                          173,
+                          20
+                        ],
+                        "start": [
+                          169,
+                          3
+                        ]
+                      },
+                      "type": 245
+                    },
+                    "type": "Var",
+                    "value": {
+                      "identifier": "bind",
+                      "moduleName": [
+                        "Control",
+                        "Bind"
+                      ]
+                    }
+                  },
+                  "annotation": {
+                    "meta": null,
+                    "sourceSpan": {
+                      "end": [
+                        173,
+                        20
+                      ],
+                      "start": [
+                        169,
+                        3
+                      ]
+                    },
+                    "type": 436
+                  },
+                  "argument": {
+                    "annotation": {
+                      "meta": null,
+                      "sourceSpan": {
+                        "end": [
+                          0,
+                          0
+                        ],
+                        "start": [
+                          0,
+                          0
+                        ]
+                      },
+                      "type": 114
+                    },
+                    "type": "Var",
+                    "value": {
+                      "identifier": "bindAff",
+                      "moduleName": [
+                        "Effect",
+                        "Aff"
+                      ]
+                    }
+                  },
+                  "type": "App"
+                },
+                "annotation": {
+                  "meta": null,
+                  "sourceSpan": {
+                    "end": [
+                      173,
+                      20
+                    ],
+                    "start": [
+                      169,
+                      3
+                    ]
+                  },
+                  "type": 434
+                },
+                "argument": {
+                  "abstraction": {
+                    "annotation": {
+                      "meta": {
+                        "metaType": "IsForeign"
+                      },
+                      "sourceSpan": {
+                        "end": [
+                          169,
+                          19
+                        ],
+                        "start": [
+                          169,
+                          12
+                        ]
+                      },
+                      "type": 347
+                    },
+                    "type": "Var",
+                    "value": {
+                      "identifier": "forkAff",
+                      "moduleName": [
+                        "Effect",
+                        "Aff"
+                      ]
+                    }
+                  },
+                  "annotation": {
+                    "meta": null,
+                    "sourceSpan": {
+                      "end": [
+                        173,
+                        20
+                      ],
+                      "start": [
+                        169,
+                        12
+                      ]
+                    },
+                    "type": 437
+                  },
+                  "argument": {
+                    "abstraction": {
+                      "abstraction": {
+                        "abstraction": {
+                          "annotation": {
+                            "meta": {
+                              "metaType": "IsForeign"
+                            },
+                            "sourceSpan": {
+                              "end": [
+                                172,
+                                18
+                              ],
+                              "start": [
+                                170,
+                                5
+                              ]
+                            },
+                            "type": 245
+                          },
+                          "type": "Var",
+                          "value": {
+                            "identifier": "bind",
+                            "moduleName": [
+                              "Control",
+                              "Bind"
+                            ]
+                          }
+                        },
+                        "annotation": {
+                          "meta": null,
+                          "sourceSpan": {
+                            "end": [
+                              172,
+                              18
+                            ],
+                            "start": [
+                              170,
+                              5
+                            ]
+                          },
+                          "type": 618
+                        },
+                        "argument": {
+                          "annotation": {
+                            "meta": null,
+                            "sourceSpan": {
+                              "end": [
+                                0,
+                                0
+                              ],
+                              "start": [
+                                0,
+                                0
+                              ]
+                            },
+                            "type": 114
+                          },
+                          "type": "Var",
+                          "value": {
+                            "identifier": "bindAff",
+                            "moduleName": [
+                              "Effect",
+                              "Aff"
+                            ]
+                          }
+                        },
+                        "type": "App"
+                      },
+                      "annotation": {
+                        "meta": null,
+                        "sourceSpan": {
+                          "end": [
+                            172,
+                            18
+                          ],
+                          "start": [
+                            170,
+                            5
+                          ]
+                        },
+                        "type": 616
+                      },
+                      "argument": {
+                        "abstraction": {
+                          "annotation": {
+                            "meta": {
+                              "metaType": "IsForeign"
+                            },
+                            "sourceSpan": {
+                              "end": [
+                                170,
+                                17
+                              ],
+                              "start": [
+                                170,
+                                10
+                              ]
+                            },
+                            "type": 554
+                          },
+                          "type": "Var",
+                          "value": {
+                            "identifier": "makeAff",
+                            "moduleName": [
+                              "Effect",
+                              "Aff"
+                            ]
+                          }
+                        },
+                        "annotation": {
+                          "meta": null,
+                          "sourceSpan": {
+                            "end": [
+                              172,
+                              18
+                            ],
+                            "start": [
+                              170,
+                              10
+                            ]
+                          },
+                          "type": 268
+                        },
+                        "argument": {
+                          "annotation": {
+                            "meta": null,
+                            "sourceSpan": {
+                              "end": [
+                                172,
+                                18
+                              ],
+                              "start": [
+                                170,
+                                18
+                              ]
+                            },
+                            "type": 636
+                          },
+                          "argument": "cb",
+                          "body": {
+                            "abstraction": {
+                              "abstraction": {
+                                "abstraction": {
+                                  "abstraction": {
+                                    "annotation": {
+                                      "meta": {
+                                        "metaType": "IsForeign"
+                                      },
+                                      "sourceSpan": {
+                                        "end": [
+                                          171,
+                                          30
+                                        ],
+                                        "start": [
+                                          171,
+                                          7
+                                        ]
+                                      },
+                                      "type": 195
+                                    },
+                                    "type": "Var",
+                                    "value": {
+                                      "identifier": "discard",
+                                      "moduleName": [
+                                        "Control",
+                                        "Bind"
+                                      ]
+                                    }
+                                  },
+                                  "annotation": {
+                                    "meta": null,
+                                    "sourceSpan": {
+                                      "end": [
+                                        171,
+                                        30
+                                      ],
+                                      "start": [
+                                        171,
+                                        7
+                                      ]
+                                    },
+                                    "type": 640
+                                  },
+                                  "argument": {
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          0,
+                                          0
+                                        ],
+                                        "start": [
+                                          0,
+                                          0
+                                        ]
+                                      },
+                                      "type": 199
+                                    },
+                                    "type": "Var",
+                                    "value": {
+                                      "identifier": "discardUnit",
+                                      "moduleName": [
+                                        "Control",
+                                        "Bind"
+                                      ]
+                                    }
+                                  },
+                                  "type": "App"
+                                },
+                                "annotation": {
+                                  "meta": null,
+                                  "sourceSpan": {
+                                    "end": [
+                                      171,
+                                      30
+                                    ],
+                                    "start": [
+                                      171,
+                                      7
+                                    ]
+                                  },
+                                  "type": 639
+                                },
+                                "argument": {
+                                  "annotation": {
+                                    "meta": null,
+                                    "sourceSpan": {
+                                      "end": [
+                                        0,
+                                        0
+                                      ],
+                                      "start": [
+                                        0,
+                                        0
+                                      ]
+                                    },
+                                    "type": 200
+                                  },
+                                  "type": "Var",
+                                  "value": {
+                                    "identifier": "bindEffect",
+                                    "moduleName": [
+                                      "Effect"
+                                    ]
+                                  }
+                                },
+                                "type": "App"
+                              },
+                              "annotation": {
+                                "meta": null,
+                                "sourceSpan": {
+                                  "end": [
+                                    171,
+                                    30
+                                  ],
+                                  "start": [
+                                    171,
+                                    7
+                                  ]
+                                },
+                                "type": 637
+                              },
+                              "argument": {
+                                "abstraction": {
+                                  "abstraction": {
+                                    "abstraction": {
+                                      "annotation": {
+                                        "meta": null,
+                                        "sourceSpan": {
+                                          "end": [
+                                            171,
+                                            15
+                                          ],
+                                          "start": [
+                                            171,
+                                            7
+                                          ]
+                                        },
+                                        "type": 303
+                                      },
+                                      "type": "Var",
+                                      "value": {
+                                        "identifier": "writeRef",
+                                        "moduleName": [
+                                          "Test",
+                                          "Main"
+                                        ]
+                                      }
+                                    },
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          171,
+                                          20
+                                        ],
+                                        "start": [
+                                          171,
+                                          7
+                                        ]
+                                      },
+                                      "type": 642
+                                    },
+                                    "argument": {
+                                      "annotation": {
+                                        "meta": null,
+                                        "sourceSpan": {
+                                          "end": [
+                                            0,
+                                            0
+                                          ],
+                                          "start": [
+                                            0,
+                                            0
+                                          ]
+                                        },
+                                        "type": 304
+                                      },
+                                      "type": "Var",
+                                      "value": {
+                                        "identifier": "monadEffectEffect",
+                                        "moduleName": [
+                                          "Effect",
+                                          "Class"
+                                        ]
+                                      }
+                                    },
+                                    "type": "App"
+                                  },
+                                  "annotation": {
+                                    "meta": null,
+                                    "sourceSpan": {
+                                      "end": [
+                                        171,
+                                        20
+                                      ],
+                                      "start": [
+                                        171,
+                                        7
+                                      ]
+                                    },
+                                    "type": 641
+                                  },
+                                  "argument": {
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          171,
+                                          20
+                                        ],
+                                        "start": [
+                                          171,
+                                          16
+                                        ]
+                                      },
+                                      "type": 627
+                                    },
+                                    "type": "Var",
+                                    "value": {
+                                      "identifier": "ref1",
+                                      "sourcePos": [
+                                        167,
+                                        3
+                                      ]
+                                    }
+                                  },
+                                  "type": "App"
+                                },
+                                "annotation": {
+                                  "meta": null,
+                                  "sourceSpan": {
+                                    "end": [
+                                      171,
+                                      30
+                                    ],
+                                    "start": [
+                                      171,
+                                      7
+                                    ]
+                                  },
+                                  "type": 6
+                                },
+                                "argument": {
+                                  "abstraction": {
+                                    "annotation": {
+                                      "meta": {
+                                        "constructorType": "SumType",
+                                        "identifiers": [
+                                          "value0"
+                                        ],
+                                        "metaType": "IsConstructor"
+                                      },
+                                      "sourceSpan": {
+                                        "end": [
+                                          171,
+                                          26
+                                        ],
+                                        "start": [
+                                          171,
+                                          22
+                                        ]
+                                      },
+                                      "type": 643
+                                    },
+                                    "type": "Var",
+                                    "value": {
+                                      "identifier": "Just",
+                                      "moduleName": [
+                                        "Data",
+                                        "Maybe"
+                                      ]
+                                    }
+                                  },
+                                  "annotation": {
+                                    "meta": null,
+                                    "sourceSpan": {
+                                      "end": [
+                                        171,
+                                        29
+                                      ],
+                                      "start": [
+                                        171,
+                                        22
+                                      ]
+                                    },
+                                    "type": 628
+                                  },
+                                  "argument": {
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          171,
+                                          29
+                                        ],
+                                        "start": [
+                                          171,
+                                          27
+                                        ]
+                                      },
+                                      "type": 629
+                                    },
+                                    "type": "Var",
+                                    "value": {
+                                      "identifier": "cb",
+                                      "sourcePos": [
+                                        170,
+                                        19
+                                      ]
+                                    }
+                                  },
+                                  "type": "App"
+                                },
+                                "type": "App"
+                              },
+                              "type": "App"
+                            },
+                            "annotation": {
+                              "meta": null,
+                              "sourceSpan": {
+                                "end": [
+                                  171,
+                                  30
+                                ],
+                                "start": [
+                                  171,
+                                  7
+                                ]
+                              },
+                              "type": 26
+                            },
+                            "argument": {
+                              "annotation": {
+                                "meta": null,
+                                "sourceSpan": {
+                                  "end": [
+                                    171,
+                                    30
+                                  ],
+                                  "start": [
+                                    171,
+                                    7
+                                  ]
+                                },
+                                "type": 638
+                              },
+                              "argument": "$__unused",
+                              "body": {
+                                "abstraction": {
+                                  "abstraction": {
+                                    "annotation": {
+                                      "meta": {
+                                        "metaType": "IsForeign"
+                                      },
+                                      "sourceSpan": {
+                                        "end": [
+                                          172,
+                                          11
+                                        ],
+                                        "start": [
+                                          172,
+                                          7
+                                        ]
+                                      },
+                                      "type": 256
+                                    },
+                                    "type": "Var",
+                                    "value": {
+                                      "identifier": "pure",
+                                      "moduleName": [
+                                        "Control",
+                                        "Applicative"
+                                      ]
+                                    }
+                                  },
+                                  "annotation": {
+                                    "meta": null,
+                                    "sourceSpan": {
+                                      "end": [
+                                        172,
+                                        18
+                                      ],
+                                      "start": [
+                                        172,
+                                        7
+                                      ]
+                                    },
+                                    "type": 24
+                                  },
+                                  "argument": {
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          0,
+                                          0
+                                        ],
+                                        "start": [
+                                          0,
+                                          0
+                                        ]
+                                      },
+                                      "type": 458
+                                    },
+                                    "type": "Var",
+                                    "value": {
+                                      "identifier": "applicativeEffect",
+                                      "moduleName": [
+                                        "Effect"
+                                      ]
+                                    }
+                                  },
+                                  "type": "App"
+                                },
+                                "annotation": {
+                                  "meta": null,
+                                  "sourceSpan": {
+                                    "end": [
+                                      172,
+                                      18
+                                    ],
+                                    "start": [
+                                      172,
+                                      7
+                                    ]
+                                  },
+                                  "type": 26
+                                },
+                                "argument": {
+                                  "abstraction": {
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          172,
+                                          18
+                                        ],
+                                        "start": [
+                                          172,
+                                          7
+                                        ]
+                                      },
+                                      "type": null
+                                    },
+                                    "expression": {
+                                      "annotation": {
+                                        "meta": {
+                                          "metaType": "IsForeign"
+                                        },
+                                        "sourceSpan": {
+                                          "end": [
+                                            172,
+                                            18
+                                          ],
+                                          "start": [
+                                            172,
+                                            12
+                                          ]
+                                        },
+                                        "type": 645
+                                      },
+                                      "type": "Var",
+                                      "value": {
+                                        "identifier": "mempty",
+                                        "moduleName": [
+                                          "Data",
+                                          "Monoid"
+                                        ]
+                                      }
+                                    },
+                                    "type": "TypeApp",
+                                    "typeArgument": 17
+                                  },
+                                  "annotation": {
+                                    "meta": null,
+                                    "sourceSpan": {
+                                      "end": [
+                                        172,
+                                        18
+                                      ],
+                                      "start": [
+                                        172,
+                                        7
+                                      ]
+                                    },
+                                    "type": 25
+                                  },
+                                  "argument": {
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          0,
+                                          0
+                                        ],
+                                        "start": [
+                                          0,
+                                          0
+                                        ]
+                                      },
+                                      "type": 647
+                                    },
+                                    "type": "Var",
+                                    "value": {
+                                      "identifier": "monoidCanceler",
+                                      "moduleName": [
+                                        "Effect",
+                                        "Aff"
+                                      ]
+                                    }
+                                  },
+                                  "type": "App"
+                                },
+                                "type": "App"
+                              },
+                              "type": "Abs"
+                            },
+                            "type": "App"
+                          },
+                          "type": "Abs"
+                        },
+                        "type": "App"
+                      },
+                      "type": "App"
+                    },
+                    "annotation": {
+                      "meta": null,
+                      "sourceSpan": {
+                        "end": [
+                          172,
+                          18
+                        ],
+                        "start": [
+                          170,
+                          5
+                        ]
+                      },
+                      "type": 8
+                    },
+                    "argument": {
+                      "annotation": {
+                        "meta": null,
+                        "sourceSpan": {
+                          "end": [
+                            172,
+                            18
+                          ],
+                          "start": [
+                            170,
+                            5
+                          ]
+                        },
+                        "type": 617
+                      },
+                      "argument": "n",
+                      "body": {
+                        "abstraction": {
+                          "abstraction": {
+                            "abstraction": {
+                              "annotation": {
+                                "meta": null,
+                                "sourceSpan": {
+                                  "end": [
+                                    173,
+                                    13
+                                  ],
+                                  "start": [
+                                    173,
+                                    5
+                                  ]
+                                },
+                                "type": 303
+                              },
+                              "type": "Var",
+                              "value": {
+                                "identifier": "writeRef",
+                                "moduleName": [
+                                  "Test",
+                                  "Main"
+                                ]
+                              }
+                            },
+                            "annotation": {
+                              "meta": null,
+                              "sourceSpan": {
+                                "end": [
+                                  173,
+                                  18
+                                ],
+                                "start": [
+                                  173,
+                                  5
+                                ]
+                              },
+                              "type": 622
+                            },
+                            "argument": {
+                              "annotation": {
+                                "meta": null,
+                                "sourceSpan": {
+                                  "end": [
+                                    0,
+                                    0
+                                  ],
+                                  "start": [
+                                    0,
+                                    0
+                                  ]
+                                },
+                                "type": 292
+                              },
+                              "type": "Var",
+                              "value": {
+                                "identifier": "monadEffectAff",
+                                "moduleName": [
+                                  "Effect",
+                                  "Aff"
+                                ]
+                              }
+                            },
+                            "type": "App"
+                          },
+                          "annotation": {
+                            "meta": null,
+                            "sourceSpan": {
+                              "end": [
+                                173,
+                                18
+                              ],
+                              "start": [
+                                173,
+                                5
+                              ]
+                            },
+                            "type": 617
+                          },
+                          "argument": {
+                            "annotation": {
+                              "meta": null,
+                              "sourceSpan": {
+                                "end": [
+                                  173,
+                                  18
+                                ],
+                                "start": [
+                                  173,
+                                  14
+                                ]
+                              },
+                              "type": 287
+                            },
+                            "type": "Var",
+                            "value": {
+                              "identifier": "ref2",
+                              "sourcePos": [
+                                168,
+                                3
+                              ]
+                            }
+                          },
+                          "type": "App"
+                        },
+                        "annotation": {
+                          "meta": null,
+                          "sourceSpan": {
+                            "end": [
+                              173,
+                              20
+                            ],
+                            "start": [
+                              173,
+                              5
+                            ]
+                          },
+                          "type": 8
+                        },
+                        "argument": {
+                          "annotation": {
+                            "meta": null,
+                            "sourceSpan": {
+                              "end": [
+                                173,
+                                20
+                              ],
+                              "start": [
+                                173,
+                                19
+                              ]
+                            },
+                            "type": 52
+                          },
+                          "type": "Var",
+                          "value": {
+                            "identifier": "n",
+                            "sourcePos": [
+                              170,
+                              5
+                            ]
+                          }
+                        },
+                        "type": "App"
+                      },
+                      "type": "Abs"
+                    },
+                    "type": "App"
+                  },
+                  "type": "App"
+                },
+                "type": "App"
+              },
+              "annotation": {
+                "meta": null,
+                "sourceSpan": {
+                  "end": [
+                    173,
+                    20
+                  ],
+                  "start": [
+                    169,
+                    3
+                  ]
+                },
+                "type": 35
+              },
+              "argument": {
+                "annotation": {
+                  "meta": null,
+                  "sourceSpan": {
+                    "end": [
+                      173,
+                      20
+                    ],
+                    "start": [
+                      169,
+                      3
+                    ]
+                  },
+                  "type": 435
+                },
+                "argument": "fiber",
+                "body": {
+                  "abstraction": {
+                    "abstraction": {
+                      "abstraction": {
+                        "abstraction": {
+                          "annotation": {
+                            "meta": {
+                              "metaType": "IsForeign"
+                            },
+                            "sourceSpan": {
+                              "end": [
+                                174,
+                                27
+                              ],
+                              "start": [
+                                174,
+                                3
+                              ]
+                            },
+                            "type": 195
+                          },
+                          "type": "Var",
+                          "value": {
+                            "identifier": "discard",
+                            "moduleName": [
+                              "Control",
+                              "Bind"
+                            ]
+                          }
+                        },
+                        "annotation": {
+                          "meta": null,
+                          "sourceSpan": {
+                            "end": [
+                              174,
+                              27
+                            ],
+                            "start": [
+                              174,
+                              3
+                            ]
+                          },
+                          "type": 382
+                        },
+                        "argument": {
+                          "annotation": {
+                            "meta": null,
+                            "sourceSpan": {
+                              "end": [
+                                0,
+                                0
+                              ],
+                              "start": [
+                                0,
+                                0
+                              ]
+                            },
+                            "type": 199
+                          },
+                          "type": "Var",
+                          "value": {
+                            "identifier": "discardUnit",
+                            "moduleName": [
+                              "Control",
+                              "Bind"
+                            ]
+                          }
+                        },
+                        "type": "App"
+                      },
+                      "annotation": {
+                        "meta": null,
+                        "sourceSpan": {
+                          "end": [
+                            174,
+                            27
+                          ],
+                          "start": [
+                            174,
+                            3
+                          ]
+                        },
+                        "type": 381
+                      },
+                      "argument": {
+                        "annotation": {
+                          "meta": null,
+                          "sourceSpan": {
+                            "end": [
+                              0,
+                              0
+                            ],
+                            "start": [
+                              0,
+                              0
+                            ]
+                          },
+                          "type": 114
+                        },
+                        "type": "Var",
+                        "value": {
+                          "identifier": "bindAff",
+                          "moduleName": [
+                            "Effect",
+                            "Aff"
+                          ]
+                        }
+                      },
+                      "type": "App"
+                    },
+                    "annotation": {
+                      "meta": null,
+                      "sourceSpan": {
+                        "end": [
+                          174,
+                          27
+                        ],
+                        "start": [
+                          174,
+                          3
+                        ]
+                      },
+                      "type": 379
+                    },
+                    "argument": {
+                      "abstraction": {
+                        "annotation": {
+                          "meta": {
+                            "metaType": "IsForeign"
+                          },
+                          "sourceSpan": {
+                            "end": [
+                              174,
+                              8
+                            ],
+                            "start": [
+                              174,
+                              3
+                            ]
+                          },
+                          "type": 160
+                        },
+                        "type": "Var",
+                        "value": {
+                          "identifier": "delay",
+                          "moduleName": [
+                            "Effect",
+                            "Aff"
+                          ]
+                        }
+                      },
+                      "annotation": {
+                        "meta": null,
+                        "sourceSpan": {
+                          "end": [
+                            174,
+                            27
+                          ],
+                          "start": [
+                            174,
+                            3
+                          ]
+                        },
+                        "type": 8
+                      },
+                      "argument": {
+                        "abstraction": {
+                          "annotation": {
+                            "meta": {
+                              "metaType": "IsNewtype"
+                            },
+                            "sourceSpan": {
+                              "end": [
+                                174,
+                                22
+                              ],
+                              "start": [
+                                174,
+                                10
+                              ]
+                            },
+                            "type": 326
+                          },
+                          "type": "Var",
+                          "value": {
+                            "identifier": "Milliseconds",
+                            "moduleName": [
+                              "Data",
+                              "Time",
+                              "Duration"
+                            ]
+                          }
+                        },
+                        "annotation": {
+                          "meta": null,
+                          "sourceSpan": {
+                            "end": [
+                              174,
+                              26
+                            ],
+                            "start": [
+                              174,
+                              10
+                            ]
+                          },
+                          "type": 101
+                        },
+                        "argument": {
+                          "annotation": {
+                            "meta": null,
+                            "sourceSpan": {
+                              "end": [
+                                174,
+                                26
+                              ],
+                              "start": [
+                                174,
+                                23
+                              ]
+                            },
+                            "type": 101
+                          },
+                          "type": "Literal",
+                          "value": {
+                            "literalType": "NumberLiteral",
+                            "value": 5
+                          }
+                        },
+                        "type": "App"
+                      },
+                      "type": "App"
+                    },
+                    "type": "App"
+                  },
+                  "annotation": {
+                    "meta": null,
+                    "sourceSpan": {
+                      "end": [
+                        174,
+                        27
+                      ],
+                      "start": [
+                        174,
+                        3
+                      ]
+                    },
+                    "type": 35
+                  },
+                  "argument": {
+                    "annotation": {
+                      "meta": null,
+                      "sourceSpan": {
+                        "end": [
+                          174,
+                          27
+                        ],
+                        "start": [
+                          174,
+                          3
+                        ]
+                      },
+                      "type": 380
+                    },
+                    "argument": "$__unused",
+                    "body": {
+                      "abstraction": {
+                        "abstraction": {
+                          "abstraction": {
+                            "annotation": {
+                              "meta": {
+                                "metaType": "IsForeign"
+                              },
+                              "sourceSpan": {
+                                "end": [
+                                  175,
+                                  21
+                                ],
+                                "start": [
+                                  175,
+                                  3
+                                ]
+                              },
+                              "type": 245
+                            },
+                            "type": "Var",
+                            "value": {
+                              "identifier": "bind",
+                              "moduleName": [
+                                "Control",
+                                "Bind"
+                              ]
+                            }
+                          },
+                          "annotation": {
+                            "meta": null,
+                            "sourceSpan": {
+                              "end": [
+                                175,
+                                21
+                              ],
+                              "start": [
+                                175,
+                                3
+                              ]
+                            },
+                            "type": 650
+                          },
+                          "argument": {
+                            "annotation": {
+                              "meta": null,
+                              "sourceSpan": {
+                                "end": [
+                                  0,
+                                  0
+                                ],
+                                "start": [
+                                  0,
+                                  0
+                                ]
+                              },
+                              "type": 114
+                            },
+                            "type": "Var",
+                            "value": {
+                              "identifier": "bindAff",
+                              "moduleName": [
+                                "Effect",
+                                "Aff"
+                              ]
+                            }
+                          },
+                          "type": "App"
+                        },
+                        "annotation": {
+                          "meta": null,
+                          "sourceSpan": {
+                            "end": [
+                              175,
+                              21
+                            ],
+                            "start": [
+                              175,
+                              3
+                            ]
+                          },
+                          "type": 648
+                        },
+                        "argument": {
+                          "abstraction": {
+                            "abstraction": {
+                              "annotation": {
+                                "meta": null,
+                                "sourceSpan": {
+                                  "end": [
+                                    175,
+                                    16
+                                  ],
+                                  "start": [
+                                    175,
+                                    9
+                                  ]
+                                },
+                                "type": 306
+                              },
+                              "type": "Var",
+                              "value": {
+                                "identifier": "readRef",
+                                "moduleName": [
+                                  "Test",
+                                  "Main"
+                                ]
+                              }
+                            },
+                            "annotation": {
+                              "meta": null,
+                              "sourceSpan": {
+                                "end": [
+                                  175,
+                                  21
+                                ],
+                                "start": [
+                                  175,
+                                  9
+                                ]
+                              },
+                              "type": 652
+                            },
+                            "argument": {
+                              "annotation": {
+                                "meta": null,
+                                "sourceSpan": {
+                                  "end": [
+                                    0,
+                                    0
+                                  ],
+                                  "start": [
+                                    0,
+                                    0
+                                  ]
+                                },
+                                "type": 292
+                              },
+                              "type": "Var",
+                              "value": {
+                                "identifier": "monadEffectAff",
+                                "moduleName": [
+                                  "Effect",
+                                  "Aff"
+                                ]
+                              }
+                            },
+                            "type": "App"
+                          },
+                          "annotation": {
+                            "meta": null,
+                            "sourceSpan": {
+                              "end": [
+                                175,
+                                21
+                              ],
+                              "start": [
+                                175,
+                                9
+                              ]
+                            },
+                            "type": 651
+                          },
+                          "argument": {
+                            "annotation": {
+                              "meta": null,
+                              "sourceSpan": {
+                                "end": [
+                                  175,
+                                  21
+                                ],
+                                "start": [
+                                  175,
+                                  17
+                                ]
+                              },
+                              "type": 627
+                            },
+                            "type": "Var",
+                            "value": {
+                              "identifier": "ref1",
+                              "sourcePos": [
+                                167,
+                                3
+                              ]
+                            }
+                          },
+                          "type": "App"
+                        },
+                        "type": "App"
+                      },
+                      "annotation": {
+                        "meta": null,
+                        "sourceSpan": {
+                          "end": [
+                            175,
+                            21
+                          ],
+                          "start": [
+                            175,
+                            3
+                          ]
+                        },
+                        "type": 35
+                      },
+                      "argument": {
+                        "annotation": {
+                          "meta": null,
+                          "sourceSpan": {
+                            "end": [
+                              175,
+                              21
+                            ],
+                            "start": [
+                              175,
+                              3
+                            ]
+                          },
+                          "type": 649
+                        },
+                        "argument": "cb",
+                        "body": {
+                          "annotation": {
+                            "meta": null,
+                            "sourceSpan": {
+                              "end": [
+                                181,
+                                26
+                              ],
+                              "start": [
+                                176,
+                                3
+                              ]
+                            },
+                            "type": 35
+                          },
+                          "caseAlternatives": [
+                            {
+                              "binders": [
+                                {
+                                  "annotation": {
+                                    "meta": {
+                                      "constructorType": "SumType",
+                                      "identifiers": [
+                                        "value0"
+                                      ],
+                                      "metaType": "IsConstructor"
+                                    },
+                                    "sourceSpan": {
+                                      "end": [
+                                        177,
+                                        11
+                                      ],
+                                      "start": [
+                                        177,
+                                        5
+                                      ]
+                                    },
+                                    "type": null
+                                  },
+                                  "binderType": "ConstructorBinder",
+                                  "binders": [
+                                    {
+                                      "annotation": {
+                                        "meta": null,
+                                        "sourceSpan": {
+                                          "end": [
+                                            177,
+                                            11
+                                          ],
+                                          "start": [
+                                            177,
+                                            10
+                                          ]
+                                        },
+                                        "type": null
+                                      },
+                                      "binderType": "VarBinder",
+                                      "identifier": "k"
+                                    }
+                                  ],
+                                  "constructorName": {
+                                    "identifier": "Just",
+                                    "moduleName": [
+                                      "Data",
+                                      "Maybe"
+                                    ]
+                                  },
+                                  "name": {
+                                    "identifier": "Just",
+                                    "moduleName": [
+                                      "Data",
+                                      "Maybe"
+                                    ]
+                                  },
+                                  "typeName": {
+                                    "identifier": "Maybe",
+                                    "moduleName": [
+                                      "Data",
+                                      "Maybe"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "abstraction": {
+                                  "abstraction": {
+                                    "abstraction": {
+                                      "abstraction": {
+                                        "annotation": {
+                                          "meta": {
+                                            "metaType": "IsForeign"
+                                          },
+                                          "sourceSpan": {
+                                            "end": [
+                                              178,
+                                              32
+                                            ],
+                                            "start": [
+                                              178,
+                                              7
+                                            ]
+                                          },
+                                          "type": 195
+                                        },
+                                        "type": "Var",
+                                        "value": {
+                                          "identifier": "discard",
+                                          "moduleName": [
+                                            "Control",
+                                            "Bind"
+                                          ]
+                                        }
+                                      },
+                                      "annotation": {
+                                        "meta": null,
+                                        "sourceSpan": {
+                                          "end": [
+                                            178,
+                                            32
+                                          ],
+                                          "start": [
+                                            178,
+                                            7
+                                          ]
+                                        },
+                                        "type": 382
+                                      },
+                                      "argument": {
+                                        "annotation": {
+                                          "meta": null,
+                                          "sourceSpan": {
+                                            "end": [
+                                              0,
+                                              0
+                                            ],
+                                            "start": [
+                                              0,
+                                              0
+                                            ]
+                                          },
+                                          "type": 199
+                                        },
+                                        "type": "Var",
+                                        "value": {
+                                          "identifier": "discardUnit",
+                                          "moduleName": [
+                                            "Control",
+                                            "Bind"
+                                          ]
+                                        }
+                                      },
+                                      "type": "App"
+                                    },
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          178,
+                                          32
+                                        ],
+                                        "start": [
+                                          178,
+                                          7
+                                        ]
+                                      },
+                                      "type": 381
+                                    },
+                                    "argument": {
+                                      "annotation": {
+                                        "meta": null,
+                                        "sourceSpan": {
+                                          "end": [
+                                            0,
+                                            0
+                                          ],
+                                          "start": [
+                                            0,
+                                            0
+                                          ]
+                                        },
+                                        "type": 114
+                                      },
+                                      "type": "Var",
+                                      "value": {
+                                        "identifier": "bindAff",
+                                        "moduleName": [
+                                          "Effect",
+                                          "Aff"
+                                        ]
+                                      }
+                                    },
+                                    "type": "App"
+                                  },
+                                  "annotation": {
+                                    "meta": null,
+                                    "sourceSpan": {
+                                      "end": [
+                                        178,
+                                        32
+                                      ],
+                                      "start": [
+                                        178,
+                                        7
+                                      ]
+                                    },
+                                    "type": 379
+                                  },
+                                  "argument": {
+                                    "abstraction": {
+                                      "annotation": {
+                                        "meta": null,
+                                        "sourceSpan": {
+                                          "end": [
+                                            0,
+                                            0
+                                          ],
+                                          "start": [
+                                            0,
+                                            0
+                                          ]
+                                        },
+                                        "type": null
+                                      },
+                                      "type": "Var",
+                                      "value": {
+                                        "identifier": "liftEffect",
+                                        "moduleName": [
+                                          "Test",
+                                          "Main"
+                                        ]
+                                      }
+                                    },
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          178,
+                                          32
+                                        ],
+                                        "start": [
+                                          178,
+                                          7
+                                        ]
+                                      },
+                                      "type": 8
+                                    },
+                                    "argument": {
+                                      "abstraction": {
+                                        "annotation": {
+                                          "meta": null,
+                                          "sourceSpan": {
+                                            "end": [
+                                              178,
+                                              21
+                                            ],
+                                            "start": [
+                                              178,
+                                              20
+                                            ]
+                                          },
+                                          "type": 629
+                                        },
+                                        "type": "Var",
+                                        "value": {
+                                          "identifier": "k",
+                                          "sourcePos": [
+                                            177,
+                                            10
+                                          ]
+                                        }
+                                      },
+                                      "annotation": {
+                                        "meta": null,
+                                        "sourceSpan": {
+                                          "end": [
+                                            178,
+                                            32
+                                          ],
+                                          "start": [
+                                            178,
+                                            20
+                                          ]
+                                        },
+                                        "type": 6
+                                      },
+                                      "argument": {
+                                        "abstraction": {
+                                          "annotation": {
+                                            "meta": {
+                                              "constructorType": "SumType",
+                                              "identifiers": [
+                                                "value0"
+                                              ],
+                                              "metaType": "IsConstructor"
+                                            },
+                                            "sourceSpan": {
+                                              "end": [
+                                                178,
+                                                28
+                                              ],
+                                              "start": [
+                                                178,
+                                                23
+                                              ]
+                                            },
+                                            "type": 653
+                                          },
+                                          "type": "Var",
+                                          "value": {
+                                            "identifier": "Right",
+                                            "moduleName": [
+                                              "Data",
+                                              "Either"
+                                            ]
+                                          }
+                                        },
+                                        "annotation": {
+                                          "meta": null,
+                                          "sourceSpan": {
+                                            "end": [
+                                              178,
+                                              31
+                                            ],
+                                            "start": [
+                                              178,
+                                              23
+                                            ]
+                                          },
+                                          "type": 630
+                                        },
+                                        "argument": {
+                                          "annotation": {
+                                            "meta": null,
+                                            "sourceSpan": {
+                                              "end": [
+                                                178,
+                                                31
+                                              ],
+                                              "start": [
+                                                178,
+                                                29
+                                              ]
+                                            },
+                                            "type": 52
+                                          },
+                                          "type": "Literal",
+                                          "value": {
+                                            "literalType": "IntLiteral",
+                                            "value": 42
+                                          }
+                                        },
+                                        "type": "App"
+                                      },
+                                      "type": "App"
+                                    },
+                                    "type": "App"
+                                  },
+                                  "type": "App"
+                                },
+                                "annotation": {
+                                  "meta": null,
+                                  "sourceSpan": {
+                                    "end": [
+                                      178,
+                                      32
+                                    ],
+                                    "start": [
+                                      178,
+                                      7
+                                    ]
+                                  },
+                                  "type": 35
+                                },
+                                "argument": {
+                                  "annotation": {
+                                    "meta": null,
+                                    "sourceSpan": {
+                                      "end": [
+                                        178,
+                                        32
+                                      ],
+                                      "start": [
+                                        178,
+                                        7
+                                      ]
+                                    },
+                                    "type": 380
+                                  },
+                                  "argument": "$__unused",
+                                  "body": {
+                                    "abstraction": {
+                                      "abstraction": {
+                                        "abstraction": {
+                                          "annotation": {
+                                            "meta": {
+                                              "metaType": "IsForeign"
+                                            },
+                                            "sourceSpan": {
+                                              "end": [
+                                                179,
+                                                27
+                                              ],
+                                              "start": [
+                                                179,
+                                                7
+                                              ]
+                                            },
+                                            "type": 245
+                                          },
+                                          "type": "Var",
+                                          "value": {
+                                            "identifier": "bind",
+                                            "moduleName": [
+                                              "Control",
+                                              "Bind"
+                                            ]
+                                          }
+                                        },
+                                        "annotation": {
+                                          "meta": null,
+                                          "sourceSpan": {
+                                            "end": [
+                                              179,
+                                              27
+                                            ],
+                                            "start": [
+                                              179,
+                                              7
+                                            ]
+                                          },
+                                          "type": 381
+                                        },
+                                        "argument": {
+                                          "annotation": {
+                                            "meta": null,
+                                            "sourceSpan": {
+                                              "end": [
+                                                0,
+                                                0
+                                              ],
+                                              "start": [
+                                                0,
+                                                0
+                                              ]
+                                            },
+                                            "type": 114
+                                          },
+                                          "type": "Var",
+                                          "value": {
+                                            "identifier": "bindAff",
+                                            "moduleName": [
+                                              "Effect",
+                                              "Aff"
+                                            ]
+                                          }
+                                        },
+                                        "type": "App"
+                                      },
+                                      "annotation": {
+                                        "meta": null,
+                                        "sourceSpan": {
+                                          "end": [
+                                            179,
+                                            27
+                                          ],
+                                          "start": [
+                                            179,
+                                            7
+                                          ]
+                                        },
+                                        "type": 379
+                                      },
+                                      "argument": {
+                                        "abstraction": {
+                                          "annotation": {
+                                            "meta": {
+                                              "metaType": "IsForeign"
+                                            },
+                                            "sourceSpan": {
+                                              "end": [
+                                                179,
+                                                21
+                                              ],
+                                              "start": [
+                                                179,
+                                                12
+                                              ]
+                                            },
+                                            "type": 376
+                                          },
+                                          "type": "Var",
+                                          "value": {
+                                            "identifier": "joinFiber",
+                                            "moduleName": [
+                                              "Effect",
+                                              "Aff"
+                                            ]
+                                          }
+                                        },
+                                        "annotation": {
+                                          "meta": null,
+                                          "sourceSpan": {
+                                            "end": [
+                                              179,
+                                              27
+                                            ],
+                                            "start": [
+                                              179,
+                                              12
+                                            ]
+                                          },
+                                          "type": 8
+                                        },
+                                        "argument": {
+                                          "annotation": {
+                                            "meta": null,
+                                            "sourceSpan": {
+                                              "end": [
+                                                179,
+                                                27
+                                              ],
+                                              "start": [
+                                                179,
+                                                22
+                                              ]
+                                            },
+                                            "type": 65
+                                          },
+                                          "type": "Var",
+                                          "value": {
+                                            "identifier": "fiber",
+                                            "sourcePos": [
+                                              169,
+                                              3
+                                            ]
+                                          }
+                                        },
+                                        "type": "App"
+                                      },
+                                      "type": "App"
+                                    },
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          179,
+                                          27
+                                        ],
+                                        "start": [
+                                          179,
+                                          7
+                                        ]
+                                      },
+                                      "type": 35
+                                    },
+                                    "argument": {
+                                      "annotation": {
+                                        "meta": null,
+                                        "sourceSpan": {
+                                          "end": [
+                                            179,
+                                            27
+                                          ],
+                                          "start": [
+                                            179,
+                                            7
+                                          ]
+                                        },
+                                        "type": 380
+                                      },
+                                      "argument": "$__unused",
+                                      "body": {
+                                        "abstraction": {
+                                          "abstraction": {
+                                            "abstraction": {
+                                              "annotation": {
+                                                "meta": {
+                                                  "metaType": "IsForeign"
+                                                },
+                                                "sourceSpan": {
+                                                  "end": [
+                                                    180,
+                                                    16
+                                                  ],
+                                                  "start": [
+                                                    180,
+                                                    13
+                                                  ]
+                                                },
+                                                "type": 226
+                                              },
+                                              "type": "Var",
+                                              "value": {
+                                                "identifier": "map",
+                                                "moduleName": [
+                                                  "Data",
+                                                  "Functor"
+                                                ]
+                                              }
+                                            },
+                                            "annotation": {
+                                              "meta": null,
+                                              "sourceSpan": {
+                                                "end": [
+                                                  180,
+                                                  29
+                                                ],
+                                                "start": [
+                                                  180,
+                                                  7
+                                                ]
+                                              },
+                                              "type": 624
+                                            },
+                                            "argument": {
+                                              "annotation": {
+                                                "meta": null,
+                                                "sourceSpan": {
+                                                  "end": [
+                                                    0,
+                                                    0
+                                                  ],
+                                                  "start": [
+                                                    0,
+                                                    0
+                                                  ]
+                                                },
+                                                "type": 159
+                                              },
+                                              "type": "Var",
+                                              "value": {
+                                                "identifier": "functorAff",
+                                                "moduleName": [
+                                                  "Effect",
+                                                  "Aff"
+                                                ]
+                                              }
+                                            },
+                                            "type": "App"
+                                          },
+                                          "annotation": {
+                                            "meta": null,
+                                            "sourceSpan": {
+                                              "end": [
+                                                180,
+                                                29
+                                              ],
+                                              "start": [
+                                                180,
+                                                7
+                                              ]
+                                            },
+                                            "type": 623
+                                          },
+                                          "argument": {
+                                            "abstraction": {
+                                              "abstraction": {
+                                                "annotation": {
+                                                  "meta": {
+                                                    "metaType": "IsForeign"
+                                                  },
+                                                  "sourceSpan": {
+                                                    "end": [
+                                                      180,
+                                                      9
+                                                    ],
+                                                    "start": [
+                                                      180,
+                                                      7
+                                                    ]
+                                                  },
+                                                  "type": 233
+                                                },
+                                                "type": "Var",
+                                                "value": {
+                                                  "identifier": "eq",
+                                                  "moduleName": [
+                                                    "Data",
+                                                    "Eq"
+                                                  ]
+                                                }
+                                              },
+                                              "annotation": {
+                                                "meta": null,
+                                                "sourceSpan": {
+                                                  "end": [
+                                                    180,
+                                                    12
+                                                  ],
+                                                  "start": [
+                                                    180,
+                                                    7
+                                                  ]
+                                                },
+                                                "type": 497
+                                              },
+                                              "argument": {
+                                                "annotation": {
+                                                  "meta": null,
+                                                  "sourceSpan": {
+                                                    "end": [
+                                                      0,
+                                                      0
+                                                    ],
+                                                    "start": [
+                                                      0,
+                                                      0
+                                                    ]
+                                                  },
+                                                  "type": 278
+                                                },
+                                                "type": "Var",
+                                                "value": {
+                                                  "identifier": "eqInt",
+                                                  "moduleName": [
+                                                    "Data",
+                                                    "Eq"
+                                                  ]
+                                                }
+                                              },
+                                              "type": "App"
+                                            },
+                                            "annotation": {
+                                              "meta": null,
+                                              "sourceSpan": {
+                                                "end": [
+                                                  180,
+                                                  12
+                                                ],
+                                                "start": [
+                                                  180,
+                                                  7
+                                                ]
+                                              },
+                                              "type": 496
+                                            },
+                                            "argument": {
+                                              "annotation": {
+                                                "meta": null,
+                                                "sourceSpan": {
+                                                  "end": [
+                                                    180,
+                                                    12
+                                                  ],
+                                                  "start": [
+                                                    180,
+                                                    10
+                                                  ]
+                                                },
+                                                "type": 52
+                                              },
+                                              "type": "Literal",
+                                              "value": {
+                                                "literalType": "IntLiteral",
+                                                "value": 42
+                                              }
+                                            },
+                                            "type": "App"
+                                          },
+                                          "type": "App"
+                                        },
+                                        "annotation": {
+                                          "meta": null,
+                                          "sourceSpan": {
+                                            "end": [
+                                              180,
+                                              29
+                                            ],
+                                            "start": [
+                                              180,
+                                              7
+                                            ]
+                                          },
+                                          "type": 35
+                                        },
+                                        "argument": {
+                                          "abstraction": {
+                                            "abstraction": {
+                                              "annotation": {
+                                                "meta": null,
+                                                "sourceSpan": {
+                                                  "end": [
+                                                    180,
+                                                    24
+                                                  ],
+                                                  "start": [
+                                                    180,
+                                                    17
+                                                  ]
+                                                },
+                                                "type": 306
+                                              },
+                                              "type": "Var",
+                                              "value": {
+                                                "identifier": "readRef",
+                                                "moduleName": [
+                                                  "Test",
+                                                  "Main"
+                                                ]
+                                              }
+                                            },
+                                            "annotation": {
+                                              "meta": null,
+                                              "sourceSpan": {
+                                                "end": [
+                                                  180,
+                                                  29
+                                                ],
+                                                "start": [
+                                                  180,
+                                                  17
+                                                ]
+                                              },
+                                              "type": 286
+                                            },
+                                            "argument": {
+                                              "annotation": {
+                                                "meta": null,
+                                                "sourceSpan": {
+                                                  "end": [
+                                                    0,
+                                                    0
+                                                  ],
+                                                  "start": [
+                                                    0,
+                                                    0
+                                                  ]
+                                                },
+                                                "type": 292
+                                              },
+                                              "type": "Var",
+                                              "value": {
+                                                "identifier": "monadEffectAff",
+                                                "moduleName": [
+                                                  "Effect",
+                                                  "Aff"
+                                                ]
+                                              }
+                                            },
+                                            "type": "App"
+                                          },
+                                          "annotation": {
+                                            "meta": null,
+                                            "sourceSpan": {
+                                              "end": [
+                                                180,
+                                                29
+                                              ],
+                                              "start": [
+                                                180,
+                                                17
+                                              ]
+                                            },
+                                            "type": 268
+                                          },
+                                          "argument": {
+                                            "annotation": {
+                                              "meta": null,
+                                              "sourceSpan": {
+                                                "end": [
+                                                  180,
+                                                  29
+                                                ],
+                                                "start": [
+                                                  180,
+                                                  25
+                                                ]
+                                              },
+                                              "type": 287
+                                            },
+                                            "type": "Var",
+                                            "value": {
+                                              "identifier": "ref2",
+                                              "sourcePos": [
+                                                168,
+                                                3
+                                              ]
+                                            }
+                                          },
+                                          "type": "App"
+                                        },
+                                        "type": "App"
+                                      },
+                                      "type": "Abs"
+                                    },
+                                    "type": "App"
+                                  },
+                                  "type": "Abs"
+                                },
+                                "type": "App"
+                              },
+                              "isGuarded": false
+                            },
+                            {
+                              "binders": [
+                                {
+                                  "annotation": {
+                                    "meta": {
+                                      "constructorType": "SumType",
+                                      "identifiers": [],
+                                      "metaType": "IsConstructor"
+                                    },
+                                    "sourceSpan": {
+                                      "end": [
+                                        181,
+                                        12
+                                      ],
+                                      "start": [
+                                        181,
+                                        5
+                                      ]
+                                    },
+                                    "type": null
+                                  },
+                                  "binderType": "ConstructorBinder",
+                                  "binders": [],
+                                  "constructorName": {
+                                    "identifier": "Nothing",
+                                    "moduleName": [
+                                      "Data",
+                                      "Maybe"
+                                    ]
+                                  },
+                                  "name": {
+                                    "identifier": "Nothing",
+                                    "moduleName": [
+                                      "Data",
+                                      "Maybe"
+                                    ]
+                                  },
+                                  "typeName": {
+                                    "identifier": "Maybe",
+                                    "moduleName": [
+                                      "Data",
+                                      "Maybe"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "abstraction": {
+                                  "abstraction": {
+                                    "annotation": {
+                                      "meta": {
+                                        "metaType": "IsForeign"
+                                      },
+                                      "sourceSpan": {
+                                        "end": [
+                                          181,
+                                          20
+                                        ],
+                                        "start": [
+                                          181,
+                                          16
+                                        ]
+                                      },
+                                      "type": 256
+                                    },
+                                    "type": "Var",
+                                    "value": {
+                                      "identifier": "pure",
+                                      "moduleName": [
+                                        "Control",
+                                        "Applicative"
+                                      ]
+                                    }
+                                  },
+                                  "annotation": {
+                                    "meta": null,
+                                    "sourceSpan": {
+                                      "end": [
+                                        181,
+                                        26
+                                      ],
+                                      "start": [
+                                        181,
+                                        16
+                                      ]
+                                    },
+                                    "type": 33
+                                  },
+                                  "argument": {
+                                    "annotation": {
+                                      "meta": null,
+                                      "sourceSpan": {
+                                        "end": [
+                                          0,
+                                          0
+                                        ],
+                                        "start": [
+                                          0,
+                                          0
+                                        ]
+                                      },
+                                      "type": 259
+                                    },
+                                    "type": "Var",
+                                    "value": {
+                                      "identifier": "applicativeAff",
+                                      "moduleName": [
+                                        "Effect",
+                                        "Aff"
+                                      ]
+                                    }
+                                  },
+                                  "type": "App"
+                                },
+                                "annotation": {
+                                  "meta": null,
+                                  "sourceSpan": {
+                                    "end": [
+                                      181,
+                                      26
+                                    ],
+                                    "start": [
+                                      181,
+                                      16
+                                    ]
+                                  },
+                                  "type": 35
+                                },
+                                "argument": {
+                                  "annotation": {
+                                    "meta": null,
+                                    "sourceSpan": {
+                                      "end": [
+                                        181,
+                                        26
+                                      ],
+                                      "start": [
+                                        181,
+                                        21
+                                      ]
+                                    },
+                                    "type": 34
+                                  },
+                                  "type": "Literal",
+                                  "value": {
+                                    "literalType": "BooleanLiteral",
+                                    "value": false
+                                  }
+                                },
+                                "type": "App"
+                              },
+                              "isGuarded": false
+                            }
+                          ],
+                          "caseExpressions": [
+                            {
+                              "annotation": {
+                                "meta": null,
+                                "sourceSpan": {
+                                  "end": [
+                                    176,
+                                    10
+                                  ],
+                                  "start": [
+                                    176,
+                                    8
+                                  ]
+                                },
+                                "type": null
+                              },
+                              "type": "Var",
+                              "value": {
+                                "identifier": "cb",
+                                "sourcePos": [
+                                  175,
+                                  3
+                                ]
+                              }
+                            }
+                          ],
+                          "type": "Case"
+                        },
+                        "type": "Abs"
+                      },
+                      "type": "App"
+                    },
+                    "type": "Abs"
+                  },
+                  "type": "App"
+                },
+                "type": "Abs"
+              },
+              "type": "App"
+            },
+            "type": "Abs"
+          },
+          "type": "App"
+        },
+        "type": "Abs"
+      },
+      "type": "App"
+    },
+    "type": "App"
+  },
+  "identifier": "test_makeAff"
+}

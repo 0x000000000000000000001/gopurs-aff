@@ -1,0 +1,50 @@
+=== Recompiling ../gopurs ===
+
+> gopurs@0.1.0 build
+> spago build && spago bundle --module Main --platform node --outfile bin/gopurs.js --bundle-type app
+
+Reading Spago workspace configuration...
+
+✓ Selecting package to build: gopurs
+
+Downloading dependencies...
+Building...
+[1 of 7] Compiling PureScript.Backend.Optimizer.Convert
+[WARNING 1/2 ShadowedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:382:17
+
+  382    ExprTypeApp _ expr _ -> isTypeClassDictionaryWithProps expr
+                       ^^^^
+
+  Name expr was shadowed.
+  in value declaration isTypeClassDictionaryWithProps
+
+[WARNING 2/2 ShadowedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:571:19
+
+  571      ExprTypeApp _ expr _ ->
+                         ^^^^
+
+  Name expr was shadowed.
+  in value declaration toBackendExprWithType
+
+[ERROR 1/1 NoInstanceFound] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:1109:114
+
+  1109    let _ = if ident == Ident "never" then unsafePerformEffect (Effect.Class.Console.log ("NEVER BACKEND AST: " <> show res)) else unit
+                                                                                                                         ^^^^^^^^
+
+  No type class instance was found for
+    Data.Show.Show BackendExpr
+  while applying a function show
+    of type Show t0 => t0 -> String
+    to argument res
+  while checking that expression show res
+    has type String
+  in binding group toBackendExprWithType, toBackendExpr, toBackendBinding, buildCaseTreeFromRows, buildCasePattern, buildCaseLeaf
+  where t0 is an unknown type
+
+           Src   Lib   All
+Warnings     0     2     2
+Errors       0     1     1
+
+✘ Failed to build.
+
+Compiler build failed

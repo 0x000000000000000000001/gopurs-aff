@@ -1,0 +1,10 @@
+--- /Users/0x1/Documents/htdocs/purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Monomorphize.purs
++++ /Users/0x1/Documents/htdocs/purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Monomorphize.purs
+@@ -83,6 +83,7 @@
+               isStatic = case arg of
+                 ExprLit _ _ -> true
+                 ExprApp _ (ExprVar _ (Qualified _ (Ident ctorName))) _ | String.contains (Pattern "$Dict") ctorName -> true
++                ExprVar _ (Qualified (Just _) _) -> true
+                 _ -> false
+             in
+               if isStatic then

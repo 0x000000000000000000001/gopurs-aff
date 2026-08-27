@@ -1,0 +1,169 @@
+{
+  "abstraction": {
+    "abstraction": {
+      "annotation": {
+        "meta": {
+          "metaType": "IsForeign"
+        },
+        "sourceSpan": {
+          "end": [
+            198,
+            25
+          ],
+          "start": [
+            198,
+            23
+          ]
+        },
+        "type": 233
+      },
+      "type": "Var",
+      "value": {
+        "identifier": "eq",
+        "moduleName": [
+          "Data",
+          "Eq"
+        ]
+      }
+    },
+    "annotation": {
+      "meta": null,
+      "sourceSpan": {
+        "end": [
+          202,
+          6
+        ],
+        "start": [
+          198,
+          23
+        ]
+      },
+      "type": 378
+    },
+    "argument": {
+      "annotation": {
+        "meta": null,
+        "sourceSpan": {
+          "end": [
+            0,
+            0
+          ],
+          "start": [
+            0,
+            0
+          ]
+        },
+        "type": null
+      },
+      "type": "Var",
+      "value": {
+        "identifier": "eqArray",
+        "moduleName": [
+          "Test",
+          "Main"
+        ]
+      }
+    },
+    "type": "App"
+  },
+  "annotation": {
+    "meta": null,
+    "sourceSpan": {
+      "end": [
+        202,
+        6
+      ],
+      "start": [
+        198,
+        23
+      ]
+    },
+    "type": 371
+  },
+  "argument": {
+    "annotation": {
+      "meta": null,
+      "sourceSpan": {
+        "end": [
+          202,
+          6
+        ],
+        "start": [
+          199,
+          5
+        ]
+      },
+      "type": 13
+    },
+    "type": "Literal",
+    "value": {
+      "literalType": "ArrayLiteral",
+      "value": [
+        {
+          "annotation": {
+            "meta": null,
+            "sourceSpan": {
+              "end": [
+                199,
+                12
+              ],
+              "start": [
+                199,
+                7
+              ]
+            },
+            "type": 11
+          },
+          "type": "Literal",
+          "value": {
+            "literalType": "StringLiteral",
+            "value": "foo"
+          }
+        },
+        {
+          "annotation": {
+            "meta": null,
+            "sourceSpan": {
+              "end": [
+                200,
+                16
+              ],
+              "start": [
+                200,
+                7
+              ]
+            },
+            "type": 11
+          },
+          "type": "Literal",
+          "value": {
+            "literalType": "StringLiteral",
+            "value": "foo/run"
+          }
+        },
+        {
+          "annotation": {
+            "meta": null,
+            "sourceSpan": {
+              "end": [
+                201,
+                20
+              ],
+              "start": [
+                201,
+                7
+              ]
+            },
+            "type": 11
+          },
+          "type": "Literal",
+          "value": {
+            "literalType": "StringLiteral",
+            "value": "foo/release"
+          }
+        }
+      ]
+    }
+  },
+  "type": "App"
+}

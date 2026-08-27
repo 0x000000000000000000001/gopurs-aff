@@ -1,0 +1,51 @@
+=== Recompiling ../gopurs ===
+
+> gopurs@0.1.0 build
+> spago build && spago bundle --module Main --platform node --outfile bin/gopurs.js --bundle-type app
+
+Reading Spago workspace configuration...
+
+✓ Selecting package to build: gopurs
+
+Downloading dependencies...
+Building...
+[1 of 7] Compiling PureScript.Backend.Optimizer.Convert
+[WARNING 1/2 ShadowedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:383:17
+
+  383    ExprTypeApp _ expr _ -> isTypeClassDictionaryWithProps expr
+                       ^^^^
+
+  Name expr was shadowed.
+  in value declaration isTypeClassDictionaryWithProps
+
+[WARNING 2/2 ShadowedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:572:19
+
+  572      ExprTypeApp _ expr _ ->
+                         ^^^^
+
+  Name expr was shadowed.
+  in value declaration toBackendExprWithType
+
+[ERROR 1/1 NoInstanceFound] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:273:27
+
+  273    Abs args a -> "Abs " <> show (fst <$> args) <> " (" <> printExpr a <> ")"
+                                 ^^^^^^^^^^^^^^^^^^^
+
+  No type class instance was found for
+    Data.Show.Show Ident
+  while solving type class constraint
+    Data.Show.Show (Maybe Ident)
+  while applying a function show
+    of type Show t0 => t0 -> String
+    to argument (map fst) args
+  while inferring the type of show ((map fst) args)
+  in binding group printExpr
+  where t0 is an unknown type
+
+           Src   Lib   All
+Warnings     0     2     2
+Errors       0     1     1
+
+✘ Failed to build.
+
+Compiler build failed

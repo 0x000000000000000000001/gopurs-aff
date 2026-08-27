@@ -1,0 +1,27 @@
+--- /Users/0x1/Documents/htdocs/purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Monomorphize.purs
++++ /Users/0x1/Documents/htdocs/purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Monomorphize.purs
+@@ -107,6 +107,7 @@
+               else
+                 acc
+           in foldl foldFn { used: collectFreeVars e', binds: [] } (Array.reverse binds')
++      -- Effect.Class.Console.log ("FILTERED BINDS: " <> show (Array.length filtered.binds))
+       if Array.null filtered.binds then
+         e'
+       else
+@@ -148,6 +149,9 @@
+             resolvedExpr = resolveGlobals definerMod Set.empty exprWithDicts
+             specializedExpr = rewriteExpr globalAstMap Map.empty substFn (monomorphizeExpr modNameStr instMap Map.empty resolvedExpr)
+             etaExpandedExpr = case specializedExpr of
+               ExprAbs _ _ _ -> specializedExpr
+               _ ->
+                 let
+                   arity = getFunctionArity (fromMaybe Any ann.type)
+                 in
+                   if arity > 0 then
+                     etaExpand arity specializedExpr
+                   else
+                     specializedExpr
++            _ = if name == "mempty" then unsafePerformEffect (Effect.Class.Console.log ("MEMPTY ETA EXPANDED (" <> name <> "): " <> show (getExprAnn etaExpandedExpr))) else unit
+           in Just $ Binding ann ident etaExpandedExpr
+       )
+     )

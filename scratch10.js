@@ -1,0 +1,33 @@
+const fs = require('fs');
+let content = fs.readFileSync('../gopurs/src/Gopurs/CodeGen.purs', 'utf8');
+
+const oldReplacement = `    App _ _ ->
+      let Tuple flatFn flatArgs = flattenApp expr
+      in case unwrapTcoExpr flatFn of
+           Var (Qualified mbMn (Ident i)) ->
+             let
+               h = unsafePerformEffect (Ref.read helpersRef)
+               vType = case mbMn of
+                 Just mn -> Map.lookup (unwrap mn <> "." <> i) h.globalTypes
+                 Nothing -> Nothing
+               
+               expectedArity = case vType of
+                 Just t -> getArityFromType t
+                 Nothing -> 0
+               actualArity = Array.length flatArgs
+             in actualArity < expectedArity
+           _ -> false`;
+
+const newReplacement = `    App _ _ ->
+      let Tuple flatFn flatArgs = flattenApp expr
+          expectedArity = getArityFromType (getExprType flatFn)
+          actualArity = Array.length flatArgs
+      in actualArity < expectedArity`;
+
+if (content.includes(oldReplacement)) {
+  content = content.replace(oldReplacement, newReplacement);
+  fs.writeFileSync('../gopurs/src/Gopurs/CodeGen.purs', content);
+  console.log("Success");
+} else {
+  console.log("Failed to find replacement string");
+}

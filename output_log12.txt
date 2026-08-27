@@ -1,0 +1,58 @@
+=== Recompiling ../gopurs ===
+
+> gopurs@0.1.0 build
+> spago build && spago bundle --module Main --platform node --outfile bin/gopurs.js --bundle-type app
+
+Reading Spago workspace configuration...
+
+✓ Selecting package to build: gopurs
+
+Downloading dependencies...
+Building...
+[1 of 7] Compiling PureScript.Backend.Optimizer.Convert
+[WARNING 1/4 UnusedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:273:7
+
+  273    Abs args a -> "Abs (" <> printExpr a <> ")"
+             ^^^^
+
+  Name args was introduced but not used.
+  in value declaration printExpr
+
+[WARNING 2/4 UnusedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:279:16
+
+  279    Accessor lhs prop -> "Accessor (" <> printExpr lhs <> ") prop"
+                      ^^^^
+
+  Name prop was introduced but not used.
+  in value declaration printExpr
+
+[WARNING 3/4 ShadowedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:386:17
+
+  386    ExprTypeApp _ expr _ -> isTypeClassDictionaryWithProps expr
+                       ^^^^
+
+  Name expr was shadowed.
+  in value declaration isTypeClassDictionaryWithProps
+
+[WARNING 4/4 ShadowedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:575:19
+
+  575      ExprTypeApp _ expr _ ->
+                         ^^^^
+
+  Name expr was shadowed.
+  in value declaration toBackendExprWithType
+
+[ERROR 1/1 UnknownName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:277:5
+
+  277      GenIdent _ _ -> "gen"
+           ^^^^^^^^^^^^
+
+  Unknown data constructor GenIdent
+
+           Src   Lib   All
+Warnings     0     4     4
+Errors       0     1     1
+
+✘ Failed to build.
+
+Compiler build failed

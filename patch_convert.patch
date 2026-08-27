@@ -1,0 +1,10 @@
+--- /Users/0x1/Documents/htdocs/purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs
++++ /Users/0x1/Documents/htdocs/purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs
+@@ -1107,6 +1107,7 @@
+ toBackendBinding (Binding _ ident expr) = do
+   res <- toBackendExpr expr
+   let _ = if ident == Ident "never" then unsafePerformEffect (Effect.Class.Console.log ("NEVER BACKEND AST: " <> printExpr res)) else unit
++  let _ = if unwrap ident == "mempty__193435443" then unsafePerformEffect (Effect.Class.Console.log ("MEMPTY SPECIALIZED AST: " <> printExpr res)) else unit
+   pure $ Tuple ident res
+ 
+ inferExprType :: Expr Ann -> Maybe ExprType

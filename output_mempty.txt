@@ -1,0 +1,186 @@
+{
+  "annotation": {
+    "meta": null,
+    "sourceSpan": {
+      "end": [
+        283,
+        34
+      ],
+      "start": [
+        283,
+        17
+      ]
+    },
+    "type": 86
+  },
+  "argument": "v",
+  "body": {
+    "abstraction": {
+      "abstraction": {
+        "annotation": {
+          "meta": {
+            "metaType": "IsForeign"
+          },
+          "sourceSpan": {
+            "end": [
+              283,
+              27
+            ],
+            "start": [
+              283,
+              23
+            ]
+          },
+          "type": 109
+        },
+        "type": "Var",
+        "value": {
+          "identifier": "pure",
+          "moduleName": [
+            "Control",
+            "Applicative"
+          ]
+        }
+      },
+      "annotation": {
+        "meta": null,
+        "sourceSpan": {
+          "end": [
+            283,
+            34
+          ],
+          "start": [
+            283,
+            23
+          ]
+        },
+        "type": 602
+      },
+      "argument": {
+        "annotation": {
+          "meta": null,
+          "sourceSpan": {
+            "end": [
+              0,
+              0
+            ],
+            "start": [
+              0,
+              0
+            ]
+          },
+          "type": 112
+        },
+        "type": "Var",
+        "value": {
+          "identifier": "applicativeEffect",
+          "moduleName": [
+            "Effect"
+          ]
+        }
+      },
+      "type": "App"
+    },
+    "annotation": {
+      "meta": null,
+      "sourceSpan": {
+        "end": [
+          283,
+          34
+        ],
+        "start": [
+          283,
+          23
+        ]
+      },
+      "type": 87
+    },
+    "argument": {
+      "abstraction": {
+        "annotation": {
+          "meta": null,
+          "sourceSpan": {
+            "end": [
+              283,
+              34
+            ],
+            "start": [
+              283,
+              23
+            ]
+          },
+          "type": null
+        },
+        "expression": {
+          "annotation": {
+            "meta": {
+              "metaType": "IsForeign"
+            },
+            "sourceSpan": {
+              "end": [
+                283,
+                34
+              ],
+              "start": [
+                283,
+                28
+              ]
+            },
+            "type": 318
+          },
+          "type": "Var",
+          "value": {
+            "identifier": "mempty",
+            "moduleName": [
+              "Data",
+              "Monoid"
+            ]
+          }
+        },
+        "type": "TypeApp",
+        "typeArgument": 15
+      },
+      "annotation": {
+        "meta": null,
+        "sourceSpan": {
+          "end": [
+            283,
+            34
+          ],
+          "start": [
+            283,
+            23
+          ]
+        },
+        "type": 29
+      },
+      "argument": {
+        "annotation": {
+          "meta": null,
+          "sourceSpan": {
+            "end": [
+              0,
+              0
+            ],
+            "start": [
+              0,
+              0
+            ]
+          },
+          "type": 598
+        },
+        "type": "Var",
+        "value": {
+          "identifier": "monoidCanceler",
+          "moduleName": [
+            "Effect",
+            "Aff"
+          ]
+        }
+      },
+      "type": "App"
+    },
+    "type": "App"
+  },
+  "type": "Abs"
+}

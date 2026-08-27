@@ -1,0 +1,66 @@
+=== Recompiling ../gopurs ===
+
+> gopurs@0.1.0 build
+> spago build && spago bundle --module Main --platform node --outfile bin/gopurs.js --bundle-type app
+
+Reading Spago workspace configuration...
+
+✓ Selecting package to build: gopurs
+
+Downloading dependencies...
+Building...
+[1 of 7] Compiling PureScript.Backend.Optimizer.Convert
+[WARNING 1/4 UnusedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:273:7
+
+  273    Abs args a -> "Abs (" <> printExpr a <> ")"
+             ^^^^
+
+  Name args was introduced but not used.
+  in value declaration printExpr
+
+[WARNING 2/4 UnusedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:276:16
+
+  276    Accessor lhs prop -> "Accessor (" <> printExpr lhs <> ") prop"
+                      ^^^^
+
+  Name prop was introduced but not used.
+  in value declaration printExpr
+
+[WARNING 3/4 ShadowedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:383:17
+
+  383    ExprTypeApp _ expr _ -> isTypeClassDictionaryWithProps expr
+                       ^^^^
+
+  Name expr was shadowed.
+  in value declaration isTypeClassDictionaryWithProps
+
+[WARNING 4/4 ShadowedName] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:572:19
+
+  572      ExprTypeApp _ expr _ ->
+                         ^^^^
+
+  Name expr was shadowed.
+  in value declaration toBackendExprWithType
+
+[ERROR 1/1 NoInstanceFound] ../../purescript-backend-optimizer/src/PureScript/Backend/Optimizer/Convert.purs:275:37
+
+  275    Var (Qualified _ id) -> "Var " <> show id
+                                           ^^^^^^^
+
+  No type class instance was found for
+    Data.Show.Show Ident
+  while applying a function show
+    of type Show t0 => t0 -> String
+    to argument id
+  while checking that expression show id
+    has type String
+  in binding group printExpr
+  where t0 is an unknown type
+
+           Src   Lib   All
+Warnings     0     4     4
+Errors       0     1     1
+
+✘ Failed to build.
+
+Compiler build failed
