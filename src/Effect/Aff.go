@@ -9,7 +9,7 @@ import (
 
 type AffFn = func(context.Context) (any, error)
 
-type BindNode struct {
+type AffBindNode struct {
 	Aff any
 	K   func(any) AffFn
 }
@@ -24,7 +24,7 @@ func runAffSync(aff AffFn, ctx context.Context) (any, error) {
 			return nil, err
 		}
 
-		if node, ok := val.(BindNode); ok {
+		if node, ok := val.(AffBindNode); ok {
 			stack = append(stack, node.K)
 			current = node.Aff.(AffFn)
 		} else {
@@ -52,7 +52,7 @@ func _Pure(val any) any {
 
 func _Bind(aff AffFn, k func(any) AffFn) any {
 	return func(ctx context.Context) (any, error) {
-		return BindNode{Aff: aff, K: k}, nil
+		return AffBindNode{Aff: aff, K: k}, nil
 	}
 }
 
