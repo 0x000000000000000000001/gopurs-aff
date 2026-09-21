@@ -12,7 +12,12 @@ done
 if [ "$CLEAN" == "1" ]; then
   COMPILER_DIR="../gopurs"
   echo "=== Recompiling ${COMPILER_DIR} ==="
-  (cd "${COMPILER_DIR}" && npm run build) || { echo "Compiler build failed"; exit 1; }
+  if [ "${GOPURS_JS:-0}" == "1" ]; then
+    COMPILER_BUILD="build"
+  else
+    COMPILER_BUILD="build:native"
+  fi
+  (cd "${COMPILER_DIR}" && npm run "$COMPILER_BUILD") || { echo "Compiler build failed"; exit 1; }
 fi
 
 # Remove cache for safety
