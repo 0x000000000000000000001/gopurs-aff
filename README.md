@@ -35,6 +35,11 @@ Application stdout/stderr are retained in `output/test.*`.
 The `[gopurs] backend total` line measures Go generation in all three modes; the
 full command also includes the frontend, Go build and test execution.
 
+On machines with at least 32 GiB of RAM, the launcher selects eight preparation
+and PBO workers for all three hosts, including `GOPURS_RUST=1 ./bin/test`.
+`GOPURS_PREPARE_JOBS` and `GOPURS_PBO_JOBS` override these choices explicitly.
+The initial `[gopurs] workers:` line shows the effective limits and pipeline state.
+
 
 [![CI](https://github.com/purescript-contrib/purescript-aff/workflows/CI/badge.svg?branch=main)](https://github.com/purescript-contrib/purescript-aff/actions?query=workflow%3ACI+branch%3Amain)
 [![Release](https://img.shields.io/github/release/purescript-contrib/purescript-aff.svg)](https://github.com/purescript-contrib/purescript-aff/releases)
