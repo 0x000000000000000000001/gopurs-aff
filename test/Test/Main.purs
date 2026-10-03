@@ -12,9 +12,10 @@ import Data.Either (Either(..), either, isLeft, isRight)
 import Data.Foldable (sum)
 import Data.Maybe (Maybe(..))
 import Data.Time.Duration (Milliseconds(..))
-import Data.Traversable (traverse)
+import Data.Traversable (traverse, traverse_)
 import Effect (Effect)
 import Effect.Aff (Aff, Canceler(..), runAff, runAff_, launchAff, makeAff, try, bracket, generalBracket, delay, forkAff, suspendAff, joinFiber, killFiber, never, supervise, Error, error, message)
+import Effect.Aff.AVar as AVar
 import Effect.Aff.Compat as AC
 import Effect.Class (class MonadEffect, liftEffect)
 import Effect.Console as Console
@@ -188,14 +189,11 @@ test_bracket = assert "bracket" do
       delay (Milliseconds 10.0)
       _ <- modifyRef ref (_ <> [ s ])
       pure s
-  fiber <- forkAff do
-    delay (Milliseconds 40.0)
-    readRef ref
   _ <- bracket
     (action "foo")
     (\s -> void $ action (s <> "/release"))
     (\s -> action (s <> "/run"))
-  joinFiber fiber <#> eq
+  readRef ref <#> eq
     [ "foo"
     , "foo/run"
     , "foo/release"
@@ -381,48 +379,60 @@ test_kill_general_bracket_nested = assert "kill/bracket/general/nested" do
 
 test_kill_supervise :: Aff Unit
 test_kill_supervise = assert "kill/supervise" do
-  ref <- newRef ""
+  ref <- newRef []
+  acquiredFoo <- AVar.empty
+  acquiredBar <- AVar.empty
   let
-    action s = generalBracket
-      (modifyRef ref (_ <> "acquire" <> s))
-      { failed: \_ _ -> void $ modifyRef ref (_ <> "throw" <> s)
-      , killed: \_ _ -> void $ modifyRef ref (_ <> "kill" <> s)
-      , completed: \_ _ -> void $ modifyRef ref (_ <> "complete" <> s)
+    action s acquired = generalBracket
+      (modifyRef ref (_ <> [ "acquire" <> s ]) <* AVar.put unit acquired)
+      { failed: \_ _ -> void $ modifyRef ref (_ <> [ "throw" <> s ])
+      , killed: \_ _ -> void $ modifyRef ref (_ <> [ "kill" <> s ])
+      , completed: \_ _ -> void $ modifyRef ref (_ <> [ "complete" <> s ])
       }
       ( \_ -> do
           delay (Milliseconds 10.0)
-          void $ modifyRef ref (_ <> "child" <> s)
+          void $ modifyRef ref (_ <> [ "child" <> s ])
       )
   fiber <- forkAff $ supervise do
-    _ <- forkAff $ action "foo"
-    _ <- forkAff $ action "bar"
+    _ <- forkAff $ action "foo" acquiredFoo
+    _ <- forkAff $ action "bar" acquiredBar
     delay (Milliseconds 5.0)
-    modifyRef ref (_ <> "parent")
-  delay (Milliseconds 1.0)
+    modifyRef ref (_ <> [ "parent" ])
+  -- Both children must have acquired before the kill; their order is free.
+  traverse_ AVar.take [ acquiredFoo, acquiredBar ]
   killFiber (error "nope") fiber
   delay (Milliseconds 20.0)
-  v <- readRef ref
-  pure $
-    v == "acquirefooacquirebarkillfookillbar"
-      || v == "acquirefooacquirebarkillbarkillfoo"
-      || v == "acquirebaracquirefookillfookillbar"
-      || v == "acquirebaracquirefookillbarkillfoo"
+  log <- readRef ref
+  let
+    before s t = case Array.elemIndex s log, Array.elemIndex t log of
+      Just i, Just j -> i < j
+      _, _ -> false
+  pure
+    ( Array.sort log
+        == Array.sort [ "acquirefoo", "acquirebar", "killfoo", "killbar" ]
+        && before "acquirefoo" "killfoo"
+        && before "acquirebar" "killbar"
+    )
 
 test_kill_finalizer_catch :: Aff Unit
 test_kill_finalizer_catch = assert "kill/finalizer/catch" do
   ref <- newRef ""
+  acquiring <- AVar.empty
   fiber <- forkAff $ bracket
-    (delay (Milliseconds 10.0))
+    (AVar.put unit acquiring *> delay (Milliseconds 10.0))
     (\_ -> throwError (error "Finalizer") `catchError` \_ -> writeRef ref "caught")
     (\_ -> pure unit)
+  -- Wait until the bracketed acquisition started before killing.
+  AVar.take acquiring
   killFiber (error "Nope") fiber
   eq "caught" <$> readRef ref
 
 test_kill_finalizer_bracket :: Aff Unit
 test_kill_finalizer_bracket = assert "kill/finalizer/bracket" do
   ref <- newRef ""
+  acquiring <- AVar.empty
   fiber <- forkAff $ bracket
-    (delay (Milliseconds 10.0))
+    (AVar.put unit acquiring *> delay (Milliseconds 10.0))
     ( \_ -> generalBracket (pure unit)
         { killed: \_ _ -> writeRef ref "killed"
         , failed: \_ _ -> writeRef ref "failed"
@@ -431,6 +441,7 @@ test_kill_finalizer_bracket = assert "kill/finalizer/bracket" do
         (\_ -> pure unit)
     )
     (\_ -> pure unit)
+  AVar.take acquiring
   killFiber (error "Nope") fiber
   eq "completed" <$> readRef ref
 
@@ -446,9 +457,8 @@ test_parallel = assert "parallel" do
     { a: _, b: _ }
       <$> parallel (action "foo")
       <*> parallel (action "bar")
-  delay (Milliseconds 15.0)
-  r1 <- readRef ref
   r2 <- joinFiber f1
+  r1 <- readRef ref
   pure ((r1 == "foobar" || r1 == "barfoo") && r2.a == "foo" && r2.b == "bar")
 
 test_parallel_throw :: Aff Unit
@@ -468,26 +478,30 @@ test_parallel_throw = assert "parallel/throw" $ withTimeout (Milliseconds 100.0)
 
 test_kill_parallel :: Aff Unit
 test_kill_parallel = assert "kill/parallel" do
-  ref <- newRef ""
+  ref <- newRef []
+  startedFoo <- AVar.empty
+  startedBar <- AVar.empty
   let
-    action s = do
+    action started s = do
       bracket
         (pure unit)
-        (\_ -> void $ modifyRef ref (_ <> "killed" <> s))
+        (\_ -> void $ modifyRef ref (_ <> [ "killed" <> s ]))
         ( \_ -> do
+            AVar.put unit started
             delay (Milliseconds 10.0)
-            void $ modifyRef ref (_ <> s)
+            void $ modifyRef ref (_ <> [ s ])
         )
   f1 <- forkAff $ sequential $
-    parallel (action "foo") *> parallel (action "bar")
+    parallel (action startedFoo "foo") *> parallel (action startedBar "bar")
   f2 <- forkAff do
-    delay (Milliseconds 5.0)
+    -- Wait until both branches are suspended in their delay, then kill.
+    traverse_ AVar.take [ startedFoo, startedBar ]
     killFiber (error "Nope") f1
-    modifyRef ref (_ <> "done")
+    modifyRef ref (_ <> [ "done" ])
   _ <- try $ joinFiber f1
   _ <- try $ joinFiber f2
-  v <- readRef ref
-  pure $ v == "killedfookilledbardone" || v == "killedbarkilledfoodone"
+  log <- readRef ref
+  pure $ Array.sort log == Array.sort [ "killedfoo", "killedbar", "done" ]
 
 test_parallel_alt :: Aff Unit
 test_parallel_alt = assert "parallel/alt" do
@@ -498,18 +512,17 @@ test_parallel_alt = assert "parallel/alt" do
       _ <- modifyRef ref (_ <> s)
       pure s
   f1 <- forkAff $ sequential $
-    parallel (action 10.0 "foo") <|> parallel (action 5.0 "bar")
-  delay (Milliseconds 10.0)
-  r1 <- readRef ref
+    parallel (action 50.0 "foo") <|> parallel (action 5.0 "bar")
   r2 <- joinFiber f1
+  r1 <- readRef ref
   pure (r1 == "bar" && r2 == "bar")
 
 test_parallel_alt_throw :: Aff Unit
 test_parallel_alt_throw = assert "parallel/alt/throw" do
   r1 <- sequential $
     parallel (delay (Milliseconds 10.0) *> throwError (error "Nope."))
-      <|> parallel (delay (Milliseconds 11.0) $> "foo")
-      <|> parallel (delay (Milliseconds 12.0) $> "bar")
+      <|> parallel (delay (Milliseconds 40.0) $> "foo")
+      <|> parallel (delay (Milliseconds 80.0) $> "bar")
   pure (r1 == "foo")
 
 test_parallel_alt_sync :: Aff Unit
@@ -526,64 +539,81 @@ test_parallel_alt_sync = assert "parallel/alt/sync" do
       <|> parallel (action "bar")
       <|> parallel (action "baz")
   r2 <- readRef ref
-  let has x = Array.length (Array.filter (_ == x) r2) > 0
-  -- Note: This used to check strict string concatenation (e.g. `r1 == "foo" && r2 == "fookilledfoo"`).
-  -- In a true parallel environment (Go), execution happens genuinely concurrently across CPU cores 
-  -- rather than having their starting point artificially serialized by the JS Event Loop 
-  -- (no initially "sync" behaviour before reaching the first blocking handler, no round-robin).
-  -- Checking the exact string `r2` is therefore no longer relevant here: 
-  -- mutations can happen in any order, causing an explosion of possible logging combinations to assert, 
-  -- which is of no interest.
-  pure ((r1 == "foo" || r1 == "bar" || r1 == "baz") && has r1 && has "killedfoo" && has "killedbar" && has "killedbaz")
+  -- A branch killed before it starts has no resource to finalize. Every branch
+  -- that starts finalizes exactly once, and the winner necessarily completed.
+  let
+    names = [ "foo", "bar", "baz" ]
+    count x = Array.length (Array.filter (_ == x) r2)
+    known = names <> map ("killed" <> _) names
+  pure
+    ( Array.elem r1 names
+        && count r1 == 1
+        && count ("killed" <> r1) == 1
+        && Array.all (\s -> count s <= count ("killed" <> s) && count ("killed" <> s) <= 1) names
+        && Array.all (\chunk -> Array.elem chunk known) r2
+    )
 
 test_parallel_mixed :: Aff Unit
 test_parallel_mixed = assert "parallel/mixed" do
   ref <- newRef []
+  leftA <- AVar.empty
+  leftC <- AVar.empty
+  rightA <- AVar.empty
+  rightF <- AVar.empty
   let
-    action n s = parallel do
-      delay (Milliseconds n)
-      _ <- modifyRef ref (\arr -> arr <> [s])
+    action suspend s = parallel do
+      suspend
+      _ <- modifyRef ref (_ <> [ s ])
       pure s
+  -- Keep losing branches suspended until the mixed computation cancels them.
   { r1, r2, r3 } <- sequential $
     { r1: _, r2: _, r3: _ }
-      <$> action 10.0 "a"
+      <$> action (delay (Milliseconds 10.0)) "a"
       <*>
-        ( action 15.0 "a"
-            <|> action 12.0 "b"
-            <|> action 16.0 "c"
+        ( action (AVar.take leftA) "a"
+            <|> action (delay (Milliseconds 12.0)) "b"
+            <|> action (AVar.take leftC) "c"
         )
       <*>
-        ( action 15.0 "a"
-            <|> ((<>) <$> action 13.0 "d" <*> action 14.0 "e")
-            <|> action 16.0 "f"
+        ( action (AVar.take rightA) "a"
+            <|> ((<>) <$> action (delay (Milliseconds 13.0)) "d" <*> action (delay (Milliseconds 14.0)) "e")
+            <|> action (AVar.take rightF) "f"
         )
-  delay (Milliseconds 20.0)
+  -- Canceled takers must leave every value available to be taken here.
+  retained <- traverse (\gate -> AVar.put unit gate *> AVar.tryTake gate)
+    [ leftA, leftC, rightA, rightF ]
   r4 <- readRef ref
-  let has x = Array.length (Array.filter (_ == x) r4) > 0
-  pure (r1 == "a" && r2 == "b" && r3 == "de" && Array.length r4 == 4 && has "a" && has "b" && has "d" && has "e")
+  pure
+    ( r1 == "a" && r2 == "b" && r3 == "de"
+        && Array.sort r4 == [ "a", "b", "d", "e" ]
+        && retained == Array.replicate 4 (Just unit)
+    )
 
 test_kill_parallel_alt :: Aff Unit
 test_kill_parallel_alt = assert "kill/parallel/alt" do
-  ref <- newRef ""
+  ref <- newRef []
+  startedFoo <- AVar.empty
+  startedBar <- AVar.empty
   let
-    action n s = do
+    action n started s = do
       bracket
         (pure unit)
-        (\_ -> void $ modifyRef ref (_ <> "killed" <> s))
+        (\_ -> void $ modifyRef ref (_ <> [ "killed" <> s ]))
         ( \_ -> do
+            AVar.put unit started
             delay (Milliseconds n)
-            void $ modifyRef ref (_ <> s)
+            void $ modifyRef ref (_ <> [ s ])
         )
   f1 <- forkAff $ sequential $
-    parallel (action 10.0 "foo") <|> parallel (action 20.0 "bar")
+    parallel (action 10.0 startedFoo "foo") <|> parallel (action 20.0 startedBar "bar")
   f2 <- forkAff do
-    delay (Milliseconds 5.0)
+    traverse_ AVar.take [ startedFoo, startedBar ]
     killFiber (error "Nope") f1
-    modifyRef ref (_ <> "done")
+    modifyRef ref (_ <> [ "done" ])
   _ <- try $ joinFiber f1
   _ <- try $ joinFiber f2
-  v <- readRef ref
-  pure $ v == "killedfookilledbardone" || v == "killedbarkilledfoodone"
+  log <- readRef ref
+  pure $ Array.sort log == Array.sort [ "killedfoo", "killedbar", "done" ]
 
 test_kill_parallel_alt_finalizer :: Aff Unit
 test_kill_parallel_alt_finalizer = assert "kill/parallel/alt/finalizer" do

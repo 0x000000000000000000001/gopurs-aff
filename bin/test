@@ -2,6 +2,10 @@
 set -e
 cd "$(dirname "$0")/.."
 
+if [ "${GOPURS_RUST:-0}" == "1" ]; then
+  exec node tools/test-rust.mjs "$@"
+fi
+
 CLEAN=0
 for arg in "$@"; do
   if [ "$arg" == "-c" ] || [ "$arg" == "--clean" ]; then
