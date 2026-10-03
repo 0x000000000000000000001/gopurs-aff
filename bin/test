@@ -2,12 +2,19 @@
 set -e
 cd "$(dirname "$0")/.."
 
-if [ "${GOPURS_RUST:-0}" == "1" ]; then
-  exec node tools/test-rust.mjs "$@"
+if [ "${GOPURS_RUST:-0}" == "1" ] && [ "${GOPURS_JS:-0}" == "1" ]; then
+  echo "Select only one compiler host: GOPURS_RUST=1 or GOPURS_JS=1." >&2
+  exit 1
 fi
 
 CLEAN=0
 for arg in "$@"; do
+  if [ "$arg" == "--help" ]; then
+    echo "Usage: ./bin/test [-c|--clean]"
+    echo "Generate and run Go with gopurs: native Go by default, GOPURS_JS=1 for JavaScript, GOPURS_RUST=1 for native Rust."
+    echo "-c rebuilds the selected gopurs compiler. PURS selects the typed frontend."
+    exit 0
+  fi
   if [ "$arg" == "-c" ] || [ "$arg" == "--clean" ]; then
     CLEAN=1
   fi
@@ -16,12 +23,19 @@ done
 if [ "$CLEAN" == "1" ]; then
   COMPILER_DIR="../gopurs"
   echo "=== Recompiling ${COMPILER_DIR} ==="
-  if [ "${GOPURS_JS:-0}" == "1" ]; then
+  if [ "${GOPURS_RUST:-0}" == "1" ]; then
+    COMPILER_BUILD="build:rust"
+  elif [ "${GOPURS_JS:-0}" == "1" ]; then
     COMPILER_BUILD="build"
   else
     COMPILER_BUILD="build:native"
   fi
   (cd "${COMPILER_DIR}" && npm run "$COMPILER_BUILD") || { echo "Compiler build failed"; exit 1; }
+fi
+
+if [ -n "${PURS:-}" ]; then
+  PURS_PATH="$(command -v "$PURS")"
+  export PATH="$(dirname "$PURS_PATH"):$PATH"
 fi
 
 # Remove cache for safety
@@ -45,7 +59,7 @@ if [ -d "output/main" ]; then
     go build -o go_test_app ./main
     cd ..
     
-    GOGC=1000 ./output/go_test_app
+    GOGC=1000 node tools/run-tests.mjs
 else
     echo "No output/main/main found."
     exit 1
