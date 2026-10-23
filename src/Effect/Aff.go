@@ -14,7 +14,19 @@ type AffBindNode struct {
 	K   func(any) AffFn
 }
 
-func runAffSync(aff AffFn, ctx context.Context) (any, error) {
+func runAffSync(aff AffFn, ctx context.Context) (result any, failure error) {
+	// Effects and bind continuations can throw synchronous exceptions. Return
+	// them through Aff so surrounding catches and bracket finalizers run.
+	defer func() {
+		if recovered := recover(); recovered != nil {
+			result = nil
+			if err, ok := recovered.(error); ok {
+				failure = err
+			} else {
+				failure = fmt.Errorf("%v", recovered)
+			}
+		}
+	}()
 	var current = aff
 	var stack []func(any) AffFn
 
@@ -501,10 +513,12 @@ func GeneralBracket(acquireBox any, optionsBox any, useBox any) any {
 		}
 		
 		useVal := useBox.(gopurs_runtime.Value)
-		useResultBox := gopurs_runtime.Apply(useVal, gopurs_runtime.Box(resource))
-		useFn := gopurs_runtime.Unbox[AffFn](useResultBox)
-		
-		val, err := runAffSync(useFn, ctx)
+		// Constructing the use action can throw before returning its Aff.
+		val, err := runAffSync(func(useCtx context.Context) (any, error) {
+			useResultBox := gopurs_runtime.Apply(useVal, gopurs_runtime.Box(resource))
+			useFn := gopurs_runtime.Unbox[AffFn](useResultBox)
+			return runAffSync(useFn, useCtx)
+		}, ctx)
 		
 		if err != nil {
 			// Check if it was canceled
